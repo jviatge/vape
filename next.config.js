@@ -3,7 +3,7 @@
 const nextConfig = {
     // distDir: 'build',
     swcMinify: true,
-    transpilePackages: ['lucide-react']
-}
+    transpilePackages: ["lucide-react"],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

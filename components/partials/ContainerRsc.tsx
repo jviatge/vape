@@ -1,22 +1,25 @@
-"use client"
+"use client";
 
-import { usePathname } from 'next/navigation'
+import { ResourceParams } from "@vape/types/resources.type";
+import Icon from "../Icon";
 
-export const ContainerRsc = ({children}:{
-    children: React.ReactNode
+export const ContainerRsc = ({
+    children,
+    params,
+}: {
+    children: React.ReactNode;
+    params: ResourceParams;
 }) => {
+    return (
+        <div className="overflow-auto relative" style={{ height: "calc(100vh - 56px)" }}>
+            <div className="p-10">
+                <div className="flex items-center mb-5">
+                    <Icon name={params.icon} size={28} strokeWidth={1.6} className="mr-3" />
+                    <h1 className="font-semibold text-3xl">{params.label}</h1>
+                </div>
 
-    const pathname = usePathname()
-    
-    return (<div 
-            className="overflow-auto relative" 
-            style={{ height: 'calc(100vh - 56px)' }}>
-            <div className='p-10'>
-                <h1 className="font-semibold text-3xl mb-5">Dashboard {pathname}</h1>
-
-                <main className="space-y-4">
-                    {children}
-                </main>
+                <main className="space-y-4">{children}</main>
             </div>
-    </div>)
-}
+        </div>
+    );
+};
