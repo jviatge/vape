@@ -1,6 +1,16 @@
-import { rscGetAllParams } from '@/actions/resources';
+import { rscGetAllData, rscGetAllParams } from '@/actions/resources';
 import { Resource } from '@/types/resources.type';
 import { notFound } from 'next/navigation'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Card } from '@vape/components/ui/card';
 
 export async function generateStaticParams() {
 
@@ -25,9 +35,34 @@ export default async function PageRsc ({
   params: {resources}
 }:{params:{resources:string}}) {
 
-  const data = await getRsc(resources)
+  const rscData = await getRsc(resources)
 
-  return <main>
-    {JSON.stringify(data)}
-  </main>
+  const model = await import('~/models/' +  rscData.params.model + ".model").then((module) => module.default)
+  const data = await model.findMany()
+
+  return <>
+    <Card className='overflow-hidden'>
+      <Table>
+        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+        <TableHeader className='bg-card'>
+          <TableRow>
+            {rscData.table.map((column) => (
+              <TableHead key={column.name}>{column.label ?? column.name}</TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody className='bg-primary-foreground'>
+
+          {data.map((row:Record<string,string|number>,index:number) => (
+            <TableRow key={index}>
+              {rscData.table.map((column) => (
+                <TableCell key={column.name}>{row[column.name] ?? "-"}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        
+        </TableBody>
+      </Table>
+    </Card>
+  </>
 };

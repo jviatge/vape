@@ -8,10 +8,10 @@ const PageDashboard = async ({ params:{resources} }:{
 }) => {
 
   return (
-    <main>
+    <>
       <ProfileForm />
       <ColorTest />
-    </main>
+    </>
   );
 };
 

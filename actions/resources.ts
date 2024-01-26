@@ -1,6 +1,9 @@
 import { RessourceParamsWithRoute, Resource } from '@/types/resources.type';
 import fs from 'fs';
 import path, { basename } from 'path';
+import { Prisma, PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 export const rscGetOne = async (resources:string) => {
     try {
@@ -28,4 +31,9 @@ export const rscGetAllParams = async ():Promise<RessourceParamsWithRoute[]> => {
     } catch {
         return [];
     }
+}
+
+export const rscGetAllData = async (model:Prisma.ModelName):Promise<any> => {
+
+    return await prisma[model].findMany()
 }
