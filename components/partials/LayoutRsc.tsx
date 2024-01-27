@@ -3,7 +3,7 @@
 import { ResourceParams } from "@vape/types/resources.type";
 import Icon from "../Icon";
 
-export const ContainerRsc = ({
+export const LayoutRsc = ({
     children,
     params,
 }: {

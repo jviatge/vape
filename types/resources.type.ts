@@ -1,3 +1,4 @@
+import { TableBuilder } from "@vape/components/fields/modules/Table.module";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 
 export type ResourceParams = {
@@ -14,12 +15,7 @@ export type Resource = {
         disabledCreate?: boolean;
         disabledEdit?: boolean;
     };
-    table: {
-        label?: string;
-        name: string;
-        type: "string" | "date" | "boolean" | "hour";
-        format?: (value: any) => string;
-    }[];
+    table: TableBuilder;
     form: {
         name: string;
         type: string;
