@@ -1,15 +1,14 @@
+"use server";
+
 import { Resource, RessourceParamsWithRoute } from "@/types/resources.type";
-import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path, { basename } from "path";
 
-const prisma = new PrismaClient();
-
-export const rscGetOne = async (resources: string) => {
+export const rscGetOne = async (resources: string): Promise<Resource | undefined> => {
     try {
         return await import("~/resources/" + resources).then((module) => module.default);
     } catch {
-        return null;
+        return undefined;
     }
 };
 
@@ -35,5 +34,13 @@ export const rscGetAllParams = async (): Promise<RessourceParamsWithRoute[]> => 
         return params.sort((a, b) => a.order - b.order);
     } catch {
         return [];
+    }
+};
+
+export const getModel = async (model: string): Promise<undefined | any> => {
+    try {
+        return await import("~/models/" + model + ".model").then((module) => module.default);
+    } catch {
+        return undefined;
     }
 };

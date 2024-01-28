@@ -1,5 +1,7 @@
 import { rscGetAllParams, rscGetOne } from "@/actions/resources";
-import TableModule from "@vape/components/fields/modules/Table.module";
+import { ResolveModules } from "@vape/components/core/ResolveModules";
+import { dataByPage } from "@vape/lib/resolver";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
     const rscAllParams = await rscGetAllParams();
@@ -17,10 +19,9 @@ export default async function PageRsc({
 }) {
     const rscData = await rscGetOne(resources);
 
-    const model = await import("~/models/" + rscData.params.model + ".model").then(
-        (module) => module.default
-    );
-    const data = await model.findMany();
+    if (!rscData) return notFound();
 
-    return <TableModule table={rscData.table} data={data} />;
+    const data = await dataByPage(rscData, "index");
+
+    return <ResolveModules rscData={rscData} data={data} page="index" />;
 }

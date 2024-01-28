@@ -1,13 +1,16 @@
+// import { TableBuilder } from "@vape/components/fields/modules/Table.module";
+import { FormBuilder } from "@vape/components/fields/modules/Form.module";
 import { TableBuilder } from "@vape/components/fields/modules/Table.module";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 
 export type ResourceParams = {
     label: string;
     icon: keyof typeof dynamicIconImports;
-    model: string;
     separator?: boolean;
     order: number;
 };
+
+export type Module = TableBuilder | FormBuilder;
 
 export type Resource = {
     params: ResourceParams;
@@ -15,11 +18,15 @@ export type Resource = {
         disabledCreate?: boolean;
         disabledEdit?: boolean;
     };
-    table: TableBuilder;
-    form: {
-        name: string;
-        type: string;
-    }[];
+    index: {
+        modules: Module[];
+    };
+    create?: {
+        modules: Module[];
+    };
+    _id: {
+        modules: Module[];
+    };
 };
 
 export type RessourceParamsWithRoute = { route: string } & Resource["params"];

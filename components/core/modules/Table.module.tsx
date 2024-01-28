@@ -19,18 +19,23 @@ import DateView from "../views/Date.view";
 import HourView from "../views/Hour.view.";
 
 export type TableBuilder = {
-    label?: string;
-    name: string;
-    type: "string" | "date" | "boolean" | "hour" | "badge";
-    format?: (value: any) => string;
-}[];
+    type: "table";
+    model: string;
+    get: string;
+    fields: {
+        label?: string;
+        name: string;
+        type: "string" | "date" | "boolean" | "hour" | "badge";
+        format?: (value: any) => string;
+    }[];
+};
 
 interface TableModuleProps {
-    table: TableBuilder;
+    tableBuilder: TableBuilder;
     data: Record<string, any>[];
 }
 
-const TableModule: React.FC<TableModuleProps> = ({ table, data }) => {
+const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data }) => {
     const router = useRouter();
     const pathname = usePathname();
 
@@ -40,7 +45,7 @@ const TableModule: React.FC<TableModuleProps> = ({ table, data }) => {
                 {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
                 <TableHeader className="bg-card">
                     <TableRow>
-                        {table.map((column) => (
+                        {tableBuilder.fields.map((column) => (
                             <TableHead key={column.name} className="px-2">
                                 {column.label ?? column.name}
                             </TableHead>
@@ -55,7 +60,7 @@ const TableModule: React.FC<TableModuleProps> = ({ table, data }) => {
                             className="cursor-pointer pointer-events-auto"
                             onClick={() => router.push(`${pathname}/${row.id}`)}
                         >
-                            {table.map((column, index) => (
+                            {tableBuilder.fields.map((column, index) => (
                                 <TableCell key={column.name + index} className="p-2">
                                     {column.type === "date" ? (
                                         <DateView value={row[column.name]} />

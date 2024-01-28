@@ -37,7 +37,8 @@ export const SideBar = ({
                             href="/dashboard"
                             className={cn(
                                 "cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card",
-                                pathname === "/dashboard" && "bg-card text-destructive-foreground"
+                                "/" + pathname.split("/")[1] === "/dashboard" &&
+                                    "bg-card text-destructive-foreground"
                             )}
                         >
                             <Icon name="home" size={26} strokeWidth={1.4} />
@@ -52,7 +53,8 @@ export const SideBar = ({
                                     href={href}
                                     className={cn(
                                         "cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card",
-                                        pathname === href && "bg-card text-destructive-foreground"
+                                        "/" + pathname.split("/")[1] === href &&
+                                            "bg-card text-destructive-foreground"
                                     )}
                                 >
                                     <Icon name={icon} size={26} strokeWidth={1.4} />
