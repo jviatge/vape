@@ -1,6 +1,7 @@
 import { ModeToggle } from "@/components/ModeToggle";
 import { SideBar } from "@/components/partials/SideBar";
 import { rscGetAllParams } from "@vape/actions/resources";
+import { CardUser } from "@vape/components/CardUser";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 
 export default async function RootLayoutBo({ children }: { children: React.ReactNode }) {
@@ -28,10 +29,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
             <div className="w-full relative">
                 <header className="w-full h-14 border-b border-0 bg-primary-foreground">
                     <div className="flex justify-between items-center h-full px-5">
-                        <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 rounded-full bg-secondary"></div>
-                            <span>Bryan Tellez</span>
-                        </div>
+                        <CardUser name="Julien Viatgé" role="Admin" />
                         <div className="flex items-center space-x-3">
                             <ModeToggle />
                         </div>

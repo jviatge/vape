@@ -10,7 +10,7 @@ interface BadgeViewProps {
 const BadgeView: React.FC<BadgeViewProps> = ({ value }) => {
     return (
         <div className="flex items-center">
-            <Badge>{value}</Badge>
+            <Badge variant={"default"}>{value}</Badge>
         </div>
     );
 };
