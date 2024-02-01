@@ -1,6 +1,5 @@
 import { rscGetAllParams, rscGetOne } from "@/actions/resources";
-import { ResolveModules } from "@vape/components/core/ResolveModules";
-import { dataByPage } from "@vape/lib/resolver";
+import { ResolveModules } from "@vape/components/core/server/ResolveModules";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
@@ -21,7 +20,5 @@ export default async function PageRsc({
 
     if (!rscData) return notFound();
 
-    const data = await dataByPage(rscData, "index");
-
-    return <ResolveModules rscData={rscData} data={data} page="index" />;
+    return <ResolveModules rscData={rscData} page="index" />;
 }

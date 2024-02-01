@@ -1,6 +1,5 @@
 import { rscGetOne } from "@vape/actions/resources";
-import { ResolveModules } from "@vape/components/core/ResolveModules";
-import { dataByPage } from "@vape/lib/resolver";
+import { ResolveModules } from "@vape/components/core/server/ResolveModules";
 import { notFound } from "next/navigation";
 
 export default async function PageOneRsc({
@@ -12,7 +11,5 @@ export default async function PageOneRsc({
 
     if (!rscData) return notFound();
 
-    const data = await dataByPage(rscData, "_id", Number(id));
-
-    return <ResolveModules rscData={rscData} data={data} page="_id" />;
+    return <ResolveModules rscData={rscData} page="_id" id={id} />;
 }

@@ -44,3 +44,18 @@ export const getModel = async (model: string): Promise<undefined | any> => {
         return undefined;
     }
 };
+
+export const queryGetByModule = async (
+    model: string | undefined,
+    get: string | undefined,
+    id?: string | undefined
+) => {
+    let data: Record<string, any> = [];
+
+    if (get && model) {
+        const classModel = await getModel(model);
+        return await classModel[get](id);
+    }
+
+    return data;
+};
