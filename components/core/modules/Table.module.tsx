@@ -54,41 +54,43 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data }) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody className="bg-primary-foreground">
-                    {data.map((row: Record<string, any>, index: number) => (
-                        <TableRow
-                            key={index}
-                            className="cursor-pointer pointer-events-auto"
-                            onClick={() => router.push(`${pathname}/${row.id}`)}
-                        >
-                            {tableBuilder.fields.map((column, index) => (
-                                <TableCell key={column.name + index} className="p-2">
-                                    {column.type === "date" ? (
-                                        <DateView value={row[column.name]} />
-                                    ) : column.type === "hour" ? (
-                                        <HourView value={row[column.name]} />
-                                    ) : column.type === "boolean" ? (
-                                        <BooleanView value={row[column.name] as boolean} />
-                                    ) : column.type === "badge" ? (
-                                        <BadgeView value={row[column.name]} />
-                                    ) : (
-                                        String(row[column.name])
-                                    )}
-                                </TableCell>
-                            ))}
-                            <TableCell className="p-2">
-                                <Button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        console.log("delete");
-                                    }}
-                                    variant={"destructive"}
-                                    className="p-2 h-6"
-                                >
-                                    <Trash2Icon size={15} />
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                    {data
+                        ? data.map((row: Record<string, any>, index: number) => (
+                              <TableRow
+                                  key={index}
+                                  className="cursor-pointer pointer-events-auto"
+                                  onClick={() => router.push(`${pathname}/${row.id}`)}
+                              >
+                                  {tableBuilder.fields.map((column, index) => (
+                                      <TableCell key={column.name + index} className="p-2">
+                                          {column.type === "date" ? (
+                                              <DateView value={row[column.name]} />
+                                          ) : column.type === "hour" ? (
+                                              <HourView value={row[column.name]} />
+                                          ) : column.type === "boolean" ? (
+                                              <BooleanView value={row[column.name] as boolean} />
+                                          ) : column.type === "badge" ? (
+                                              <BadgeView value={row[column.name]} />
+                                          ) : (
+                                              String(row[column.name])
+                                          )}
+                                      </TableCell>
+                                  ))}
+                                  <TableCell className="p-2">
+                                      <Button
+                                          onClick={(e) => {
+                                              e.stopPropagation();
+                                              console.log("delete");
+                                          }}
+                                          variant={"destructive"}
+                                          className="p-2 h-6"
+                                      >
+                                          <Trash2Icon size={15} />
+                                      </Button>
+                                  </TableCell>
+                              </TableRow>
+                          ))
+                        : null}
                 </TableBody>
             </Table>
         </Card>

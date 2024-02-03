@@ -40,22 +40,9 @@ export const rscGetAllParams = async (): Promise<RessourceParamsWithRoute[]> => 
 export const getModel = async (model: string): Promise<undefined | any> => {
     try {
         return await import("~/models/" + model + ".model").then((module) => module.default);
-    } catch {
+    } catch (error) {
+        console.error("Model not found: ", model);
+        console.error(error);
         return undefined;
     }
-};
-
-export const queryGetByModule = async (
-    model: string | undefined,
-    get: string | undefined,
-    id?: string | undefined
-) => {
-    let data: Record<string, any> = [];
-
-    if (get && model) {
-        const classModel = await getModel(model);
-        return await classModel[get](id);
-    }
-
-    return data;
 };

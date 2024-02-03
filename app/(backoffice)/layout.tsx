@@ -1,5 +1,6 @@
 import { ModeToggle } from "@/components/ModeToggle";
 import { SideBar } from "@/components/partials/SideBar";
+import { Toaster } from "@/components/ui/toaster";
 import { rscGetAllParams } from "@vape/actions/resources";
 import { CardUser } from "@vape/components/CardUser";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
@@ -37,6 +38,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 </header>
 
                 {children}
+                <Toaster />
             </div>
         </div>
     );

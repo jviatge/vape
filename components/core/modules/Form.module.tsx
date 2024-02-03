@@ -8,7 +8,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { queryPostByModule, queryPutByModule } from "@vape/actions/queries";
 import { Button } from "@vape/components/ui/button";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { DatePicker } from "@vape/components/ui/date-picker";
@@ -22,14 +22,16 @@ import {
 } from "@vape/components/ui/select";
 import { Switch } from "@vape/components/ui/switch";
 import { Textarea } from "@vape/components/ui/textarea";
-import React from "react";
+import { useToast } from "@vape/components/ui/use-toast";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export type FormBuilder = {
     type: "form";
     model: string;
-    get: string;
+    get?: string;
+    post: string;
     fields: {
         label?: string;
         name: string;
@@ -42,6 +44,7 @@ export type FormBuilder = {
 interface FormModuleProps {
     formBuilder: FormBuilder;
     data: Record<string, any>;
+    id?: string;
 }
 
 const resolveDefaultValues = (data: Record<string, any>, formBuilder: FormBuilder) => {
@@ -63,7 +66,11 @@ const resolveDefaultValues = (data: Record<string, any>, formBuilder: FormBuilde
     return defaultValues;
 };
 
-const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data }) => {
+const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id }) => {
+    const { toast } = useToast();
+
+    const [isLoading, setLoading] = useState(false);
+
     const formSchema = z.object({
         username: z.string().min(2, {
             message: "Username must be at least 2 characters.",
@@ -71,20 +78,55 @@ const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data }) => {
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+        //resolver: zodResolver(formSchema),
         defaultValues: resolveDefaultValues(data, formBuilder),
     });
 
+    const handleSubmit = async (data: any) => {
+        setLoading(true);
+        try {
+            let response = null;
+            if (id) {
+                response = await queryPutByModule({
+                    data,
+                    model: formBuilder.model,
+                    post: formBuilder.post,
+                    id,
+                });
+            } else {
+                response = await queryPostByModule({
+                    data,
+                    model: formBuilder.model,
+                    post: formBuilder.post,
+                });
+            }
+            setLoading(false);
+            toast({
+                title: "Success",
+                description: "ressource created successfully!",
+            });
+        } catch (error) {
+            setLoading(false);
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "An error occured!",
+            });
+        }
+    };
+
     return (
-        <div className="space-y-4 grid">
-            <Form {...form}>
-                {/* {"=>"} {JSON.stringify(data)} */}
+        <Form {...form}>
+            {/* {"=>"} {JSON.stringify(data)} */}
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 grid">
                 {formBuilder.fields.map((fieldData) => {
                     return <MakeField key={fieldData.name} form={form} {...fieldData} />;
                 })}
-                <Button type="submit">Submit</Button>
-            </Form>
-        </div>
+                <Button disabled={isLoading} type="submit">
+                    {isLoading ? "Loading..." : "Submit"}
+                </Button>
+            </form>
+        </Form>
     );
 };
 
@@ -120,9 +162,9 @@ const MakeField = (fieldData: any, form: any) => {
                                 <DatePicker field={field} />
                             )}
 
-                            {fieldData.type === "hour" && (
+                            {/* {fieldData.type === "hour" && (
                                 <Input type="time" id={fieldData.name} {...field} />
-                            )}
+                            )} */}
 
                             {fieldData.type === "checkbox" && (
                                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
