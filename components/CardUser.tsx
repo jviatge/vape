@@ -1,3 +1,9 @@
+"use client";
+
+import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { Button } from "./ui/button";
+
 export const CardUser = ({ name, role }: { name: string; role: string }) => {
     return (
         <div className={"flex items-center"}>
@@ -17,10 +23,19 @@ export const CardUser = ({ name, role }: { name: string; role: string }) => {
             </div>
             <div className={"flex flex-col items-start"}>
                 <span>{name}</span>
-                <span style={{ color: "red" }} className={"text-sm text-gray-600 italic"}>
+                <span style={{ color: "red" }} className={"text-xs text-gray-600 italic"}>
                     {role}
                 </span>
             </div>
+            <Button
+                type="button"
+                className="ml-3"
+                variant={"outline"}
+                size="icon"
+                onClick={() => signOut()}
+            >
+                <LogOut className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+            </Button>
         </div>
     );
 };

@@ -34,7 +34,6 @@ export const queryGetByModuleAndId = action(
             const classModel = await getModel(model);
             return await classModel[get](id);
         }
-
         return data;
     }
 );

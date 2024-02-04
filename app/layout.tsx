@@ -1,4 +1,4 @@
-import Providers from "@vape/components/core/Providers";
+import RootProvider from "@vape/components/core/providers/Root.provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
@@ -16,8 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="fr">
             <body className={inter.className} suppressHydrationWarning={true}>
                 <NextTopLoader color="#73CA16" showSpinner={false} />
-
-                <Providers>{children}</Providers>
+                <RootProvider>{children}</RootProvider>
             </body>
         </html>
     );
