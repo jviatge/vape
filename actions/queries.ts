@@ -1,27 +1,26 @@
 "use server";
 
-import { action } from "@vape/lib/safe-action";
+import { authAndPermModelAction } from "@vape/lib/safe-action";
 import { z } from "zod";
 import { getModel } from "./resources";
 
-export const queryGetByModule = action(
+export const queryGetByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         get: z.string(),
     }),
-    async ({ model, get }) => {
+    async ({ model, get }, { userId, role }) => {
         let data: Record<string, any> = [];
 
         if (get && model) {
             const classModel = await getModel(model);
             return await classModel[get]();
         }
-
         return data;
     }
 );
 
-export const queryGetByModuleAndId = action(
+export const queryGetByModuleAndId = authAndPermModelAction(
     z.object({
         model: z.string(),
         get: z.string(),
@@ -38,25 +37,25 @@ export const queryGetByModuleAndId = action(
     }
 );
 
-export const queryPutByModule = action(
+export const queryPutByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
-        post: z.string(),
+        put: z.string(),
         data: z.record(z.unknown()),
         id: z.string(),
     }),
-    async ({ model, post, data, id }) => {
+    async ({ model, put, data, id }) => {
         let res: Record<string, any> = {};
 
-        if (post && model) {
+        if (put && model) {
             const classModel = await getModel(model);
-            return await classModel[post](id, data);
+            return await classModel[put](id, data);
         }
         return res;
     }
 );
 
-export const queryPostByModule = action(
+export const queryPostByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         post: z.string(),
@@ -73,18 +72,18 @@ export const queryPostByModule = action(
     }
 );
 
-export const queryDeleteByModule = action(
+export const queryDeleteByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
-        del: z.string(),
+        remove: z.string(),
         id: z.string(),
     }),
-    async ({ model, del, id }) => {
+    async ({ model, remove, id }) => {
         let res: Record<string, any> = {};
 
-        if (del && model) {
+        if (remove && model) {
             const classModel = await getModel(model);
-            return await classModel[del](id);
+            return await classModel[remove](id);
         }
 
         return res;

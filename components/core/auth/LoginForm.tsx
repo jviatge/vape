@@ -38,7 +38,6 @@ export default function LoginForm() {
             password: data.password,
             redirect: false,
         });
-        console.log(responseSignIn);
 
         if (!responseSignIn?.ok) {
             setLoading(false);

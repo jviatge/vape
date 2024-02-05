@@ -1,5 +1,6 @@
 import { rscGetAllParams, rscGetOne } from "@/actions/resources";
 import { ResolveModules } from "@vape/components/core/server/ResolveModules";
+import { checkAccess } from "@vape/lib/permissionRoute";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
@@ -19,6 +20,8 @@ export default async function PageRsc({
     const rscData = await rscGetOne(resources);
 
     if (!rscData) return notFound();
+
+    const session = await checkAccess(rscData, ["read"]);
 
     return <ResolveModules rscData={rscData} page="index" />;
 }

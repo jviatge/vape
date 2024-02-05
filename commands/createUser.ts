@@ -10,8 +10,8 @@ class addUser {
         const response = await prisma.users.create({
             data: {
                 role: "super_admin",
-                last_name: "Josex",
-                first_name: "Dufion",
+                last_name: "Julien",
+                first_name: "Viatgé",
                 email: "test@test.com",
                 password,
             },

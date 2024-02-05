@@ -8,6 +8,12 @@ export type ResourceParams = {
     icon: keyof typeof dynamicIconImports;
     separator?: boolean;
     order: number;
+    permissons?: {
+        create?: string[];
+        read?: string[];
+        update?: string[];
+        delete?: string[];
+    };
 };
 
 export type Module = TableBuilder | FormBuilder;

@@ -90,7 +90,7 @@ const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id }) => {
                 response = await queryPutByModule({
                     data,
                     model: formBuilder.model,
-                    post: formBuilder.post,
+                    put: formBuilder.post,
                     id,
                 });
             } else {

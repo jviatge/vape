@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "add:user": "tsx ./commands/addUser.ts"
+        "add:user": "tsx ./commands/createUser.ts"
     },
     "prisma": {
         "schema": "../prisma/schema.prisma"

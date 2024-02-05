@@ -4,4 +4,8 @@ export type VapeConfig = {
         get: string;
         uniqueField: string;
     };
+    roles: {
+        label: string;
+        value: string;
+    }[];
 };
