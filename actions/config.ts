@@ -1,10 +1,29 @@
-import { VapeConfig } from "@vape/types/vapeConfg.type";
+"use server";
 
-export const getConfg = async (): Promise<VapeConfig> => {
+import logo from "@/assets/logo.svg";
+import { VapeConfig } from "@vape/types/vapeConfg.type";
+import { StaticImageData } from "next/image";
+
+export const getVapeConfig = async (): Promise<VapeConfig> => {
     try {
         return await import("~/vape.config").then((module) => module.default);
     } catch (error) {
         console.error(error);
         throw new Error("Error getting config");
+    }
+};
+
+export const getLogo = async (): Promise<StaticImageData> => {
+    try {
+        const config = await getVapeConfig();
+
+        if (config.logo) {
+            return config.logo;
+        } else {
+            return logo;
+        }
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error getting logo");
     }
 };

@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { getConfg } from "@vape/actions/config";
+import { getVapeConfig } from "@vape/actions/config";
 import { getModel } from "@vape/actions/resources";
 import { compare } from "bcrypt";
 import { NextAuthOptions } from "next-auth";
@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials) {
                 if (!credentials?.id || !credentials?.password) return null;
 
-                const config = await getConfg();
+                const config = await getVapeConfig();
                 const classModel = await getModel(config.auth.model);
                 const user = await classModel[config.auth.get](
                     config.auth.uniqueField,

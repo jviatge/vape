@@ -1,5 +1,6 @@
 import { ModeToggle } from "@/components/ModeToggle";
 import { SideBar } from "@/components/partials/SideBar";
+import { getLogo } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
 import { CardUser } from "@vape/components/CardUser";
@@ -48,9 +49,11 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
     const labelRole = await resolveLabelRole(user.role);
 
+    const logo = await getLogo();
+
     return (
         <div className="h-screen flex bg-background relative">
-            <SideBar links={links} />
+            <SideBar links={links} logo={logo} />
             <div className="w-full relative">
                 <header className="w-full h-14 border-b border-0 bg-primary-foreground">
                     <div className="flex justify-between items-center h-full px-5">

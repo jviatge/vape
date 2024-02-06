@@ -5,12 +5,12 @@ import { Button } from "@vape/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@vape/components/ui/form";
 import { Input } from "@vape/components/ui/input";
 import { useToast } from "@vape/components/ui/use-toast";
-import { ArrowRight, AtSign, KeyRound } from "lucide-react";
+import { ArrowRight, KeyRound, User } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -18,7 +18,7 @@ const formSchema = z.object({
     password: z.string().min(1, "Password is required").max(50),
 });
 
-export default function LoginForm() {
+export default function LoginForm({ logo }: { logo: StaticImageData }) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { toast } = useToast();
@@ -60,10 +60,11 @@ export default function LoginForm() {
         <div className="shadow-2xl bg-secondary">
             <div className="grid-cols-2 md:grid">
                 <div className="bg-[url('/kayak.jpg')] bg-cover bg-center" />
-                <div className="flex flex-col items-center justify-center h-screen shadow-2x">
+                <div className="flex flex-col items-center justify-center h-screen shadow-2xl">
+                    <img src={logo.src} alt="logo" className="w-2/5 h-auto text-primary" />
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(handleSubmitAuth)} className="p-8 w-2/3">
-                            <div className="text-xl text-center">Login</div>
+                            {/* <div className="text-xl text-center text-primary">Se connecter</div> */}
                             <div className="py-3">
                                 <FormField
                                     key={"email"}
@@ -73,16 +74,17 @@ export default function LoginForm() {
                                         <FormItem className="flex flex-col">
                                             <FormControl>
                                                 <div className="flex items-center">
-                                                    <div className="h-10 flex items-center bg-primary-foreground rounded-l-md">
-                                                        <AtSign
+                                                    <div className="h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y">
+                                                        <User
                                                             className="pointer-events-none mx-3"
                                                             size={18}
                                                         />
                                                     </div>
                                                     <Input
+                                                        disabled={loading}
                                                         {...field}
-                                                        placeholder="Email Address"
-                                                        className="w-full my-3 rounded-l-none rounded-r-md"
+                                                        placeholder="Identifiant"
+                                                        className="w-full my-3 rounded-l-none rounded-r-md border border-border"
                                                     />
                                                 </div>
                                             </FormControl>
@@ -99,17 +101,18 @@ export default function LoginForm() {
                                         <FormItem className="flex flex-col">
                                             <FormControl>
                                                 <div className="flex items-center">
-                                                    <div className="h-10 flex items-center bg-primary-foreground rounded-l-md">
+                                                    <div className="h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y">
                                                         <KeyRound
                                                             className="pointer-events-none mx-3"
                                                             size={18}
                                                         />
                                                     </div>
                                                     <Input
+                                                        disabled={loading}
                                                         {...field}
                                                         type="password"
-                                                        placeholder="Password"
-                                                        className="w-full my-3 rounded-l-none rounded-r-md"
+                                                        placeholder="Mot de passe"
+                                                        className="w-full my-3 rounded-l-none rounded-r-md border-border"
                                                     />
                                                 </div>
                                             </FormControl>
@@ -120,7 +123,7 @@ export default function LoginForm() {
                             </div>
 
                             <Button disabled={loading} className="w-full" type="submit">
-                                Log in <ArrowRight className="ml-auto h-5 w-5 " />
+                                Se connecter <ArrowRight className="ml-auto h-5 w-5 " />
                             </Button>
                         </form>
                     </Form>

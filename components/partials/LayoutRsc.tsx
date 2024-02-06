@@ -10,9 +10,11 @@ import { Button } from "../ui/button";
 export const LayoutRsc = ({
     children,
     params,
+    disabledCreate,
 }: {
     children: React.ReactNode;
     params: ResourceParams;
+    disabledCreate?: boolean;
 }) => {
     const pathname = usePathname();
 
@@ -30,7 +32,7 @@ export const LayoutRsc = ({
                         <h1 className="font-semibold text-3xl">{params.label}</h1>
                     </div>
 
-                    {getLastPath(pathname) !== "+" ? (
+                    {getLastPath(pathname) !== "+" && !disabledCreate ? (
                         <Link href={`${pathname}/+`}>
                             <Button>
                                 <Plus size={24} strokeWidth={1.6} />

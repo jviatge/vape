@@ -1,6 +1,3 @@
-import { ColorTest } from "@/components/ColorTest";
-import { ProfileForm } from "@/components/form/ProfileForm";
-
 const PageDashboard = async ({
     params: { resources },
 }: {
@@ -10,8 +7,8 @@ const PageDashboard = async ({
 }) => {
     return (
         <>
-            <ProfileForm />
-            <ColorTest />
+            {/* <ProfileForm />
+            <ColorTest /> */}
         </>
     );
 };

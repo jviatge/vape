@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
+import { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -10,6 +11,7 @@ import Icon from "../Icon";
 
 export const SideBar = ({
     links,
+    logo,
 }: {
     links: {
         href: string;
@@ -17,6 +19,7 @@ export const SideBar = ({
         separator?: boolean;
         icon: keyof typeof dynamicIconImports;
     }[];
+    logo: StaticImageData;
 }) => {
     const [minBar, setMinBar] = useState(true);
     const pathname = usePathname();
@@ -25,13 +28,13 @@ export const SideBar = ({
         <>
             <div
                 style={{ width: minBar ? "4rem" : "12rem" }}
-                className="h-full border-r border-0 p-1 flex flex-col items-center bg-primary-foreground z-40"
+                className="h-full border-r border-0 flex flex-col items-center bg-primary-foreground z-40"
             >
-                <div className="rounded w-9 h-9 bg-primary m-2 mb-4 flex justify-center items-center dark:text-primary-foreground">
-                    <span className="font-medium">BO</span>
+                <div className="rounded w-full h-14 p-2 flex justify-center items-center dark:text-primary-foreground">
+                    <img src={logo.src} alt="logo" className="w-full h-auto" />
                 </div>
 
-                <div className="h-full flex flex-col justify-between">
+                <div className="h-full flex flex-col justify-between pt-2">
                     <div className="space-y-2">
                         <Link
                             href="/dashboard"
