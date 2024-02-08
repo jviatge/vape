@@ -1,6 +1,6 @@
 import { rscGetOne } from "@vape/actions/resources";
 import { ResolveModules } from "@vape/components/core/server/ResolveModules";
-import { checkAccess } from "@vape/lib/permissionRoute";
+import { checkAccessRoute } from "@vape/lib/permissions";
 import { notFound } from "next/navigation";
 
 export default async function PageNewRsc({
@@ -12,7 +12,7 @@ export default async function PageNewRsc({
 
     if (!rscData) return notFound();
 
-    const session = await checkAccess(rscData, ["read", "create"]);
+    const session = await checkAccessRoute(rscData, ["read", "create"]);
 
     return <ResolveModules rscData={rscData} page="create" />;
 }

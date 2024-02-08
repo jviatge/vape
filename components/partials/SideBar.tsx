@@ -64,6 +64,19 @@ export const SideBar = ({
                                 </Link>
                             </div>
                         ))}
+
+                        <div className="border-t border-0" />
+
+                        <Link
+                            href="/documentation"
+                            className={cn(
+                                "cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card",
+                                "/" + pathname.split("/")[1] === "/documentation" &&
+                                    "bg-card text-destructive-foreground"
+                            )}
+                        >
+                            <Icon name="book-open" size={26} strokeWidth={1.4} />
+                        </Link>
                     </div>
 
                     <div

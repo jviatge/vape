@@ -1,6 +1,7 @@
 "use server";
 
 import { authAndPermModelAction } from "@vape/lib/safe-action";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getModel } from "./resources";
 
@@ -49,6 +50,8 @@ export const queryPutByModule = authAndPermModelAction(
 
         if (put && model) {
             const classModel = await getModel(model);
+            revalidatePath("/" + model);
+            revalidatePath("/" + model + "/" + id);
             return await classModel[put](id, data);
         }
         return res;
@@ -66,8 +69,10 @@ export const queryPostByModule = authAndPermModelAction(
 
         if (post && model) {
             const classModel = await getModel(model);
+            revalidatePath("/" + model);
             return await classModel[post](data);
         }
+
         return res;
     }
 );
@@ -83,9 +88,9 @@ export const queryDeleteByModule = authAndPermModelAction(
 
         if (remove && model) {
             const classModel = await getModel(model);
+            revalidatePath("/" + model);
             return await classModel[remove](id);
         }
-
         return res;
     }
 );

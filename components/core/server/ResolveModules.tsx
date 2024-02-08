@@ -1,4 +1,5 @@
 import { queryGetByModule, queryGetByModuleAndId } from "@vape/actions/queries";
+import { getPermissions } from "@vape/lib/permissions";
 import { Resource } from "@vape/types/resources.type";
 import FormModule from "../modules/Form.module";
 import TableModule from "../modules/Table.module";
@@ -12,6 +13,8 @@ export const ResolveModules = async ({
     page: "index" | "create" | "_id";
     id?: string;
 }) => {
+    const permissions = await getPermissions(rscData);
+
     if (rscData[page]?.modules) {
         let response = null;
         // @ts-ignore
@@ -22,7 +25,14 @@ export const ResolveModules = async ({
                         model: module.model,
                         get: module.get,
                     });
-                    if (response) return <TableModule tableBuilder={module} data={response.data} />;
+                    if (response)
+                        return (
+                            <TableModule
+                                tableBuilder={module}
+                                data={response.data}
+                                permissions={permissions}
+                            />
+                        );
                     break;
                 case "form":
                     response = await queryGetByModuleAndId({
