@@ -3,6 +3,7 @@ import { getPermissions } from "@vape/lib/permissions";
 import { Resource } from "@vape/types/resources.type";
 import FormModule from "../modules/Form.module";
 import TableModule from "../modules/Table.module";
+import FormBuilder from "../modules/formBuilder/FormBuilder";
 
 export const ResolveModules = async ({
     rscData,
@@ -42,6 +43,48 @@ export const ResolveModules = async ({
                     });
                     if (response)
                         return <FormModule formBuilder={module} data={response.data} id={id} />;
+                    break;
+                case "make-form":
+                    /*  model Form {
+                        id          Int      @id @default(autoincrement())
+                        userId      String
+                        createdAt   DateTime @default(now())
+                        published   Boolean  @default(false)
+                        name        String
+                        description String   @default("")
+                        content     String   @db.Text
+                      
+                        visits      Int @default(0)
+                        submissions Int @default(0)
+                      
+                        shareURL        String            @unique @default(uuid())
+                        FormSubmissions FormSubmissions[]
+                      
+                        @@unique([name, userId])
+                      } */
+                    return (
+                        <FormBuilder
+                            form={{
+                                id: 1,
+                                userId: "1",
+                                createdAt: new Date(),
+                                published: false,
+                                name: "name",
+                                description: "description",
+                                content: "[]",
+                                visits: 0,
+                                submissions: 0,
+                                shareURL: "shareURL",
+                                FormSubmissions: [
+                                    {
+                                        id: 1,
+                                        formId: 1,
+                                        content: "",
+                                    },
+                                ],
+                            }}
+                        />
+                    );
                     break;
 
                 default:

@@ -10,7 +10,7 @@ export default async function PageOneRsc({
 }) {
     const rscData = await rscGetOne(resources);
 
-    if (!rscData) return notFound();
+    if (!rscData || !rscData._id) return notFound();
 
     const session = await checkAccessRoute(rscData, ["read", "update"]);
 
