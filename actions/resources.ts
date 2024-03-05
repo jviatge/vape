@@ -1,8 +1,7 @@
 "use server";
 
 import { Resource, RessourceParamsWithRoute } from "@/types/resources.type";
-import fs from "fs";
-import path, { basename } from "path";
+import { ls } from "@vape/lib/fs";
 
 export const rscGetOne = async (resources: string): Promise<Resource | undefined> => {
     try {
@@ -13,13 +12,8 @@ export const rscGetOne = async (resources: string): Promise<Resource | undefined
 };
 
 export const rscGetAllParams = async (): Promise<RessourceParamsWithRoute[]> => {
-    //const baseDir = path.resolve(__dirname, '../');
-    const baseDir = basename("../");
-
-    //console.log(baseDir,basename('../'));
-
     try {
-        const files = fs.readdirSync(path.join(baseDir, "resources"));
+        const files = await ls("resources");
         const params = await Promise.all(
             files.map(async (file): Promise<RessourceParamsWithRoute> => {
                 const paramsRsc: Resource["params"] = await import(

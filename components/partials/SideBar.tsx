@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
-import { StaticImageData } from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -31,7 +31,7 @@ export const SideBar = ({
                 className="h-full border-r border-0 flex flex-col items-center bg-primary-foreground z-40"
             >
                 <div className="rounded w-full h-14 p-2 flex justify-center items-center dark:text-primary-foreground">
-                    <img src={logo.src} alt="logo" className="w-full h-auto" />
+                    <Image src={logo.src} alt="logo" className="w-full h-auto" />
                 </div>
 
                 <div className="h-full flex flex-col justify-between pt-2">

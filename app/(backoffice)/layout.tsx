@@ -28,7 +28,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
     rscAllParams.map((rsc) => {
         if (rsc.permissons?.read) {
-            const rolePermited = rsc.permissons.read.find((role) => role === user.role);
+            const rolePermited = rsc.permissons.read.find((role) => role === user?.role);
             if (rolePermited) {
                 links.push({
                     href: "/" + rsc.route,
@@ -47,7 +47,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
         }
     });
 
-    const labelRole = await resolveLabelRole(user.role);
+    const labelRole = await resolveLabelRole(user?.role);
 
     const logo = await getLogo();
 
@@ -57,7 +57,10 @@ export default async function RootLayoutBo({ children }: { children: React.React
             <div className="w-full relative">
                 <header className="w-full h-14 border-b border-0 bg-primary-foreground">
                     <div className="flex justify-between items-center h-full px-5">
-                        <CardUser name={`${user.first_name} ${user.last_name}`} role={labelRole} />
+                        <CardUser
+                            name={`${user?.first_name} ${user?.last_name}`}
+                            role={labelRole}
+                        />
                         <div className="flex items-center space-x-3">
                             <ModeToggle />
                         </div>

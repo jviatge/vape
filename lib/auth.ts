@@ -1,15 +1,13 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
 import { getVapeConfig } from "@vape/actions/config";
 import { getModel } from "@vape/actions/resources";
+import db from "@vape/db";
 import { compare } from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const prisma = new PrismaClient();
-
 export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
+    adapter: PrismaAdapter(db),
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt",

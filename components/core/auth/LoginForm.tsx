@@ -7,7 +7,7 @@ import { Input } from "@vape/components/ui/input";
 import { useToast } from "@vape/components/ui/use-toast";
 import { ArrowRight, KeyRound, User } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { StaticImageData } from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -61,7 +61,7 @@ export default function LoginForm({ logo }: { logo: StaticImageData }) {
             <div className="grid-cols-2 md:grid">
                 <div className="bg-[url('/kayak.jpg')] bg-cover bg-center" />
                 <div className="flex flex-col items-center justify-center h-screen shadow-2xl">
-                    <img src={logo.src} alt="logo" className="w-2/5 h-auto text-primary" />
+                    <Image src={logo.src} alt="logo" className="w-2/5 h-auto text-primary" />
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(handleSubmitAuth)} className="p-8 w-2/3">
                             {/* <div className="text-xl text-center text-primary">Se connecter</div> */}

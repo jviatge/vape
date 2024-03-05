@@ -7,7 +7,7 @@ dotenv.config({ path: path.join(__dirname, "/../.env") });
 const nextConfig = {
     // distDir: 'build',
     serverRuntimeConfig: {
-        PROJECT_ROOT: __dirname
+        PROJECT_ROOT: __dirname,
     },
     swcMinify: true,
     transpilePackages: ["lucide-react"],
