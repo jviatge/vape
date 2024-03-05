@@ -8,3 +8,7 @@ export async function ls(section: string): Promise<string[]> {
     const files = await fs.readdirSync(path.join(baseDir, section));
     return files.filter((file) => !exclude.includes(file));
 }
+
+export function routeBase() {
+    return baseDir;
+}

@@ -10,8 +10,8 @@ export default async function RscLayout({
         <LayoutRsc
             params={{
                 order: 0,
-                icon: "book-open",
-                label: "Documentation",
+                icon: "home",
+                label: "Dashboard",
             }}
             disabledCreate={true}
         >

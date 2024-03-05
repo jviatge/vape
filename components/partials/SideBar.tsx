@@ -31,7 +31,13 @@ export const SideBar = ({
                 className="h-full border-r border-0 flex flex-col items-center bg-primary-foreground z-40"
             >
                 <div className="rounded w-full h-14 p-2 flex justify-center items-center dark:text-primary-foreground">
-                    <Image src={logo.src} alt="logo" className="w-full h-auto" />
+                    <Image
+                        src={logo.src}
+                        alt="logo"
+                        className="w-full h-auto"
+                        width={100}
+                        height={100}
+                    />
                 </div>
 
                 <div className="h-full flex flex-col justify-between pt-2">

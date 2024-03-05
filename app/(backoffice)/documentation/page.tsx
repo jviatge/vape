@@ -1,16 +1,5 @@
-const PageDashboard = async ({
-    params: { resources },
-}: {
-    params: {
-        resources: string;
-    };
-}) => {
-    return (
-        <>
-            {/* <ProfileForm />
-            <ColorTest /> */}
-        </>
-    );
+const PageDocs = async () => {
+    return <>Doc</>;
 };
 
-export default PageDashboard;
+export default PageDocs;
