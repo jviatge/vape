@@ -26,10 +26,12 @@ import { Permissions } from "@vape/lib/permissions";
 import { Trash2Icon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import BadgeView from "../views/Badge.view";
-import BooleanView from "../views/Boolean.view";
-import DateView from "../views/Date.view";
-import HourView from "../views/Hour.view.";
+import BadgeView from "../../views/Badge.view";
+import BooleanView from "../../views/Boolean.view";
+import DateView from "../../views/Date.view";
+import HourView from "../../views/Hour.view.";
+import PaginationTable from "./Pagination";
+import Header from "./header/Header";
 
 export type TableBuilder = {
     type: "table";
@@ -57,13 +59,15 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data, permissio
     const [loading, setLoading] = useState<boolean>(false);
 
     return (
-        <>
+        <div>
+            <Header />
+
             <Card className="overflow-hidden">
                 <Table>
                     {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
                     <TableHeader className="bg-card">
                         <TableRow>
-                            <TableHead className="p-2">
+                            <TableHead className="w-10 bg-card border-r flex justify-center items-center px-0 py-4">
                                 <Checkbox
                                     className="mt-1"
                                     onClick={(e) => {
@@ -87,7 +91,7 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data, permissio
                                       className="cursor-pointer pointer-events-auto"
                                       onClick={() => router.push(`${pathname}/${row.id}`)}
                                   >
-                                      <TableCell className="flex items-center p-2 my-auto">
+                                      <TableCell className="flex w-10 bg-card border-r justify-center items-center px-0 py-3">
                                           <Checkbox
                                               className="mt-1"
                                               onClick={(e) => {
@@ -168,7 +172,9 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data, permissio
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </>
+
+            <PaginationTable />
+        </div>
     );
 };
 

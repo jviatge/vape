@@ -1,7 +1,7 @@
 // import { TableBuilder } from "@vape/components/fields/modules/Table.module";
 import { FormBuilder } from "@vape/components/core/modules/Form.module";
-import { TableBuilder } from "@vape/components/core/modules/Table.module";
 import { MakeForm } from "@vape/components/core/modules/formBuilder/FormBuilder";
+import { TableBuilder } from "@vape/components/core/modules/table/Table.module";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 
 export type ResourceParams = {

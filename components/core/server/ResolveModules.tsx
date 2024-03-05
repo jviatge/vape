@@ -2,8 +2,8 @@ import { queryGetByModule, queryGetByModuleAndId } from "@vape/actions/queries";
 import { getPermissions } from "@vape/lib/permissions";
 import { Resource } from "@vape/types/resources.type";
 import FormModule from "../modules/Form.module";
-import TableModule from "../modules/Table.module";
 import FormBuilder from "../modules/formBuilder/FormBuilder";
+import TableModule from "../modules/table/Table.module";
 
 export const ResolveModules = async ({
     rscData,
