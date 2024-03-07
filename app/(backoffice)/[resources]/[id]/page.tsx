@@ -14,5 +14,7 @@ export default async function PageOneRsc({
 
     const session = await checkAccessRoute(rscData, ["read", "update"]);
 
+    if (!session?.user) return notFound();
+
     return <ResolveModules rscData={rscData} page="_id" id={id} />;
 }

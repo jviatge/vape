@@ -1,104 +1,238 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@vape/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
-import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { CardUser } from "../CardUser";
 import Icon from "../Icon";
+import { BurgerIcon } from "../ui/BurgerIcon";
+
+type Link = {
+    href: string;
+    label: string;
+    separator?: boolean;
+    icon: keyof typeof dynamicIconImports;
+};
 
 export const SideBar = ({
     links,
-    logo,
+    firstName,
+    lastName,
+    role,
 }: {
-    links: {
-        href: string;
-        label: string;
-        separator?: boolean;
-        icon: keyof typeof dynamicIconImports;
-    }[];
-    logo: StaticImageData;
+    links: Link[];
+    firstName: string;
+    lastName: string;
+    role: string;
+    open?: boolean;
 }) => {
-    const [minBar, setMinBar] = useState(true);
-    const pathname = usePathname();
+    const [open, setOpen] = useState(false);
 
     return (
         <>
-            <div
-                style={{ width: minBar ? "4rem" : "12rem" }}
-                className="h-full border-r border-0 flex flex-col items-center bg-primary-foreground z-40"
-            >
-                <div className="rounded w-full h-14 p-2 flex justify-center items-center dark:text-primary-foreground">
-                    <Image
-                        src={logo.src}
-                        alt="logo"
-                        className="w-full h-auto"
-                        width={100}
-                        height={100}
-                    />
-                </div>
-
-                <div className="h-full flex flex-col justify-between pt-2">
-                    <div className="space-y-2">
-                        <Link
-                            href="/dashboard"
-                            className={cn(
-                                "cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card",
-                                "/" + pathname.split("/")[1] === "/dashboard" &&
-                                    "bg-card text-destructive-foreground"
-                            )}
-                        >
-                            <Icon name="home" size={26} strokeWidth={1.4} />
-                        </Link>
-
-                        <div className="border-t border-0" />
-
-                        {links.map(({ href, label, icon, separator }, index) => (
-                            <div key={index}>
-                                {separator && <div className="border-t border-0 mb-2" />}
-                                <Link
-                                    href={href}
-                                    className={cn(
-                                        "cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card",
-                                        "/" + pathname.split("/")[1] === href &&
-                                            "bg-card text-destructive-foreground"
-                                    )}
-                                >
-                                    <Icon name={icon} size={26} strokeWidth={1.4} />
-                                </Link>
-                            </div>
-                        ))}
-
-                        <div className="border-t border-0" />
-
-                        <Link
-                            href="/documentation"
-                            className={cn(
-                                "cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card",
-                                "/" + pathname.split("/")[1] === "/documentation" &&
-                                    "bg-card text-destructive-foreground"
-                            )}
-                        >
-                            <Icon name="book-open" size={26} strokeWidth={1.4} />
-                        </Link>
-                    </div>
-
-                    <div
-                        onClick={() => setMinBar(!minBar)}
-                        className="cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card"
-                    >
-                        {minBar ? (
-                            <ChevronRight size={26} strokeWidth={1.4} />
-                        ) : (
-                            <ChevronLeft size={26} strokeWidth={1.4} />
-                        )}
-                    </div>
-                </div>
+            <aside className="sticky z-20 top-0 w-fit h-[calc(100vh)] md:block hidden">
+                <Nav
+                    links={links}
+                    open={open}
+                    setOpen={setOpen}
+                    mobile={false}
+                    firstName={firstName}
+                    lastName={lastName}
+                    role={role}
+                />
+            </aside>
+            <div className="h-14 border-b w-[58px] border-0 bg-primary-foreground md:hidden flex justify-center items-center relative border-r p-2">
+                <BurgerIcon onClick={() => setOpen(!open)} />
+                <Nav
+                    links={links}
+                    open={open}
+                    setOpen={setOpen}
+                    mobile={true}
+                    firstName={firstName}
+                    lastName={lastName}
+                    role={role}
+                />
             </div>
-
-            {!minBar && <div className="absolute h-full w-full bg-black z-30 opacity-50" />}
         </>
     );
+};
+
+const Nav = ({
+    links,
+    open,
+    setOpen,
+    mobile,
+    firstName,
+    lastName,
+    role,
+}: {
+    links: Link[];
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+    mobile: boolean;
+    firstName: string;
+    lastName: string;
+    role: string;
+}) => {
+    const width = {
+        open: "max-w-[239px]",
+        close: "max-w-[58px]",
+    };
+
+    const pathname = usePathname();
+    return (
+        <>
+            <BackgroundVeil onClick={() => setOpen(false)} open={open} mobile={mobile} />
+            <nav
+                className={cn(
+                    "flex duration-[0ms] shadow-xl z-40 bg-primary-foreground",
+                    mobile && "fixed h-full top-0 left-0"
+                )}
+            >
+                <div
+                    className={
+                        "relative w-screen transition-all border-r border-grey-300 " +
+                        (open ? width.open : mobile ? "max-w-[0px] border-none" : width.close)
+                    }
+                >
+                    <div className={cn(mobile && "pt-14")}>
+                        {!mobile ? (
+                            <CardUser
+                                open={open}
+                                firstName={firstName}
+                                lastName={lastName}
+                                role={role}
+                            />
+                        ) : null}
+                        <div className="flex flex-col justify-between flex-shrink-0 flex-1">
+                            <div className="overflow-y-auto text-grey-0 justify-between h-[calc(100vh-48px)]">
+                                <div
+                                    className={cn(
+                                        "flex flex-col h-full",
+                                        !mobile && "justify-between"
+                                    )}
+                                >
+                                    {mobile ? (
+                                        <CardUser
+                                            open={open}
+                                            firstName={firstName}
+                                            lastName={lastName}
+                                            role={role}
+                                        />
+                                    ) : null}
+                                    <div
+                                        className={cn(
+                                            "flex flex-col gap-2",
+                                            open ? "mx-4" : "mx-2"
+                                        )}
+                                    >
+                                        <div className="flex flex-col gap-4 divide-y divide-grey-400">
+                                            <div
+                                                className={cn(
+                                                    "flex flex-col gap-1",
+                                                    open ? "pt-2" : "pt-4"
+                                                )}
+                                            >
+                                                {links.map(
+                                                    ({ href, label, icon, separator }, index) => (
+                                                        <NavItem
+                                                            key={index}
+                                                            href={href}
+                                                            icon={icon}
+                                                            open={open}
+                                                            label={label}
+                                                            pathname={pathname}
+                                                        />
+                                                    )
+                                                )}
+                                            </div>
+
+                                            <div
+                                                className={cn(
+                                                    "flex flex-col gap-1",
+                                                    open ? "pt-2" : "pt-4"
+                                                )}
+                                            ></div>
+                                        </div>
+                                    </div>
+
+                                    {!mobile ? <ButtonOpen setOpen={setOpen} open={open} /> : null}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </>
+    );
+};
+
+const NavItem = ({
+    href,
+    icon,
+    open,
+    label,
+    pathname,
+}: {
+    href: string;
+    icon: keyof typeof dynamicIconImports;
+    open: boolean;
+    label: string;
+    pathname: string;
+}) => {
+    return (
+        <Link
+            href={href}
+            className={cn(
+                "flex items-center gap-2 px-2 rounded text-grey-100 hover:bg-grey-500 cursor-pointer transition text-grey white hover:bg-card hover:text-destructive-foreground py-3",
+                open ? "py-2" : "justify-center",
+                "/" + pathname.split("/")[1] === href && "bg-card text-destructive-foreground"
+            )}
+        >
+            <div>
+                <Icon name={icon} size={26} strokeWidth={1.4} className="h-4 w-4" />
+            </div>
+            {open ? <div className="p14-r">{label}</div> : null}
+        </Link>
+    );
+};
+
+const ButtonOpen = ({ setOpen, open }: { setOpen: (open: boolean) => void; open: boolean }) => {
+    return (
+        <div className="text-grey-0 bottom-0 sticky bg-grey-700 w-full p-2 flex justify-end items-center mb-4">
+            <div
+                onClick={() => setOpen(!open)}
+                className="cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card"
+            >
+                {open ? (
+                    <ChevronLeft size={26} strokeWidth={1.4} />
+                ) : (
+                    <ChevronRight size={26} strokeWidth={1.4} />
+                )}
+            </div>
+        </div>
+    );
+};
+
+const BackgroundVeil = ({
+    open,
+    mobile,
+    onClick,
+}: {
+    open: boolean;
+    mobile: boolean;
+    onClick: () => void;
+}) => {
+    return mobile ? (
+        <div
+            onClick={onClick}
+            className={cn(
+                "absolute top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 z-[30]",
+                open ? "block" : "hidden"
+            )}
+        ></div>
+    ) : null;
 };

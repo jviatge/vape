@@ -10,7 +10,8 @@
         "add:user": "tsx ./commands/createUser.ts"
     },
     "prisma": {
-        "schema": "../prisma/schema.prisma"
+        "schema": "../prisma/schema.prisma",
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} ./seed.ts"
     },
     "dependencies": {
         "@dnd-kit/core": "^6.1.0",

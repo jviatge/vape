@@ -19,7 +19,7 @@ export const ResolveModules = async ({
     if (rscData[page]?.modules) {
         let response = null;
         // @ts-ignore
-        return rscData[page].modules.map(async (module) => {
+        return rscData[page].modules.map(async (module, i) => {
             switch (module.type) {
                 case "table":
                     response = await queryGetByModule({
@@ -29,6 +29,7 @@ export const ResolveModules = async ({
                     if (response)
                         return (
                             <TableModule
+                                key={i}
                                 tableBuilder={module}
                                 data={response.data}
                                 permissions={permissions}
@@ -42,7 +43,9 @@ export const ResolveModules = async ({
                         id: String(id),
                     });
                     if (response)
-                        return <FormModule formBuilder={module} data={response.data} id={id} />;
+                        return (
+                            <FormModule key={i} formBuilder={module} data={response.data} id={id} />
+                        );
                     break;
                 case "make-form":
                     /*  model Form {
@@ -64,6 +67,7 @@ export const ResolveModules = async ({
                       } */
                     return (
                         <FormBuilder
+                            key={i}
                             form={{
                                 id: 1,
                                 userId: "1",

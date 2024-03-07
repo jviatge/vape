@@ -23,5 +23,7 @@ export default async function PageRsc({
 
     const session = await checkAccessRoute(rscData, ["read"]);
 
+    if (!session?.user) return notFound();
+
     return <ResolveModules rscData={rscData} page="index" />;
 }

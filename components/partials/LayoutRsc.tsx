@@ -24,8 +24,11 @@ export const LayoutRsc = ({
     };
 
     return (
-        <div className="overflow-auto relative" style={{ height: "calc(100vh - 56px)" }}>
-            <div className="p-10 ">
+        <div
+            className="overflow-auto relative md:translate-x-0 -translate-x-[58px] w-screen md:w-full"
+            style={{ height: "calc(100vh - 56px)" }}
+        >
+            <div className="md:p-10 p-4">
                 <div className="flex items-center mb-5 justify-between">
                     <div className="flex items-center">
                         <Icon name={params.icon} size={28} strokeWidth={1.6} className="mr-3" />

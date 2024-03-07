@@ -59,12 +59,11 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data, permissio
     const [loading, setLoading] = useState<boolean>(false);
 
     return (
-        <div>
+        <>
             <Header />
 
             <Card className="overflow-hidden">
                 <Table>
-                    {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
                     <TableHeader className="bg-card">
                         <TableRow>
                             <TableHead className="w-10 bg-card border-r flex justify-center items-center px-0 py-4">
@@ -76,7 +75,7 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data, permissio
                                 />
                             </TableHead>
                             {tableBuilder.fields.map((column) => (
-                                <TableHead key={column.name} className="px-2">
+                                <TableHead key={column.name} className="px-1.5">
                                     {column.label ?? column.name}
                                 </TableHead>
                             ))}
@@ -101,7 +100,10 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data, permissio
                                       </TableCell>
 
                                       {tableBuilder.fields.map((column, index) => (
-                                          <TableCell key={column.name + index} className="p-2">
+                                          <TableCell
+                                              key={column.name + index}
+                                              className="p-1.5 text-sm"
+                                          >
                                               {column.type === "date" ? (
                                                   <DateView value={row[column.name]} />
                                               ) : column.type === "hour" ? (
@@ -174,7 +176,7 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, data, permissio
             </AlertDialog>
 
             <PaginationTable />
-        </div>
+        </>
     );
 };
 

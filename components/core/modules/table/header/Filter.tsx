@@ -7,7 +7,7 @@ import { SlidersHorizontal } from "lucide-react";
 export const Filter = () => {
     return (
         <Popover>
-            <PopoverTrigger>
+            <PopoverTrigger asChild>
                 <Button variant={"secondary"} className="border">
                     <span className="mr-3">Filtre</span>
                     <SlidersHorizontal className="pointer-events-none" size={18} />
