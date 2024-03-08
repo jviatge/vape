@@ -1,3 +1,4 @@
+import { DevTools } from "@vape/components/core/dev/DevTools";
 import RootProvider from "@vape/components/core/providers/Root.provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={inter.className} suppressHydrationWarning={true}>
                 <NextTopLoader color="#73CA16" showSpinner={false} />
                 <RootProvider>{children}</RootProvider>
+                {process.env.NODE_ENV === "development" && <DevTools />}
             </body>
         </html>
     );

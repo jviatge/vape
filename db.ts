@@ -7,8 +7,13 @@ export const cleanupDatabase = async () => {
     const modelNames = propertyNames.filter(
         (propertyName) => !propertyName.startsWith("_") && !propertyName.startsWith("$")
     );
+
+    console.log("Cleaning up database...", modelNames);
     // @ts-ignore
-    return await Promise.all(modelNames.map((model) => db[model].deleteMany()));
+    await Promise.all(modelNames.map(async (model) => await db[model].deleteMany()));
+
+    console.log("Database cleaned up.");
+    return true;
 };
 
 export default db;

@@ -2,7 +2,6 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { getLogo } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
-import { DevTools } from "@vape/components/core/dev/DevTools";
 import { SideBar } from "@vape/components/partials/SideBar";
 import { authOptions } from "@vape/lib/auth";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
@@ -92,7 +91,6 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
                 {children}
             </div>
-            {process.env.NODE_ENV === "development" && <DevTools />}
         </div>
     );
 }
