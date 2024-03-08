@@ -88,3 +88,21 @@ type UserAction = { userId: string; role: string };
 export const permissionAction = async (role: string, action: () => any) => {
     return action();
 };
+
+export const devAction = createSafeActionClient({
+    async middleware() {
+        const session = await getServerSession(authOptions);
+        if (process.env.MODE === "development") {
+            if (!session || !session?.user) {
+                throw new Error("Unauthorized");
+            }
+            const user = session.user;
+
+            return {
+                userId: user.id,
+                role: user.role,
+            };
+        }
+        throw new Error("Unauthorized");
+    },
+});
