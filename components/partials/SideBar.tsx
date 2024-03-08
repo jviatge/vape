@@ -98,7 +98,7 @@ const Nav = ({
                         (open ? width.open : mobile ? "max-w-[0px] border-none" : width.close)
                     }
                 >
-                    <div className={cn(mobile && "pt-14")}>
+                    <div className={cn(mobile ? "pt-14" : "w-full")}>
                         {!mobile ? (
                             <CardUser
                                 open={open}
@@ -107,7 +107,7 @@ const Nav = ({
                                 role={role}
                             />
                         ) : null}
-                        <div className="flex flex-col justify-between flex-shrink-0 flex-1">
+                        <div className="flex flex-col justify-between flex-shrink-0 flex-1 w-full">
                             <div className="overflow-y-auto text-grey-0 justify-between h-[calc(100vh-48px)]">
                                 <div
                                     className={cn(
@@ -138,7 +138,7 @@ const Nav = ({
                                             >
                                                 {links.map(
                                                     ({ href, label, icon, separator }, index) => (
-                                                        <>
+                                                        <div key={index}>
                                                             {separator && (
                                                                 <div className="border-t border-0 my-2" />
                                                             )}
@@ -150,7 +150,7 @@ const Nav = ({
                                                                 label={label}
                                                                 pathname={pathname}
                                                             />
-                                                        </>
+                                                        </div>
                                                     )
                                                 )}
                                             </div>
