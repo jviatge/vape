@@ -7,9 +7,9 @@ export const BurgerIcon = ({ onClick }: { onClick?: () => void }) => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 10 10"
                 stroke="#eee"
-                stroke-width=".6"
+                strokeWidth=".6"
                 fill="rgba(0,0,0,0)"
-                stroke-linecap="round"
+                strokeLinecap="round"
                 style={{
                     margin: "0 auto",
                     display: "block",

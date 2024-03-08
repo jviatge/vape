@@ -18,8 +18,8 @@ export const CardUser = ({
             <div className={"p-3"}>
                 <div className="relative text-grey-0">
                     <div>
-                        <button type="button" className="flex text-sm rounded-full ">
-                            <div className="block cursor-pointer w-full rounded-t text-left p12-m ">
+                        <button type="button" className="flex text-sm rounded-full">
+                            <div className="block cursor-pointer w-full rounded-t text-left p12-m">
                                 <div className="flex items-center gap-2">
                                     <div>
                                         <div className="h-8 w-8 flex items-center justify-center rounded-full bg-primary transition text-primary-foreground">
@@ -31,14 +31,14 @@ export const CardUser = ({
                                     </div>
                                     <div
                                         className={cn(
-                                            "text-sm text-nowrap transition-all overflow-hidden ",
+                                            "text-sm text-nowrap transition-all overflow-hidden",
                                             open ? "w-full" : "w-0"
                                         )}
                                     >
                                         <div>
                                             {firstName} {lastName}
                                         </div>
-                                        <div className="text-grey-100 p10-m ita">{role}</div>
+                                        <div className="text-muted-foreground italic">{role}</div>
                                     </div>
                                 </div>
                             </div>

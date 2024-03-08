@@ -69,8 +69,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 role={labelRole}
             />
             <div className="w-full relative">
-                <header className="w-full h-14 border-b border-0 bg-primary-foreground">
-                    <div className="flex justify-between items-center h-full px-5">
+                <header className="w-full h-14 border-b border-0 bg-primary-foreground md:pr-0 pr-[58px]">
+                    <div className="flex justify-between items-center h-full px-3">
                         <Image
                             src={logo}
                             alt="logo"

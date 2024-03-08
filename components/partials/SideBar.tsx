@@ -129,7 +129,7 @@ const Nav = ({
                                             open ? "mx-4" : "mx-2"
                                         )}
                                     >
-                                        <div className="flex flex-col gap-4 divide-y divide-grey-400">
+                                        <div className="flex flex-col gap-4 divide-y">
                                             <div
                                                 className={cn(
                                                     "flex flex-col gap-1",
@@ -138,14 +138,19 @@ const Nav = ({
                                             >
                                                 {links.map(
                                                     ({ href, label, icon, separator }, index) => (
-                                                        <NavItem
-                                                            key={index}
-                                                            href={href}
-                                                            icon={icon}
-                                                            open={open}
-                                                            label={label}
-                                                            pathname={pathname}
-                                                        />
+                                                        <>
+                                                            {separator && (
+                                                                <div className="border-t border-0 my-2" />
+                                                            )}
+                                                            <NavItem
+                                                                key={index}
+                                                                href={href}
+                                                                icon={icon}
+                                                                open={open}
+                                                                label={label}
+                                                                pathname={pathname}
+                                                            />
+                                                        </>
                                                     )
                                                 )}
                                             </div>
@@ -187,15 +192,13 @@ const NavItem = ({
         <Link
             href={href}
             className={cn(
-                "flex items-center gap-2 px-2 rounded text-grey-100 hover:bg-grey-500 cursor-pointer transition text-grey white hover:bg-card hover:text-destructive-foreground py-3",
+                "flex items-center gap-2 px-2 rounded text-muted-foreground hover:bg-grey-500 cursor-pointer transition white hover:bg-card hover:text-destructive-foreground py-3",
                 open ? "py-2" : "justify-center",
                 "/" + pathname.split("/")[1] === href && "bg-card text-destructive-foreground"
             )}
         >
-            <div>
-                <Icon name={icon} size={26} strokeWidth={1.4} className="h-4 w-4" />
-            </div>
-            {open ? <div className="p14-r">{label}</div> : null}
+            <Icon name={icon} size={26} strokeWidth={1.4} className="h-5 w-5" />
+            {open ? <div className="p14-r text-sm">{label}</div> : null}
         </Link>
     );
 };
