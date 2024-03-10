@@ -2,6 +2,9 @@
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { queryClient } from "@vape/lib/queryClient";
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 
@@ -11,15 +14,18 @@ interface Props {
 
 const RootProvider = ({ children }: Props) => {
     return (
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-        >
-            <SessionProvider>{children}</SessionProvider>
-            <Toaster />
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+            >
+                <SessionProvider>{children}</SessionProvider>
+                <Toaster />
+            </ThemeProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
     );
 };
 

@@ -5,8 +5,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { UseQueryResult } from "@tanstack/react-query";
 
-export const Actions = () => {
+export const Actions = ({
+    query,
+    disabled,
+}: {
+    query: {
+        getAll: UseQueryResult<any, Error>;
+    };
+    disabled?: boolean;
+}) => {
     return (
         <Select>
             <SelectTrigger className="w-[180px] border">

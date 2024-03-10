@@ -1,7 +1,16 @@
+import { UseQueryResult } from "@tanstack/react-query";
 import { Input } from "@vape/components/ui/input";
 import { Search } from "lucide-react";
 
-export const SearchInput = () => {
+export const SearchInput = ({
+    query,
+    disabled,
+}: {
+    query: {
+        getAll: UseQueryResult<any, Error>;
+    };
+    disabled?: boolean;
+}) => {
     return (
         <div className="flex flex-col">
             <div className="flex items-center">

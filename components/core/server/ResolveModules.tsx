@@ -1,4 +1,4 @@
-import { queryGetByModule, queryGetByModuleAndId } from "@vape/actions/queries";
+import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { getPermissions } from "@vape/lib/permissions";
 import { Resource } from "@vape/types/resources.type";
 import FormModule from "../modules/Form.module";
@@ -22,19 +22,7 @@ export const ResolveModules = async ({
         return rscData[page].modules.map(async (module, i) => {
             switch (module.type) {
                 case "table":
-                    response = await queryGetByModule({
-                        model: module.model,
-                        get: module.get,
-                    });
-                    if (response)
-                        return (
-                            <TableModule
-                                key={i}
-                                tableBuilder={module}
-                                data={response.data}
-                                permissions={permissions}
-                            />
-                        );
+                    return <TableModule key={i} tableBuilder={module} permissions={permissions} />;
                     break;
                 case "form":
                     response = await queryGetByModuleAndId({

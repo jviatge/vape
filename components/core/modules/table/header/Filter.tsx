@@ -1,10 +1,17 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@vape/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
 
-export const Filter = () => {
+export const Filter = ({
+    query,
+    disabled,
+}: {
+    query: { getAll: UseQueryResult<any, Error> };
+    disabled?: boolean;
+}) => {
     return (
         <Popover>
             <PopoverTrigger asChild>

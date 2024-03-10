@@ -9,6 +9,7 @@ export const queryGetByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         get: z.string(),
+        paginate: z.boolean().optional(),
     }),
     async ({ model, get }, { userId, role }) => {
         let data: Record<string, any> = [];

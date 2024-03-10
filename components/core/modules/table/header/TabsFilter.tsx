@@ -1,12 +1,24 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useContext } from "react";
+import TablesContext from "../context/Table.context";
 
 export const TabsFilter = () => {
-    return (
-        <Tabs defaultValue="account" className="w-[400px]">
+    const TC = useContext(TablesContext);
+    return Array.isArray(TC.tableBuilder.get) ? (
+        <Tabs
+            defaultValue={TC.get}
+            className="w-[400px]"
+            onValueChange={(value: string) => TC.setGet(value)}
+        >
             <TabsList className="border">
-                <TabsTrigger value="account">Aujourd'hui</TabsTrigger>
-                <TabsTrigger value="password">Tous</TabsTrigger>
+                {TC.tableBuilder.get.map((tab) => {
+                    return (
+                        <TabsTrigger key={tab.get} value={tab.get}>
+                            {tab.label}
+                        </TabsTrigger>
+                    );
+                })}
             </TabsList>
         </Tabs>
-    );
+    ) : null;
 };
