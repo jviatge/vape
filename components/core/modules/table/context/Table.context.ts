@@ -6,6 +6,9 @@ export type TableContext = {
     // Get model
     get: string;
     setGet: Dispatch<SetStateAction<string>>;
+    // Sort
+    sort: Record<string, string>;
+    setSort: Dispatch<SetStateAction<Record<string, string>>>;
     // Search Input
     searchInput: string;
     setSearchInput: Dispatch<SetStateAction<string>>;

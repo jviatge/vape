@@ -13,3 +13,15 @@ export const resolveSearchInput = (searchInput?: string, fields?: string[]) => {
         return {};
     }
 };
+
+export const resolveSort = (sort?: Record<string, string>) => {
+    if (sort && Object.keys(sort).length > 0) {
+        return Object.entries(sort).map(([key, value]) => {
+            return {
+                [key]: value,
+            };
+        });
+    } else {
+        return [];
+    }
+};

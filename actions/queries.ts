@@ -10,12 +10,12 @@ export const queryGetByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         get: z.string(),
+        sort: z.record(z.string(), z.string()).optional(),
         paginate: z.boolean().optional(),
         searchInput: z.string().optional(),
         searchInputField: z.array(z.string()).optional(),
     }),
-    async ({ model, get, paginate, searchInput, searchInputField }, { userId, role }) => {
-        console.log("get->", get);
+    async ({ model, get, sort, paginate, searchInput, searchInputField }, { userId, role }) => {
         let data: Record<string, any> = [];
 
         if (get && model) {
@@ -23,6 +23,7 @@ export const queryGetByModule = authAndPermModelAction(
             return await classModel[get]({
                 searchInput,
                 searchInputField,
+                sort,
                 paginate,
             } as FilterModel);
         }

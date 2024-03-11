@@ -52,12 +52,13 @@ const ContentModuleTable: React.FC = () => {
     const TC = useContext(TableContext);
 
     const queryGetAll = useQuery<any, Error, Data>({
-        queryKey: [TC.tableBuilder.model, TC.get, TC.searchInput, TC.filter],
+        queryKey: [TC.tableBuilder.model, TC.get, TC.searchInput, TC.filter, TC.sort],
         queryFn: () =>
             queryGetByModule({
                 model: TC.tableBuilder.model,
                 get: TC.get,
                 paginate: true,
+                sort: TC.sort,
                 searchInput: TC.searchInput,
                 searchInputField: TC.tableBuilder.searchInputField,
             }).then((res) => res.data),

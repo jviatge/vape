@@ -5,21 +5,32 @@ const useParamsTable = (key?: string) => {
     const pathname = usePathname();
     const params = useSearchParams();
 
-    const set = (value: string) => {
+    const set = (value: string, subKey?: string) => {
         if (key) {
             const newParams = new URLSearchParams(params.toString());
             if (!value) {
-                newParams.delete(key);
+                if (subKey) {
+                    newParams.delete(`${key}-${subKey}`);
+                } else {
+                    newParams.delete(key);
+                }
             } else {
-                newParams.set(key, value);
+                if (subKey) {
+                    newParams.set(`${key}-${subKey}`, value);
+                } else {
+                    newParams.set(key, value);
+                }
             }
             router.push(`${pathname}?${newParams.toString()}`);
         }
     };
 
-    const get = (): string => {
-        if (key && params.get(key)) {
-            return params.get(key) as string;
+    const get = (subKey?: string): string => {
+        if (key) {
+            if (subKey) {
+                return params.get(`${key}-${subKey}`) as string;
+            }
+            if (params.get(key)) return params.get(key) as string;
         }
         return "";
     };

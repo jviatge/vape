@@ -17,7 +17,7 @@ const TablesProvider = ({
     const [selectID, setSelectID] = useState<number | null>(null);
     const [searchInput, setSearchInput] = useState("");
     const [filter, setFilter] = useState("");
-    /* const [searchParams, setSearchParams] = useState(new URLSearchParams()); */
+    const [sort, setSort] = useState<Record<string, string>>({});
     const [get, setGet] = useState<string>(
         typeof value.tableBuilder.get === "string"
             ? value.tableBuilder.get
@@ -29,6 +29,8 @@ const TablesProvider = ({
             value={{
                 get,
                 setGet,
+                sort,
+                setSort,
                 selectIds,
                 setSelectIds,
                 selectID,
