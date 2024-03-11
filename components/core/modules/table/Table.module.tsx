@@ -18,6 +18,7 @@ export type TableBuilder = {
     type: "table";
     model: string;
     remove: string;
+    searchInputField?: string[];
     get: string | { label: string; get: string }[];
     fields: {
         label?: string;
@@ -49,13 +50,16 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, permissions }) 
 
 const ContentModuleTable: React.FC = () => {
     const TC = useContext(TableContext);
+
     const queryGetAll = useQuery<any, Error, Data>({
-        queryKey: [TC.tableBuilder.model, TC.get],
+        queryKey: [TC.tableBuilder.model, TC.get, TC.searchInput, TC.filter],
         queryFn: () =>
             queryGetByModule({
                 model: TC.tableBuilder.model,
                 get: TC.get,
                 paginate: true,
+                searchInput: TC.searchInput,
+                searchInputField: TC.tableBuilder.searchInputField,
             }).then((res) => res.data),
     });
 
@@ -75,9 +79,6 @@ const ContentModuleTable: React.FC = () => {
                     getAll: queryGetAll,
                 }}
                 config={{
-                    SearchInput: {
-                        disabled: false,
-                    },
                     Actions: {
                         disabled: false,
                     },

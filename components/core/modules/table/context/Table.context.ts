@@ -3,18 +3,28 @@ import { Dispatch, SetStateAction, createContext } from "react";
 import { TableBuilder } from "../Table.module";
 
 export type TableContext = {
+    // Get model
     get: string;
     setGet: Dispatch<SetStateAction<string>>;
+    // Search Input
+    searchInput: string;
+    setSearchInput: Dispatch<SetStateAction<string>>;
+    // Filter
     filter: string;
     setFilter: Dispatch<SetStateAction<string>>;
+    // Notification search
     notification: number;
     setNotification: Dispatch<SetStateAction<number>>;
+    // Select one id
     selectID: number | null;
     setSelectID: Dispatch<SetStateAction<number | null>>;
+    // Select multiple ids
     selectIds: number[];
     setSelectIds: Dispatch<SetStateAction<number[]>>;
+    // Search params
     searchParams: URLSearchParams;
-    setSearchParams: Dispatch<SetStateAction<URLSearchParams>>;
+    /* setSearchParams: URLSearchParams; */
+    //////////////////////////
     tableBuilder: TableBuilder;
     permissions?: Permissions;
 };

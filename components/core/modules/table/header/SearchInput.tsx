@@ -1,27 +1,59 @@
-import { UseQueryResult } from "@tanstack/react-query";
 import { Input } from "@vape/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { useContext, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import TableContext from "../context/Table.context";
+import useParamsTable from "../hook/useParamsTable";
 
-export const SearchInput = ({
-    query,
-    disabled,
-}: {
-    query: {
-        getAll: UseQueryResult<any, Error>;
+type Inputs = {
+    search: string;
+};
+
+export const SearchInput = () => {
+    const TC = useContext(TableContext);
+    const { set, get } = useParamsTable("search-input");
+    const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+
+    useEffect(() => {
+        setValue("search", get());
+        TC.setSearchInput(get());
+        return () => {};
+    }, []);
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        set(data.search);
+        TC.setSearchInput(data.search);
     };
-    disabled?: boolean;
-}) => {
-    return (
+
+    const handleRemoveSearch = () => {
+        set("");
+        TC.setSearchInput("");
+        reset();
+    };
+
+    return TC.tableBuilder.searchInputField ? (
         <div className="flex flex-col">
-            <div className="flex items-center">
-                <div className="h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y cursor-pointer">
+            <form className="flex items-center relative" onSubmit={handleSubmit(onSubmit)}>
+                <button
+                    type="submit"
+                    className="h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y cursor-pointer"
+                >
                     <Search className="pointer-events-none mx-3" size={18} />
-                </div>
+                </button>
                 <Input
+                    {...register("search")}
+                    type="text"
                     placeholder="Rechercher"
                     className="w-full rounded-l-none rounded-r-md border border-border"
                 />
-            </div>
+                {TC.searchInput ? (
+                    <X
+                        size={20}
+                        className="absolute right-2 cursor-pointer"
+                        onClick={handleRemoveSearch}
+                    />
+                ) : null}
+            </form>
         </div>
-    );
+    ) : null;
 };

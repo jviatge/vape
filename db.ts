@@ -9,11 +9,26 @@ export const cleanupDatabase = async () => {
     );
 
     console.log("Cleaning up database...", modelNames);
-    // @ts-ignore
-    await Promise.all(modelNames.map(async (model) => await db[model].deleteMany()));
+
+    try {
+        await DeleteMany(modelNames);
+    } catch (e) {
+        try {
+            console.log("Retry cleaning up database...");
+            await DeleteMany(modelNames);
+        } catch (e) {
+            console.error("Error cleaning up database:", e);
+            return false;
+        }
+    }
 
     console.log("Database cleaned up.");
     return true;
+};
+
+const DeleteMany = async (modelNames: string[]) => {
+    // @ts-ignore
+    await Promise.all(modelNames.map(async (model) => await db[model].deleteMany()));
 };
 
 export default db;

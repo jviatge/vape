@@ -1,6 +1,7 @@
 "use server";
 
 import { authAndPermModelAction } from "@vape/lib/safe-action";
+import { FilterModel } from "@vape/types/model.type";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getModel } from "./resources";
@@ -10,13 +11,20 @@ export const queryGetByModule = authAndPermModelAction(
         model: z.string(),
         get: z.string(),
         paginate: z.boolean().optional(),
+        searchInput: z.string().optional(),
+        searchInputField: z.array(z.string()).optional(),
     }),
-    async ({ model, get }, { userId, role }) => {
+    async ({ model, get, paginate, searchInput, searchInputField }, { userId, role }) => {
+        console.log("get->", get);
         let data: Record<string, any> = [];
 
         if (get && model) {
             const classModel = await getModel(model);
-            return await classModel[get]();
+            return await classModel[get]({
+                searchInput,
+                searchInputField,
+                paginate,
+            } as FilterModel);
         }
         return data;
     }
