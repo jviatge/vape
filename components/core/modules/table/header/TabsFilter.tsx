@@ -1,16 +1,11 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import TableContext from "../context/Table.context";
 import useParamsTable from "../hook/useParamsTable";
 
 export const TabsFilter = () => {
     const TC = useContext(TableContext);
-    const { set, get } = useParamsTable("tab-filter");
-
-    useEffect(() => {
-        get() && TC.setGet(get());
-        return () => {};
-    }, []);
+    const { set, get } = useParamsTable("get");
 
     const hanldeOnValueChange = (value: string) => {
         set(value);

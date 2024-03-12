@@ -1,4 +1,5 @@
 import { Input } from "@vape/components/ui/input";
+import { cn } from "@vape/lib/utils";
 import { Search, X } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,11 +13,12 @@ type Inputs = {
 export const SearchInput = () => {
     const TC = useContext(TableContext);
     const { set, get } = useParamsTable("search-input");
-    const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const { register, handleSubmit, reset, setValue, watch } = useForm<Inputs>();
+
+    const watchSearch = watch("search");
 
     useEffect(() => {
         setValue("search", get());
-        TC.setSearchInput(get());
         return () => {};
     }, []);
 
@@ -35,8 +37,12 @@ export const SearchInput = () => {
         <div className="flex flex-col">
             <form className="flex items-center relative" onSubmit={handleSubmit(onSubmit)}>
                 <button
+                    disabled={!watchSearch}
                     type="submit"
-                    className="h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y cursor-pointer"
+                    className={cn(
+                        "h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y cursor-pointer",
+                        watchSearch && "bg-primary text-primary-foreground"
+                    )}
                 >
                     <Search className="pointer-events-none mx-3" size={18} />
                 </button>

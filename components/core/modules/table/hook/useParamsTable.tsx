@@ -36,7 +36,15 @@ const useParamsTable = (key?: string) => {
     };
 
     const getAll = () => {
-        return params.toString();
+        let paramObjet: Record<string, string> = {};
+        params
+            .toString()
+            .split("&")
+            .map((param) => {
+                const value = param.split("=");
+                paramObjet[value[0]] = value[1];
+            });
+        return paramObjet;
     };
 
     const clear = () => {

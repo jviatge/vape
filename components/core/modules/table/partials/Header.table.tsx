@@ -1,27 +1,13 @@
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { TableHead, TableHeader, TableRow } from "@vape/components/ui/table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import TablesContext from "../context/Table.context";
 import useParamsTable from "../hook/useParamsTable";
 
 export const HeaderTable = () => {
     const TC = useContext(TablesContext);
-    const { set, get } = useParamsTable("sort");
-
-    useEffect(() => {
-        let sort = {};
-        TC.tableBuilder.fields.map((column) => {
-            if (get(column.name)) {
-                sort = {
-                    ...sort,
-                    [column.name]: get(column.name),
-                };
-            }
-        });
-        TC.setSort(sort);
-        return () => {};
-    }, []);
+    const { set } = useParamsTable("sort");
 
     const handleSort = (columnName: string) => {
         if (TC.sort[columnName] === "desc") {

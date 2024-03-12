@@ -14,7 +14,10 @@ export const resolveSearchInput = (searchInput?: string, fields?: string[]) => {
     }
 };
 
-export const resolveSort = (sort?: Record<string, string>) => {
+export const resolveSort = (
+    sort?: Record<string, string>,
+    sortDefault?: Record<string, string>
+) => {
     if (sort && Object.keys(sort).length > 0) {
         return Object.entries(sort).map(([key, value]) => {
             return {
@@ -22,6 +25,7 @@ export const resolveSort = (sort?: Record<string, string>) => {
             };
         });
     } else {
+        if (sortDefault) return sortDefault;
         return [];
     }
 };

@@ -10,6 +10,7 @@ import PaginationTable from "./Pagination";
 import TableContext from "./context/Table.context";
 import TablesProvider from "./context/TableProvider";
 import Header from "./header/Header";
+import useParamsTable from "./hook/useParamsTable";
 import { BodyTable } from "./partials/Body.table";
 import { HeaderTable } from "./partials/Header.table";
 import { LoadingTable } from "./partials/Loading.table";
@@ -19,7 +20,16 @@ export type TableBuilder = {
     model: string;
     remove: string;
     searchInputField?: string[];
-    get: string | { label: string; get: string }[];
+    get:
+        | string
+        | {
+              label: string;
+              get: string;
+              sortDefault?: {
+                  key: [key: string];
+                  value: "asc" | "desc";
+              };
+          }[];
     fields: {
         label?: string;
         name: string;
@@ -36,11 +46,14 @@ interface TableModuleProps {
 }
 
 const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, permissions }) => {
+    const { getAll } = useParamsTable();
+
     return (
         <TablesProvider
             value={{
                 tableBuilder: tableBuilder,
                 permissions: permissions,
+                defaultParams: getAll(),
             }}
         >
             <ContentModuleTable />

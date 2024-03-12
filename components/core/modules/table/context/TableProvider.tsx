@@ -1,6 +1,6 @@
 import { Permissions } from "@vape/lib/permissions";
 import { useSearchParams } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { TableBuilder } from "../Table.module";
 import TablesContext from "./Table.context";
 
@@ -9,19 +9,41 @@ const TablesProvider = ({
     value,
 }: {
     children: ReactNode;
-    value: { tableBuilder: TableBuilder; permissions?: Permissions };
+    value: {
+        tableBuilder: TableBuilder;
+        permissions?: Permissions;
+        defaultParams: Record<string, any>;
+    };
 }) => {
+    // Resolve default params
+    const resolveDefaultParams: Record<string, any> = useMemo(() => {
+        let resolvedValue: Record<string, any> = {};
+        Object.keys(value.defaultParams).map((key) => {
+            if (key.startsWith("sort-")) {
+                const newKey = key.replace("sort-", "");
+                resolvedValue["sort"] = {
+                    ...resolvedValue["sort"],
+                    [String(newKey)]: value.defaultParams[key],
+                };
+            } else {
+                resolvedValue[key] = value.defaultParams[key];
+            }
+        });
+        return resolvedValue;
+    }, []);
+
     const searchParams = useSearchParams();
     const [notification, setNotification] = useState(0);
     const [selectIds, setSelectIds] = useState<number[]>([]);
     const [selectID, setSelectID] = useState<number | null>(null);
-    const [searchInput, setSearchInput] = useState("");
+    const [searchInput, setSearchInput] = useState(resolveDefaultParams["search-input"] ?? "");
     const [filter, setFilter] = useState("");
-    const [sort, setSort] = useState<Record<string, string>>({});
+    const [sort, setSort] = useState<Record<string, string>>(resolveDefaultParams["sort"] ?? {});
     const [get, setGet] = useState<string>(
-        typeof value.tableBuilder.get === "string"
-            ? value.tableBuilder.get
-            : value.tableBuilder.get[0].get
+        resolveDefaultParams["get"] ??
+            (typeof value.tableBuilder.get === "string"
+                ? value.tableBuilder.get
+                : value.tableBuilder.get[0].get)
     );
 
     return (
@@ -42,7 +64,6 @@ const TablesProvider = ({
                 setSearchInput,
                 setFilter,
                 searchParams,
-                /* setSearchParams: new URLSearchParams(Array.from(searchParams.entries())), */
                 tableBuilder: value.tableBuilder,
                 permissions: value.permissions,
             }}
