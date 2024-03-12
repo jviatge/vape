@@ -2,6 +2,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { getLogo } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
+import { CommandBar } from "@vape/components/CommandBar";
 import { SideBar } from "@vape/components/partials/SideBar";
 import { authOptions } from "@vape/lib/auth";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
@@ -83,6 +84,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
                                 height: "50px",
                             }}
                         />
+                        <CommandBar />
+
                         <div className="flex items-center space-x-3">
                             <ModeToggle />
                         </div>
