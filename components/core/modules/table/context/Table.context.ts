@@ -1,20 +1,34 @@
 import { Permissions } from "@vape/lib/permissions";
+import { TableBuilder } from "@vape/types/modules/table/table";
 import { Dispatch, SetStateAction, createContext } from "react";
-import { TableBuilder } from "../Table.module";
+
+export type Query = {
+    get: string | null;
+    search: string | null;
+    sort: Record<string, "asc" | "desc">;
+    select: Record<string, string>;
+    contains: Record<string, string>;
+    boolean: Record<string, boolean>;
+    datesRange: Record<string, string>;
+    equals: Record<string, string>;
+    page: {
+        number?: number;
+        limit?: number;
+        lastPage?: boolean;
+    } | null;
+};
+
+export type SetQueryValue = (
+    key: keyof Query,
+    action: "add" | "delete",
+    field: string | undefined,
+    value?: string | boolean
+) => void;
 
 export type TableContext = {
-    // Get model
-    get: string;
-    setGet: Dispatch<SetStateAction<string>>;
-    // Sort
-    sort: Record<string, string>;
-    setSort: Dispatch<SetStateAction<Record<string, string>>>;
-    // Search Input
-    searchInput: string;
-    setSearchInput: Dispatch<SetStateAction<string>>;
-    // Filter
-    filter: string;
-    setFilter: Dispatch<SetStateAction<string>>;
+    // Query filter/search
+    query: Query;
+    setQueryValue: SetQueryValue;
     // Notification search
     notification: number;
     setNotification: Dispatch<SetStateAction<number>>;
@@ -24,10 +38,9 @@ export type TableContext = {
     // Select multiple ids
     selectIds: number[];
     setSelectIds: Dispatch<SetStateAction<number[]>>;
-    // Search params
-    searchParams: URLSearchParams;
-    /* setSearchParams: URLSearchParams; */
     //////////////////////////
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
     tableBuilder: TableBuilder;
     permissions?: Permissions;
 };

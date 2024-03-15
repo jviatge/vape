@@ -5,7 +5,8 @@ import { queryDeleteByModule, queryGetByModule } from "@vape/actions/queries";
 import { Card } from "@vape/components/ui/card";
 import { Table } from "@vape/components/ui/table";
 import { Permissions } from "@vape/lib/permissions";
-import React, { useContext } from "react";
+import { Data, TableBuilder } from "@vape/types/modules/table/table";
+import React, { useContext, useEffect } from "react";
 import PaginationTable from "./Pagination";
 import TableContext from "./context/Table.context";
 import TablesProvider from "./context/TableProvider";
@@ -14,31 +15,6 @@ import useParamsTable from "./hook/useParamsTable";
 import { BodyTable } from "./partials/Body.table";
 import { HeaderTable } from "./partials/Header.table";
 import { LoadingTable } from "./partials/Loading.table";
-
-export type TableBuilder = {
-    type: "table";
-    model: string;
-    remove: string;
-    searchInputField?: string[];
-    get:
-        | string
-        | {
-              label: string;
-              get: string;
-              sortDefault?: {
-                  key: [key: string];
-                  value: "asc" | "desc";
-              };
-          }[];
-    fields: {
-        label?: string;
-        name: string;
-        type: "string" | "date" | "boolean" | "hour" | "badge";
-        format?: (value: any) => string;
-    }[];
-};
-
-type Data = Record<string, any>[];
 
 interface TableModuleProps {
     tableBuilder: TableBuilder;
@@ -53,7 +29,7 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, permissions }) 
             value={{
                 tableBuilder: tableBuilder,
                 permissions: permissions,
-                defaultParams: getAll(),
+                defaultQuery: getAll(),
             }}
         >
             <ContentModuleTable />
@@ -65,16 +41,13 @@ const ContentModuleTable: React.FC = () => {
     const TC = useContext(TableContext);
 
     const queryGetAll = useQuery<any, Error, Data>({
-        queryKey: [TC.tableBuilder.model, TC.get, TC.searchInput, TC.filter, TC.sort],
+        queryKey: [TC.tableBuilder.model, TC.query],
         queryFn: () =>
             queryGetByModule({
                 model: TC.tableBuilder.model,
-                get: TC.get,
-                paginate: true,
-                sort: TC.sort,
-                searchInput: TC.searchInput,
                 searchInputField: TC.tableBuilder.searchInputField,
-            }).then((res) => res.data),
+                query: TC.query,
+            }).then((res) => res.data.paginateData),
     });
 
     const mutationDeleteOne = useMutation<any, Error, any, any>({
@@ -85,6 +58,13 @@ const ContentModuleTable: React.FC = () => {
                 id: String(id),
             }).then((res) => res.data),
     });
+
+    useEffect(() => {
+        TC.loading !== queryGetAll.isLoading && TC.setLoading(queryGetAll.isLoading);
+        return () => {
+            TC.setLoading(false);
+        };
+    }, [queryGetAll.isLoading]);
 
     return (
         <>
@@ -97,9 +77,6 @@ const ContentModuleTable: React.FC = () => {
                         disabled: false,
                     },
                     Refresh: {
-                        disabled: false,
-                    },
-                    Filter: {
                         disabled: false,
                     },
                 }}

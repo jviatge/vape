@@ -9,22 +9,22 @@ import { getModel } from "./resources";
 export const queryGetByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
-        get: z.string(),
-        sort: z.record(z.string(), z.string()).optional(),
-        paginate: z.boolean().optional(),
-        searchInput: z.string().optional(),
+        query: z.record(z.string(), z.any()),
         searchInputField: z.array(z.string()).optional(),
     }),
-    async ({ model, get, sort, paginate, searchInput, searchInputField }, { userId, role }) => {
+    async ({ model, query, searchInputField }, { userId, role }) => {
         let data: Record<string, any> = [];
 
-        if (get && model) {
+        const queryWithSearchInputField = {
+            ...query,
+            searchInputField,
+        };
+
+        if (model) {
             const classModel = await getModel(model);
-            return await classModel[get]({
-                searchInput,
+            return await classModel[query.get]({
+                query,
                 searchInputField,
-                sort,
-                paginate,
             } as FilterModel);
         }
         return data;

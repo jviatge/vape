@@ -1,34 +1,22 @@
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { TableHead, TableHeader, TableRow } from "@vape/components/ui/table";
+import { cn } from "@vape/lib/utils";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { useContext } from "react";
 import TablesContext from "../context/Table.context";
-import useParamsTable from "../hook/useParamsTable";
 
 export const HeaderTable = () => {
     const TC = useContext(TablesContext);
-    const { set } = useParamsTable("sort");
 
     const handleSort = (columnName: string) => {
-        if (TC.sort[columnName] === "desc") {
-            set("", columnName);
-            const sort = { ...TC.sort };
-            delete sort[columnName];
-            TC.setSort(sort);
+        if (TC.query.sort[columnName] === "desc") {
+            TC.setQueryValue("sort", "delete", columnName);
             return;
         }
-        if (TC.sort[columnName] === "asc") {
-            set("desc", columnName);
-            TC.setSort({
-                ...TC.sort,
-                [columnName]: "desc",
-            });
+        if (TC.query.sort[columnName] === "asc") {
+            TC.setQueryValue("sort", "add", columnName, "desc");
         } else {
-            set("asc", columnName);
-            TC.setSort({
-                ...TC.sort,
-                [columnName]: "asc",
-            });
+            TC.setQueryValue("sort", "add", columnName, "asc");
         }
     };
 
@@ -46,19 +34,24 @@ export const HeaderTable = () => {
                 {TC.tableBuilder.fields.map((column) => (
                     <TableHead key={column.name} className="px-1.5">
                         <button
-                            className="flex items-center hover:text-card-foreground hover:bg-card rounded-md font-semibold transition-colors duration-200 ease-in-out"
+                            disabled={TC.loading}
+                            className={cn(
+                                "flex items-center rounded-md font-semibold transition-colors duration-200 ease-in-out",
+                                !TC.loading && "hover:text-card-foreground hover:bg-card"
+                            )}
                             type="button"
                             onClick={() => handleSort(column.name)}
                         >
                             <span>{column.label ?? column.name}</span>
 
-                            {TC.sort[column.name] !== "desc" && TC.sort[column.name] !== "asc" && (
-                                <ArrowUpDown className="ml-2 h-4 w-4" />
-                            )}
-                            {TC.sort[column.name] === "asc" && (
+                            {TC.query.sort[column.name] !== "desc" &&
+                                TC.query.sort[column.name] !== "asc" && (
+                                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                                )}
+                            {TC.query.sort[column.name] === "asc" && (
                                 <ArrowDown className="ml-2 h-4 w-4 text-primary" />
                             )}
-                            {TC.sort[column.name] === "desc" && (
+                            {TC.query.sort[column.name] === "desc" && (
                                 <ArrowUp className="ml-2 h-4 w-4 text-primary" />
                             )}
                         </button>

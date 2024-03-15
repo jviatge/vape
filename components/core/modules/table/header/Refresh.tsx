@@ -13,7 +13,7 @@ export const Refresh = ({
 }) => {
     return disabled ? null : (
         <Button
-            disabled={query.getAll.isFetching}
+            disabled={query.getAll.isFetching || query.getAll.isLoading}
             variant={"secondary"}
             className="border"
             type="button"
