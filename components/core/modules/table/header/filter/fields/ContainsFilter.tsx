@@ -18,7 +18,7 @@ const ContainsFilter = ({
     type?: "number" | "text";
     disabled?: boolean;
 }) => {
-    const [value, setValue] = useState<string>("");
+    const [value, setValue] = useState<string>(valuesFields[field.name] ?? "");
 
     const typeFilter = type === "text" ? "contains" : "equals";
 

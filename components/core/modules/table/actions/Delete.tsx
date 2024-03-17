@@ -1,7 +1,7 @@
 import {
     AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
+    /* AlertDialogAction,
+    AlertDialogCancel, */
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
@@ -21,7 +21,7 @@ export const Delete = ({ open }: { open: boolean }) => {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel
+                    {/* <AlertDialogCancel
                         disabled={mutationDeleteOne.isPending}
                         onClick={() => setDeleteId(null)}
                     >
@@ -48,7 +48,7 @@ export const Delete = ({ open }: { open: boolean }) => {
                         }}
                     >
                         Continue
-                    </AlertDialogAction>
+                    </AlertDialogAction> */}
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -1,8 +1,7 @@
-// import { TableBuilder } from "@vape/components/fields/modules/Table.module";
 import { FormBuilder } from "@vape/components/core/modules/Form.module";
 import { MakeForm } from "@vape/components/core/modules/formBuilder/FormBuilder";
-import { TableBuilder } from "@vape/components/core/modules/table/Table.module";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
+import { TableBuilder } from "./modules/table/table";
 
 export type ResourceParams = {
     label: string;

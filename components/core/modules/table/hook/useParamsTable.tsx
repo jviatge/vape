@@ -10,8 +10,21 @@ const useParamsTable = () => {
     const pathname = usePathname();
     const params = useSearchParams();
 
+    const get = (key: string, subKey?: string): string => {
+        if (subKey) {
+            return params.get(`[${key}][${subKey}]`) as string;
+        }
+        if (params.get(key)) return params.get(`[${key}]`) as string;
+        return "";
+    };
+
     const set = (value: string | null, key: string, subKey?: string) => {
         const newParams = new URLSearchParams(params);
+
+        //// DELETE PARAMS PAGE IF NOT EXIST IN QUERY
+        const page = get("page", "number");
+        if (key !== "page" && page) newParams.delete(`[page][number]`);
+
         if (!value) {
             if (subKey) {
                 newParams.delete(`[${key}][${subKey}]`);
@@ -25,18 +38,13 @@ const useParamsTable = () => {
                 newParams.set(`[${key}]`, value);
             }
         }
+
         router.push(`${pathname}?${newParams}`);
     };
 
-    const get = (key: string, subKey?: string): string => {
-        if (subKey) {
-            return params.get(`[${key}][${subKey}]`) as string;
-        }
-        if (params.get(key)) return params.get(`[${key}]`) as string;
-        return "";
-    };
-
     const getAll = (): Query => {
+        const limitDefault = 25;
+
         const query: Query = {
             get: null,
             search: null,
@@ -46,7 +54,9 @@ const useParamsTable = () => {
             boolean: {},
             datesRange: {},
             equals: {},
-            page: null,
+            page: {
+                limit: limitDefault,
+            },
         };
         decodeURI(params.toString())
             .split("&")
@@ -94,7 +104,7 @@ const useParamsTable = () => {
                     if (resolveKey[0] === "page") {
                         query.page = {
                             number: Number(value),
-                            limit: 10,
+                            limit: limitDefault,
                         };
                     }
                 }

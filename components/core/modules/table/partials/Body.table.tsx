@@ -26,8 +26,8 @@ export const BodyTable = ({
     return (
         <TableBody className="bg-primary-foreground">
             {!getAll.isLoading && getAll.data && getAll.data ? (
-                getAll.data.length > 0 ? (
-                    getAll.data.map((row: Record<string, any>, index: number) => (
+                getAll.data.paginateData.length > 0 ? (
+                    getAll.data.paginateData.map((row: Record<string, any>, index: number) => (
                         <TableRow
                             key={index}
                             className="cursor-pointer pointer-events-auto"

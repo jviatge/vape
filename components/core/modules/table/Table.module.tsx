@@ -7,9 +7,9 @@ import { Table } from "@vape/components/ui/table";
 import { Permissions } from "@vape/lib/permissions";
 import { Data, TableBuilder } from "@vape/types/modules/table/table";
 import React, { useContext, useEffect } from "react";
-import PaginationTable from "./Pagination";
 import TableContext from "./context/Table.context";
 import TablesProvider from "./context/TableProvider";
+import { PaginationTable } from "./footer/Pagination";
 import Header from "./header/Header";
 import useParamsTable from "./hook/useParamsTable";
 import { BodyTable } from "./partials/Body.table";
@@ -40,14 +40,14 @@ const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, permissions }) 
 const ContentModuleTable: React.FC = () => {
     const TC = useContext(TableContext);
 
-    const queryGetAll = useQuery<any, Error, Data>({
+    const dataGetAll = useQuery<any, Error, Data>({
         queryKey: [TC.tableBuilder.model, TC.query],
         queryFn: () =>
             queryGetByModule({
                 model: TC.tableBuilder.model,
                 searchInputField: TC.tableBuilder.searchInputField,
                 query: TC.query,
-            }).then((res) => res.data.paginateData),
+            }).then((res) => res.data),
     });
 
     const mutationDeleteOne = useMutation<any, Error, any, any>({
@@ -60,17 +60,14 @@ const ContentModuleTable: React.FC = () => {
     });
 
     useEffect(() => {
-        TC.loading !== queryGetAll.isLoading && TC.setLoading(queryGetAll.isLoading);
-        return () => {
-            TC.setLoading(false);
-        };
-    }, [queryGetAll.isLoading]);
+        TC.loading !== dataGetAll.isLoading && TC.setLoading(dataGetAll.isLoading);
+    }, [TC, dataGetAll.isLoading, TC.setLoading]);
 
     return (
         <>
             <Header
                 query={{
-                    getAll: queryGetAll,
+                    getAll: dataGetAll,
                 }}
                 config={{
                     Actions: {
@@ -85,16 +82,20 @@ const ContentModuleTable: React.FC = () => {
             <Card className="overflow-hidden relative">
                 <LoadingTable
                     query={{
-                        getAll: queryGetAll,
+                        getAll: dataGetAll,
                     }}
                 />
                 <Table>
                     <HeaderTable />
-                    <BodyTable query={{ getAll: queryGetAll }} />
+                    <BodyTable query={{ getAll: dataGetAll }} />
                 </Table>
             </Card>
 
-            <PaginationTable />
+            <PaginationTable
+                query={{
+                    getAll: dataGetAll,
+                }}
+            />
         </>
     );
 };

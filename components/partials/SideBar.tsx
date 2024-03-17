@@ -88,7 +88,7 @@ const Nav = ({
             <BackgroundVeil onClick={() => setOpen(false)} open={open} mobile={mobile} />
             <nav
                 className={cn(
-                    "flex duration-[0ms] shadow-xl z-40 bg-primary-foreground",
+                    "flex shadow-xl z-40 bg-primary-foreground",
                     mobile && "fixed h-full top-0 left-0"
                 )}
             >

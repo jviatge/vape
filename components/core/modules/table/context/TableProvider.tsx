@@ -15,7 +15,7 @@ const TablesProvider = ({
         defaultQuery: Query;
     };
 }) => {
-    const { set } = useParamsTable();
+    const { set, get } = useParamsTable();
 
     const [notification, setNotification] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -41,6 +41,20 @@ const TablesProvider = ({
 
     const setQueryValue = useCallback<SetQueryValue>(
         (key, action, field, value) => {
+            // clear page if page is not in the query
+            const page = get("page", "number");
+            if (key !== "page" && page) {
+                setQuery((prev) => {
+                    return {
+                        ...prev,
+                        page: {
+                            ...prev.page,
+                            number: undefined,
+                        },
+                    };
+                });
+            }
+
             value = String(value);
             if (field !== undefined) {
                 // ADD //
@@ -51,7 +65,8 @@ const TablesProvider = ({
                         key === "select" ||
                         key === "contains" ||
                         key === "equals" ||
-                        key === "datesRange"
+                        key === "datesRange" ||
+                        key === "page"
                     ) {
                         return setQuery((prev) => ({
                             ...prev,
@@ -76,15 +91,6 @@ const TablesProvider = ({
                             search: value as string,
                         }));
                     }
-                    if (key === "page") {
-                        return setQuery((prev) => ({
-                            ...prev,
-                            page: {
-                                ...prev.page,
-                                number: Number(value),
-                            },
-                        }));
-                    }
                 }
                 // DELETE //
                 set(null, key, field);
@@ -104,7 +110,7 @@ const TablesProvider = ({
                         };
                     });
                 }
-                if (key === "search" || key === "page" || key === "get") {
+                if (key === "search" || key === "get") {
                     return setQuery((prev) => ({
                         ...prev,
                         [key]: null,
@@ -132,7 +138,7 @@ const TablesProvider = ({
                 }
             }
         },
-        [set, setQuery]
+        [set, setQuery, get]
     );
 
     return (

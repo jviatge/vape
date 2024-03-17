@@ -1,7 +1,8 @@
 import { Input } from "@vape/components/ui/input";
+import useDidMountEffect from "@vape/hooks/useDidMountEffect";
 import { cn } from "@vape/lib/utils";
 import { Search, X } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import TableContext from "../context/Table.context";
 import useParamsTable from "../hook/useParamsTable";
@@ -12,15 +13,15 @@ type Inputs = {
 
 export const SearchInput = () => {
     const TC = useContext(TableContext);
-    const { set, get } = useParamsTable();
+    const { get } = useParamsTable();
     const { register, handleSubmit, reset, setValue, watch } = useForm<Inputs>();
 
     const watchSearch = watch("search");
 
-    useEffect(() => {
+    useDidMountEffect(() => {
         setValue("search", get("search"));
         return () => {};
-    }, []);
+    });
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         TC.setQueryValue("search", "add", undefined, data.search);
