@@ -6,19 +6,22 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { UseQueryResult } from "@tanstack/react-query";
+import { cn } from "@vape/lib/utils";
 
 export const Actions = ({
     query,
     disabled,
+    className,
 }: {
     query: {
         getAll: UseQueryResult<any, Error>;
     };
     disabled?: boolean;
+    className?: string;
 }) => {
     return (
         <Select>
-            <SelectTrigger className="w-[180px] border">
+            <SelectTrigger className={cn("border", className)}>
                 <SelectValue placeholder="Actions" />
             </SelectTrigger>
             <SelectContent>

@@ -17,8 +17,8 @@ const ContentPagination = ({ query }: { query: { getAll: UseQueryResult<any, Err
         TC.query.page && TC.query.page.number ? Number(TC.query.page.number) : 1
     );
 
-    return (
-        <div className="flex items-center justify-end space-x-2 py-4">
+    return totalPage ? (
+        <div className="flex items-center justify-between md:justify-end space-x-2 py-4 w-full">
             <Button
                 type="button"
                 variant="ghost"
@@ -56,7 +56,7 @@ const ContentPagination = ({ query }: { query: { getAll: UseQueryResult<any, Err
                 <ChevronRight className={"ml-3 h-4 w-4"} />
             </Button>
         </div>
-    );
+    ) : null;
 };
 
 const Paginator = ({

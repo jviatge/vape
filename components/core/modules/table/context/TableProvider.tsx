@@ -15,14 +15,14 @@ const TablesProvider = ({
         defaultQuery: Query;
     };
 }) => {
-    const { set, get } = useParamsTable();
+    const { set, get, clearAll } = useParamsTable();
 
     const [notification, setNotification] = useState(0);
     const [loading, setLoading] = useState(false);
     const [selectIds, setSelectIds] = useState<number[]>([]);
     const [selectID, setSelectID] = useState<number | null>(null);
 
-    const [query, setQuery] = useState<Query>({
+    const resolveDefaultQuery = () => ({
         get:
             value.defaultQuery.get ??
             (Array.isArray(value.tableBuilder.get)
@@ -38,6 +38,8 @@ const TablesProvider = ({
         equals: value.defaultQuery.equals ?? {},
         page: value.defaultQuery.page ?? null,
     });
+
+    const [query, setQuery] = useState<Query>(resolveDefaultQuery());
 
     const setQueryValue = useCallback<SetQueryValue>(
         (key, action, field, value) => {
@@ -141,11 +143,48 @@ const TablesProvider = ({
         [set, setQuery, get]
     );
 
+    const queryCount = useCallback(() => {
+        const count = Object.keys(query).reduce((acc, key: string) => {
+            // @ts-ignore
+            const value = query[key];
+            if (key !== "page" && key !== "get") {
+                if (typeof value === "string") {
+                    if (value) {
+                        console.log("value", key, value);
+                        return acc + 1;
+                    }
+                }
+                if (value && Object.keys(value).length > 0) {
+                    return acc + 1;
+                }
+            }
+            return acc;
+        }, 0);
+        return count;
+    }, [
+        query.contains,
+        query.boolean,
+        query.datesRange,
+        query.equals,
+        query.get,
+        query.page,
+        query.search,
+        query.select,
+        query.sort,
+    ]);
+
+    const deleteAllQuery = useCallback(() => {
+        setQuery(resolveDefaultQuery());
+        clearAll();
+    }, [setQuery]);
+
     return (
         <TablesContext.Provider
             value={{
                 query,
                 setQueryValue,
+                queryCount,
+                deleteAllQuery,
                 selectIds,
                 setSelectIds,
                 selectID,

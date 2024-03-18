@@ -1,8 +1,8 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { getVapeConfig } from "@vape/actions/config";
 import { getModel } from "@vape/actions/resources";
-import db from "@vape/db";
 import { compare } from "bcrypt";
+import db from "database/db";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 

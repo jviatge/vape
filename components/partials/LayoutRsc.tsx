@@ -25,7 +25,7 @@ export const LayoutRsc = ({
 
     return (
         <div
-            className="overflow-auto relative md:translate-x-0 -translate-x-[58px] w-screen md:w-full"
+            className="overflow-y-auto overflow-x-hidden relative md:translate-x-0 -translate-x-[58px] w-screen md:w-full"
             style={{ height: "calc(100vh - 56px)" }}
         >
             <div className="md:p-8 p-4">

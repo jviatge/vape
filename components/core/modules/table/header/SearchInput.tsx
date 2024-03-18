@@ -11,7 +11,7 @@ type Inputs = {
     search: string;
 };
 
-export const SearchInput = () => {
+export const SearchInput = ({ className }: { className?: string }) => {
     const TC = useContext(TableContext);
     const { get } = useParamsTable();
     const { register, handleSubmit, reset, setValue, watch } = useForm<Inputs>();
@@ -33,7 +33,7 @@ export const SearchInput = () => {
     };
 
     return TC.tableBuilder.searchInputField ? (
-        <div className="flex flex-col">
+        <div className={cn("flex flex-col", className)}>
             <form className="flex items-center relative" onSubmit={handleSubmit(onSubmit)}>
                 <button
                     disabled={!watchSearch || TC.loading}

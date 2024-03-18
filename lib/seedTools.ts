@@ -1,5 +1,3 @@
-import { faker } from "@faker-js/faker";
-
 export function randomLength(arr: any[]) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -11,5 +9,3 @@ export function reapeatArrValue(func: Function, times: number) {
     }
     return arr;
 }
-
-export default faker;

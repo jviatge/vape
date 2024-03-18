@@ -29,6 +29,8 @@ export type TableContext = {
     // Query filter/search
     query: Query;
     setQueryValue: SetQueryValue;
+    deleteAllQuery: () => void;
+    queryCount: () => number;
     // Notification search
     notification: number;
     setNotification: Dispatch<SetStateAction<number>>;
