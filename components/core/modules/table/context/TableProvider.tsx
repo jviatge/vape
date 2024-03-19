@@ -1,3 +1,4 @@
+import useLocalStorage from "@vape/hooks/useLocalStorage";
 import { Permissions } from "@vape/lib/permissions";
 import { TableBuilder } from "@vape/types/modules/table/table";
 import { ReactNode, useCallback, useState } from "react";
@@ -16,6 +17,10 @@ const TablesProvider = ({
     };
 }) => {
     const { set, get, clearAll } = useParamsTable();
+    const [unselectColumnStorage, setUnselectColumnStorage] = useLocalStorage(
+        "unselect-column-" + value.tableBuilder.model,
+        value.tableBuilder.fields.filter((field) => field.hidden).map((field) => field.name)
+    );
 
     const [notification, setNotification] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -38,6 +43,12 @@ const TablesProvider = ({
         equals: value.defaultQuery.equals ?? {},
         page: value.defaultQuery.page ?? null,
     });
+
+    const resolveDefaultHiddenColumns = () => {
+        /* if (selectColumn && selectColumn.length > 0) return selectColumn; */
+        return value.tableBuilder.fields.filter((field) => field.hidden).map((field) => field.name);
+    };
+    const [hideColumns, setHideColumns] = useState<string[]>(resolveDefaultHiddenColumns());
 
     const [query, setQuery] = useState<Query>(resolveDefaultQuery());
 
@@ -178,6 +189,14 @@ const TablesProvider = ({
         clearAll();
     }, [setQuery]);
 
+    const setHideColumnsValue = useCallback(
+        (value: string[]) => {
+            setUnselectColumnStorage(value);
+            /* setHideColumns(value); */
+        },
+        [setUnselectColumnStorage]
+    );
+
     return (
         <TablesContext.Provider
             value={{
@@ -185,6 +204,8 @@ const TablesProvider = ({
                 setQueryValue,
                 queryCount,
                 deleteAllQuery,
+                hideColumns: unselectColumnStorage,
+                setHideColumns: setHideColumnsValue,
                 selectIds,
                 setSelectIds,
                 selectID,

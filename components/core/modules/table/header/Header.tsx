@@ -1,6 +1,7 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { Actions } from "./Actions";
 import { ClearFilter } from "./ClearFilter";
+import { Columns } from "./Columns";
 import { Refresh } from "./Refresh";
 import { SearchInput } from "./SearchInput";
 import { TabsFilter } from "./TabsFilter";
@@ -35,6 +36,7 @@ export default function Header({
                 <Refresh query={query} disabled={config?.Refresh?.disabled} />
                 <ClearFilter query={query} />
                 <Filter />
+                <Columns />
             </div>
         </div>
     );

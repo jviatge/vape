@@ -21,7 +21,7 @@ export const Actions = ({
 }) => {
     return (
         <Select>
-            <SelectTrigger className={cn("border", className)}>
+            <SelectTrigger className={cn(className)}>
                 <SelectValue placeholder="Actions" />
             </SelectTrigger>
             <SelectContent>

@@ -42,21 +42,23 @@ export const BodyTable = ({
                                 />
                             </TableCell>
 
-                            {TC.tableBuilder.fields.map((column, index) => (
-                                <TableCell key={column.name + index} className="p-1.5 text-sm">
-                                    {column.type === "date" ? (
-                                        <DateView value={row[column.name]} />
-                                    ) : column.type === "hour" ? (
-                                        <HourView value={row[column.name]} />
-                                    ) : column.type === "boolean" ? (
-                                        <BooleanView value={row[column.name] as boolean} />
-                                    ) : column.type === "badge" ? (
-                                        <BadgeView value={row[column.name]} />
-                                    ) : (
-                                        String(row[column.name])
-                                    )}
-                                </TableCell>
-                            ))}
+                            {TC.tableBuilder.fields.map((column, index) =>
+                                TC.hideColumns.includes(column.name) ? null : (
+                                    <TableCell key={column.name + index} className="p-1.5 text-sm">
+                                        {column.type === "date" ? (
+                                            <DateView value={row[column.name]} />
+                                        ) : column.type === "hour" ? (
+                                            <HourView value={row[column.name]} />
+                                        ) : column.type === "boolean" ? (
+                                            <BooleanView value={row[column.name] as boolean} />
+                                        ) : column.type === "badge" ? (
+                                            <BadgeView value={row[column.name]} />
+                                        ) : (
+                                            String(row[column.name])
+                                        )}
+                                    </TableCell>
+                                )
+                            )}
 
                             <TableCell className="p-2">
                                 {TC.tableBuilder.remove && TC.permissions?.delete ? (

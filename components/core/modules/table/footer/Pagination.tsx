@@ -11,13 +11,12 @@ export const PaginationTable = ({ query }: { query: { getAll: UseQueryResult<any
 const ContentPagination = ({ query }: { query: { getAll: UseQueryResult<any, Error> } }) => {
     const TC = useContext(TableContext);
     const { data } = query.getAll;
-    const totalPage = Number(data.totalPage);
 
     const [pageState, setPageState] = useState<number>(
         TC.query.page && TC.query.page.number ? Number(TC.query.page.number) : 1
     );
 
-    return totalPage ? (
+    return data.totalPage ? (
         <div className="flex items-center justify-between md:justify-end space-x-2 py-4 w-full">
             <Button
                 type="button"
@@ -35,7 +34,7 @@ const ContentPagination = ({ query }: { query: { getAll: UseQueryResult<any, Err
             </Button>
 
             <Paginator
-                totalPages={totalPage}
+                totalPages={data.totalPage}
                 setPageState={setPageState}
                 pageState={pageState}
                 TC={TC}
@@ -50,7 +49,7 @@ const ContentPagination = ({ query }: { query: { getAll: UseQueryResult<any, Err
                     TC.setQueryValue("page", "add", "number", pageGo.toString());
                     setPageState(pageGo);
                 }}
-                disabled={pageState >= totalPage}
+                disabled={pageState >= data.totalPage}
             >
                 <span>Suivant</span>
                 <ChevronRight className={"ml-3 h-4 w-4"} />

@@ -13,6 +13,7 @@ export type FieldTable = {
     type: "string" | "date" | "boolean" | "hour" | "badge";
     format?: (value: any) => string;
     filter?: Filter;
+    hidden?: boolean;
 };
 
 export type TableBuilder = {

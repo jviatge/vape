@@ -34,6 +34,9 @@ export type TableContext = {
     // Notification search
     notification: number;
     setNotification: Dispatch<SetStateAction<number>>;
+    // hide/show columns
+    hideColumns: string[];
+    setHideColumns: (value: string[]) => void;
     // Select one id
     selectID: number | null;
     setSelectID: Dispatch<SetStateAction<number | null>>;

@@ -31,32 +31,34 @@ export const HeaderTable = () => {
                         }}
                     />
                 </TableHead>
-                {TC.tableBuilder.fields.map((column) => (
-                    <TableHead key={column.name} className="px-1.5">
-                        <button
-                            disabled={TC.loading}
-                            className={cn(
-                                "flex items-center rounded-md font-semibold transition-colors duration-200 ease-in-out",
-                                !TC.loading && "hover:text-card-foreground hover:bg-card"
-                            )}
-                            type="button"
-                            onClick={() => handleSort(column.name)}
-                        >
-                            <span>{column.label ?? column.name}</span>
-
-                            {TC.query.sort[column.name] !== "desc" &&
-                                TC.query.sort[column.name] !== "asc" && (
-                                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                {TC.tableBuilder.fields.map((column) =>
+                    TC.hideColumns.includes(column.name) ? null : (
+                        <TableHead key={column.name} className="px-1.5">
+                            <button
+                                disabled={TC.loading}
+                                className={cn(
+                                    "flex items-center rounded-md font-semibold transition-colors duration-200 ease-in-out",
+                                    !TC.loading && "hover:text-card-foreground hover:bg-card"
                                 )}
-                            {TC.query.sort[column.name] === "asc" && (
-                                <ArrowDown className="ml-2 h-4 w-4 text-primary" />
-                            )}
-                            {TC.query.sort[column.name] === "desc" && (
-                                <ArrowUp className="ml-2 h-4 w-4 text-primary" />
-                            )}
-                        </button>
-                    </TableHead>
-                ))}
+                                type="button"
+                                onClick={() => handleSort(column.name)}
+                            >
+                                <span>{column.label ?? column.name}</span>
+
+                                {TC.query.sort[column.name] !== "desc" &&
+                                    TC.query.sort[column.name] !== "asc" && (
+                                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                                    )}
+                                {TC.query.sort[column.name] === "asc" && (
+                                    <ArrowDown className="ml-2 h-4 w-4 text-primary" />
+                                )}
+                                {TC.query.sort[column.name] === "desc" && (
+                                    <ArrowUp className="ml-2 h-4 w-4 text-primary" />
+                                )}
+                            </button>
+                        </TableHead>
+                    )
+                )}
                 <TableHead className="px-2">...</TableHead>
             </TableRow>
         </TableHeader>
