@@ -28,7 +28,9 @@
         "types/**/*.ts",
         ".next/types/**/*.ts",
         "../../resources/**/*.ts",
-        "../test.ts"
+        "../../actions/**/*.tsx",
+        "../../modules/**/*.tsx",
+        "../../database/**/*.ts"
     ],
     "exclude": ["node_modules"]
 }

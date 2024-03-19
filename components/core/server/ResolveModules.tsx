@@ -1,3 +1,5 @@
+"use server";
+
 import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { getPermissions } from "@vape/lib/permissions";
 import { Resource } from "@vape/types/resources.type";
@@ -15,28 +17,38 @@ export const ResolveModules = async ({
     id?: string;
 }) => {
     const permissions = await getPermissions(rscData);
+    const modules: React.JSX.Element[] = [];
 
-    if (rscData[page]?.modules) {
+    if (rscData[page] && rscData[page]?.modules) {
         let response = null;
-        // @ts-ignore
-        return rscData[page].modules.map(async (module, i) => {
-            switch (module.type) {
-                case "table":
-                    return <TableModule key={i} tableBuilder={module} permissions={permissions} />;
-                    break;
-                case "form":
-                    response = await queryGetByModuleAndId({
-                        model: module.model,
-                        get: String(module.get),
-                        id: String(id),
-                    });
-                    if (response)
-                        return (
-                            <FormModule key={i} formBuilder={module} data={response.data} id={id} />
+
+        await Promise.all(
+            // @ts-ignore
+            rscData[page].modules.map(async (module, i) => {
+                switch (module.type) {
+                    case "table":
+                        modules.push(
+                            <TableModule key={i} tableBuilder={module} permissions={permissions} />
                         );
-                    break;
-                case "make-form":
-                    /*  model Form {
+                        break;
+                    case "form":
+                        response = await queryGetByModuleAndId({
+                            model: module.model,
+                            get: String(module.get),
+                            id: String(id),
+                        });
+                        if (response)
+                            modules.push(
+                                <FormModule
+                                    key={i}
+                                    formBuilder={module}
+                                    data={response.data}
+                                    id={id}
+                                />
+                            );
+                        break;
+                    case "make-form":
+                        /*  model Form {
                         id          Int      @id @default(autoincrement())
                         userId      String
                         createdAt   DateTime @default(now())
@@ -53,38 +65,36 @@ export const ResolveModules = async ({
                       
                         @@unique([name, userId])
                       } */
-                    return (
-                        <FormBuilder
-                            key={i}
-                            form={{
-                                id: 1,
-                                userId: "1",
-                                createdAt: new Date(),
-                                published: false,
-                                name: "name",
-                                description: "description",
-                                content: "[]",
-                                visits: 0,
-                                submissions: 0,
-                                shareURL: "shareURL",
-                                FormSubmissions: [
-                                    {
-                                        id: 1,
-                                        formId: 1,
-                                        content: "",
-                                    },
-                                ],
-                            }}
-                        />
-                    );
-                    break;
-
-                default:
-                    return null;
-            }
-        });
+                        modules.push(
+                            <FormBuilder
+                                key={i}
+                                form={{
+                                    id: 1,
+                                    userId: "1",
+                                    createdAt: new Date(),
+                                    published: false,
+                                    name: "name",
+                                    description: "description",
+                                    content: "[]",
+                                    visits: 0,
+                                    submissions: 0,
+                                    shareURL: "shareURL",
+                                    FormSubmissions: [
+                                        {
+                                            id: 1,
+                                            formId: 1,
+                                            content: "",
+                                        },
+                                    ],
+                                }}
+                            />
+                        );
+                        break;
+                }
+            })
+        );
     }
-    return null;
+    return modules.map((module, i) => <>{module}</>);
 };
 
 const getDataModule = (module: any, data: any) => {};

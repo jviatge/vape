@@ -1,9 +1,12 @@
 "use client";
 
+/* import { TestAction } from "@actions/Test";
+import { TestModule } from "@modules/Test"; */
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryDeleteByModule, queryGetByModule } from "@vape/actions/queries";
 import { Card } from "@vape/components/ui/card";
 import { Table } from "@vape/components/ui/table";
+import useIsSSR from "@vape/hooks/useIsSSR";
 import { Permissions } from "@vape/lib/permissions";
 import { Data, TableBuilder } from "@vape/types/modules/table/table";
 import React, { useContext, useEffect } from "react";
@@ -22,18 +25,21 @@ interface TableModuleProps {
 }
 
 const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, permissions }) => {
+    const isSSR = useIsSSR();
     const { getAll } = useParamsTable();
 
     return (
-        <TablesProvider
-            value={{
-                tableBuilder: tableBuilder,
-                permissions: permissions,
-                defaultQuery: getAll(),
-            }}
-        >
-            <ContentModuleTable />
-        </TablesProvider>
+        !isSSR && (
+            <TablesProvider
+                value={{
+                    tableBuilder: tableBuilder,
+                    permissions: permissions,
+                    defaultQuery: getAll(),
+                }}
+            >
+                <ContentModuleTable />
+            </TablesProvider>
+        )
     );
 };
 
@@ -65,6 +71,8 @@ const ContentModuleTable: React.FC = () => {
 
     return (
         <>
+            {/*  <TestAction />
+            <TestModule /> */}
             <Header
                 query={{
                     getAll: dataGetAll,
@@ -86,7 +94,11 @@ const ContentModuleTable: React.FC = () => {
                     }}
                 />
                 <Table>
-                    <HeaderTable />
+                    <HeaderTable
+                        query={{
+                            getAll: dataGetAll,
+                        }}
+                    />
                     <BodyTable query={{ getAll: dataGetAll }} />
                 </Table>
             </Card>

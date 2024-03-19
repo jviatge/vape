@@ -1,3 +1,4 @@
+import { UseQueryResult } from "@tanstack/react-query";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { TableHead, TableHeader, TableRow } from "@vape/components/ui/table";
 import { cn } from "@vape/lib/utils";
@@ -5,7 +6,13 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { useContext } from "react";
 import TablesContext from "../context/Table.context";
 
-export const HeaderTable = () => {
+export const HeaderTable = ({
+    query: { getAll },
+}: {
+    query: {
+        getAll: UseQueryResult<any, Error>;
+    };
+}) => {
     const TC = useContext(TablesContext);
 
     const handleSort = (columnName: string) => {
@@ -23,12 +30,25 @@ export const HeaderTable = () => {
     return (
         <TableHeader className="bg-card">
             <TableRow>
-                <TableHead className="w-10 bg-card border-r flex justify-center items-center px-0 py-4">
+                <TableHead
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (getAll.data.paginateData) {
+                            if (TC.selectIds.length === getAll.data.paginateData.length) {
+                                TC.setSelectIds([]);
+                            } else {
+                                TC.setSelectIds(getAll.data.paginateData.map((row: any) => row.id));
+                            }
+                        }
+                    }}
+                    className="w-10 bg-card border-r flex justify-center items-center px-0 py-4 cursor-pointer"
+                >
                     <Checkbox
+                        checked={
+                            getAll.data?.paginateData &&
+                            TC.selectIds.length === getAll.data.paginateData.length
+                        }
                         className="mt-1"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                        }}
                     />
                 </TableHead>
                 {TC.tableBuilder.fields.map((column) =>

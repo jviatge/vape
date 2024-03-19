@@ -17,7 +17,7 @@ const TablesProvider = ({
     };
 }) => {
     const { set, get, clearAll } = useParamsTable();
-    const [unselectColumnStorage, setUnselectColumnStorage] = useLocalStorage(
+    const [hideColumns, setUnselectColumnStorage] = useLocalStorage(
         "unselect-column-" + value.tableBuilder.model,
         value.tableBuilder.fields.filter((field) => field.hidden).map((field) => field.name)
     );
@@ -43,12 +43,6 @@ const TablesProvider = ({
         equals: value.defaultQuery.equals ?? {},
         page: value.defaultQuery.page ?? null,
     });
-
-    const resolveDefaultHiddenColumns = () => {
-        /* if (selectColumn && selectColumn.length > 0) return selectColumn; */
-        return value.tableBuilder.fields.filter((field) => field.hidden).map((field) => field.name);
-    };
-    const [hideColumns, setHideColumns] = useState<string[]>(resolveDefaultHiddenColumns());
 
     const [query, setQuery] = useState<Query>(resolveDefaultQuery());
 
@@ -190,10 +184,7 @@ const TablesProvider = ({
     }, [setQuery]);
 
     const setHideColumnsValue = useCallback(
-        (value: string[]) => {
-            setUnselectColumnStorage(value);
-            /* setHideColumns(value); */
-        },
+        (value: string[]) => setUnselectColumnStorage(value),
         [setUnselectColumnStorage]
     );
 
@@ -204,7 +195,7 @@ const TablesProvider = ({
                 setQueryValue,
                 queryCount,
                 deleteAllQuery,
-                hideColumns: unselectColumnStorage,
+                hideColumns,
                 setHideColumns: setHideColumnsValue,
                 selectIds,
                 setSelectIds,

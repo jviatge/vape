@@ -3,6 +3,7 @@ import { Button } from "@vape/components/ui/button";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { Loading } from "@vape/components/ui/loading";
 import { TableBody, TableCell, TableRow } from "@vape/components/ui/table";
+import { cn } from "@vape/lib/utils";
 import { Trash2Icon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -30,15 +31,26 @@ export const BodyTable = ({
                     getAll.data.paginateData.map((row: Record<string, any>, index: number) => (
                         <TableRow
                             key={index}
-                            className="cursor-pointer pointer-events-auto"
+                            className={cn(
+                                "cursor-pointer pointer-events-auto",
+                                TC.selectIds.includes(row.id) && "bg-muted/50"
+                            )}
                             onClick={() => router.push(`${pathname}/${row.id}`)}
                         >
-                            <TableCell className="flex w-10 bg-card border-r justify-center items-center px-0 py-3">
+                            <TableCell
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (TC.selectIds.includes(row.id)) {
+                                        TC.setSelectIds(TC.selectIds.filter((id) => id !== row.id));
+                                    } else {
+                                        TC.setSelectIds([...TC.selectIds, row.id]);
+                                    }
+                                }}
+                                className="flex w-10 bg-card border-r justify-center items-center px-0 py-3"
+                            >
                                 <Checkbox
                                     className="mt-1"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                    }}
+                                    checked={TC.selectIds.includes(row.id)}
                                 />
                             </TableCell>
 
