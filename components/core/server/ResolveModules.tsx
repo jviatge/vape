@@ -3,6 +3,7 @@
 import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { getPermissions } from "@vape/lib/permissions";
 import { Resource } from "@vape/types/resources.type";
+import { CustomModule } from "../modules/Custom.module";
 import FormModule from "../modules/Form.module";
 import FormBuilder from "../modules/formBuilder/FormBuilder";
 import TableModule from "../modules/table/Table.module";
@@ -26,6 +27,18 @@ export const ResolveModules = async ({
             // @ts-ignore
             rscData[page].modules.map(async (module, i) => {
                 switch (module.type) {
+                    case "custom":
+                        modules.push(
+                            <CustomModule
+                                key={i}
+                                {...{
+                                    ...module,
+                                    /* ...{ component: "../../../../modules/" + module.component }, */
+                                    /* ...{ component: "@modules/" + module.component }, */
+                                }}
+                            />
+                        );
+                        break;
                     case "table":
                         modules.push(
                             <TableModule key={i} tableBuilder={module} permissions={permissions} />

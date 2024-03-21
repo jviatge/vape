@@ -1,9 +1,7 @@
 "use client";
 
-/* import { TestAction } from "@actions/Test";
-import { TestModule } from "@modules/Test"; */
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryDeleteByModule, queryGetByModule } from "@vape/actions/queries";
+import { useQuery } from "@tanstack/react-query";
+import { queryGetByModule } from "@vape/actions/queries";
 import { Card } from "@vape/components/ui/card";
 import { Table } from "@vape/components/ui/table";
 import useIsSSR from "@vape/hooks/useIsSSR";
@@ -56,23 +54,12 @@ const ContentModuleTable: React.FC = () => {
             }).then((res) => res.data),
     });
 
-    const mutationDeleteOne = useMutation<any, Error, any, any>({
-        mutationFn: (id) =>
-            queryDeleteByModule({
-                model: TC.tableBuilder.model,
-                remove: TC.tableBuilder.remove,
-                id: String(id),
-            }).then((res) => res.data),
-    });
-
     useEffect(() => {
         TC.loading !== dataGetAll.isLoading && TC.setLoading(dataGetAll.isLoading);
     }, [TC, dataGetAll.isLoading, TC.setLoading]);
 
     return (
         <>
-            {/*  <TestAction />
-            <TestModule /> */}
             <Header
                 query={{
                     getAll: dataGetAll,

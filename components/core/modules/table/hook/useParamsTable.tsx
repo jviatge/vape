@@ -38,7 +38,7 @@ const useParamsTable = () => {
                 newParams.set(`[${key}]`, value);
             }
         }
-
+        console.log(`${pathname}?${newParams}`);
         router.push(`${pathname}?${newParams}`);
     };
 

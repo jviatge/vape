@@ -24,27 +24,34 @@ const TablesProvider = ({
 
     const [notification, setNotification] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [selectIds, setSelectIds] = useState<number[]>([]);
-    const [selectID, setSelectID] = useState<number | null>(null);
+    const [selectRowsDatas, setSelectRowsDatas] = useState<Record<string, any>[]>([]);
+    const [selectRowData, setSelectRowData] = useState<Record<string, any> | null>(null);
 
-    const resolveDefaultQuery = () => ({
-        get:
-            value.defaultQuery.get ??
-            (Array.isArray(value.tableBuilder.get)
-                ? // @ts-ignore
-                  value.tableBuilder.get[0].get
-                : value.tableBuilder.get),
-        search: value.defaultQuery.search ?? null,
-        sort: value.defaultQuery.sort ?? {},
-        select: value.defaultQuery.select ?? {},
-        contains: value.defaultQuery.contains ?? {},
-        boolean: value.defaultQuery.boolean ?? {},
-        datesRange: value.defaultQuery.datesRange ?? {},
-        equals: value.defaultQuery.equals ?? {},
-        page: value.defaultQuery.page ?? null,
-    });
+    const resolveDefaultQuery = useCallback<
+        (defaultQuery: Query, tableBuilder: TableBuilder) => Query
+    >(
+        (defaultQuery: Query, tableBuilder: TableBuilder) => ({
+            get:
+                defaultQuery.get ??
+                (Array.isArray(tableBuilder.get)
+                    ? // @ts-ignore
+                      tableBuilder.get[0].get
+                    : tableBuilder.get),
+            search: defaultQuery.search ?? null,
+            sort: defaultQuery.sort ?? {},
+            select: defaultQuery.select ?? {},
+            contains: defaultQuery.contains ?? {},
+            boolean: defaultQuery.boolean ?? {},
+            datesRange: defaultQuery.datesRange ?? {},
+            equals: defaultQuery.equals ?? {},
+            page: defaultQuery.page ?? null,
+        }),
+        []
+    );
 
-    const [query, setQuery] = useState<Query>(resolveDefaultQuery());
+    const [query, setQuery] = useState<Query>(
+        resolveDefaultQuery(value.defaultQuery, value.tableBuilder)
+    );
 
     const setQueryValue = useCallback<SetQueryValue>(
         (key, action, field, value) => {
@@ -166,22 +173,12 @@ const TablesProvider = ({
             return acc;
         }, 0);
         return count;
-    }, [
-        query.contains,
-        query.boolean,
-        query.datesRange,
-        query.equals,
-        query.get,
-        query.page,
-        query.search,
-        query.select,
-        query.sort,
-    ]);
+    }, [query]);
 
     const deleteAllQuery = useCallback(() => {
-        setQuery(resolveDefaultQuery());
+        setQuery(resolveDefaultQuery(value.defaultQuery, value.tableBuilder));
         clearAll();
-    }, [setQuery]);
+    }, [setQuery, clearAll, resolveDefaultQuery, value]);
 
     const setHideColumnsValue = useCallback(
         (value: string[]) => setUnselectColumnStorage(value),
@@ -197,10 +194,10 @@ const TablesProvider = ({
                 deleteAllQuery,
                 hideColumns,
                 setHideColumns: setHideColumnsValue,
-                selectIds,
-                setSelectIds,
-                selectID,
-                setSelectID,
+                selectRowsDatas,
+                setSelectRowsDatas,
+                selectRowData,
+                setSelectRowData,
                 notification,
                 setNotification,
                 loading,

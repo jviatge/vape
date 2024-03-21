@@ -34,10 +34,10 @@ export const HeaderTable = ({
                     onClick={(e) => {
                         e.stopPropagation();
                         if (getAll.data.paginateData) {
-                            if (TC.selectIds.length === getAll.data.paginateData.length) {
-                                TC.setSelectIds([]);
+                            if (TC.selectRowsDatas.length === getAll.data.paginateData.length) {
+                                TC.setSelectRowsDatas([]);
                             } else {
-                                TC.setSelectIds(getAll.data.paginateData.map((row: any) => row.id));
+                                TC.setSelectRowsDatas(getAll.data.paginateData);
                             }
                         }
                     }}
@@ -45,8 +45,10 @@ export const HeaderTable = ({
                 >
                     <Checkbox
                         checked={
-                            getAll.data?.paginateData &&
-                            TC.selectIds.length === getAll.data.paginateData.length
+                            getAll.data?.paginateData.length === 0
+                                ? false
+                                : getAll.data?.paginateData &&
+                                  TC.selectRowsDatas.length === getAll.data.paginateData.length
                         }
                         className="mt-1"
                     />
@@ -79,7 +81,9 @@ export const HeaderTable = ({
                         </TableHead>
                     )
                 )}
-                <TableHead className="px-2">...</TableHead>
+                {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
+                    <TableHead className="px-2">...</TableHead>
+                ) : null}
             </TableRow>
         </TableHeader>
     );

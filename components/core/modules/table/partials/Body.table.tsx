@@ -1,16 +1,15 @@
 import { UseQueryResult } from "@tanstack/react-query";
-import { Button } from "@vape/components/ui/button";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { Loading } from "@vape/components/ui/loading";
 import { TableBody, TableCell, TableRow } from "@vape/components/ui/table";
 import { cn } from "@vape/lib/utils";
-import { Trash2Icon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import BadgeView from "../../../views/Badge.view";
 import BooleanView from "../../../views/Boolean.view";
 import DateView from "../../../views/Date.view";
 import HourView from "../../../views/Hour.view.";
+import { Action } from "../Action";
 import TablesContext from "../context/Table.context";
 
 export const BodyTable = ({
@@ -33,30 +32,42 @@ export const BodyTable = ({
                             key={index}
                             className={cn(
                                 "cursor-pointer pointer-events-auto",
-                                TC.selectIds.includes(row.id) && "bg-muted/50"
+                                TC.selectRowsDatas.some((item: any) => item.id === row.id) &&
+                                    "bg-muted/50"
                             )}
-                            onClick={() => router.push(`${pathname}/${row.id}`)}
                         >
                             <TableCell
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    if (TC.selectIds.includes(row.id)) {
-                                        TC.setSelectIds(TC.selectIds.filter((id) => id !== row.id));
+                                    if (
+                                        TC.selectRowsDatas.some((item: any) => item.id === row.id)
+                                    ) {
+                                        TC.setSelectRowsDatas(
+                                            TC.selectRowsDatas.filter(
+                                                (item: any) => item.id !== row.id
+                                            )
+                                        );
                                     } else {
-                                        TC.setSelectIds([...TC.selectIds, row.id]);
+                                        TC.setSelectRowsDatas([...TC.selectRowsDatas, row]);
                                     }
                                 }}
                                 className="flex w-10 bg-card border-r justify-center items-center px-0 py-3"
                             >
                                 <Checkbox
                                     className="mt-1"
-                                    checked={TC.selectIds.includes(row.id)}
+                                    checked={TC.selectRowsDatas.some(
+                                        (item: any) => item.id === row.id
+                                    )}
                                 />
                             </TableCell>
 
                             {TC.tableBuilder.fields.map((column, index) =>
                                 TC.hideColumns.includes(column.name) ? null : (
-                                    <TableCell key={column.name + index} className="p-1.5 text-sm">
+                                    <TableCell
+                                        onClick={() => router.push(`${pathname}/${row.id}`)}
+                                        key={column.name + index}
+                                        className="p-1.5 text-sm"
+                                    >
                                         {column.type === "date" ? (
                                             <DateView value={row[column.name]} />
                                         ) : column.type === "hour" ? (
@@ -71,21 +82,16 @@ export const BodyTable = ({
                                     </TableCell>
                                 )
                             )}
-
-                            <TableCell className="p-2">
-                                {TC.tableBuilder.remove && TC.permissions?.delete ? (
-                                    <Button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            TC.setSelectID(row.id);
-                                        }}
-                                        variant={"destructive"}
-                                        className="p-2 h-6"
-                                    >
-                                        <Trash2Icon size={15} />
-                                    </Button>
-                                ) : null}
-                            </TableCell>
+                            {/* // TODO: Permissions filter by token user */}
+                            {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
+                                <TableCell className="p-2 pointer-events-none bg-card border-l">
+                                    {TC.tableBuilder.actions.map((action, index) =>
+                                        action.single ? (
+                                            <Action key={index} action={action} dataRow={row} />
+                                        ) : null
+                                    )}
+                                </TableCell>
+                            ) : null}
                         </TableRow>
                     ))
                 ) : (

@@ -38,11 +38,11 @@ export type TableContext = {
     hideColumns: string[];
     setHideColumns: (value: string[]) => void;
     // Select one id
-    selectID: number | null;
-    setSelectID: Dispatch<SetStateAction<number | null>>;
+    selectRowData: Record<string, any> | null;
+    setSelectRowData: Dispatch<SetStateAction<Record<string, any>>>;
     // Select multiple ids
-    selectIds: number[];
-    setSelectIds: Dispatch<SetStateAction<number[]>>;
+    selectRowsDatas: Record<string, any>[];
+    setSelectRowsDatas: Dispatch<SetStateAction<Record<string, any>[]>>;
     //////////////////////////
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;

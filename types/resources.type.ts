@@ -12,11 +12,17 @@ export type ResourceParams = {
         create?: string[];
         read?: string[];
         update?: string[];
-        delete?: string[];
     };
 };
 
-export type Module = TableBuilder | FormBuilder | MakeForm;
+export type TypeCustomModule = {
+    type: "custom";
+    component: string;
+    model: string;
+    modelMethod: string;
+};
+
+export type Module = TableBuilder | FormBuilder | MakeForm | TypeCustomModule;
 
 export type Resource = {
     params: ResourceParams;

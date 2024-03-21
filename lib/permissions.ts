@@ -7,12 +7,11 @@ export type Permissions = {
     read: boolean;
     create: boolean;
     update: boolean;
-    delete: boolean;
 };
 
 export const checkAccessRoute = async (
     rscData: Resource,
-    actions: Array<"read" | "create" | "update" | "delete">
+    actions: Array<"read" | "create" | "update">
 ): Promise<Session | void> => {
     const session = await getServerSession(authOptions);
     const user = session?.user;
@@ -21,7 +20,7 @@ export const checkAccessRoute = async (
     const permitions = rscData.params?.permissons;
 
     if (permitions) {
-        actions.map((action: "read" | "create" | "update" | "delete") => {
+        actions.map((action: "read" | "create" | "update") => {
             if (permitions[action] && Array.isArray(permitions[action])) {
                 // @ts-ignore
                 const permition = permitions[action].find((role) => role === user.role);
@@ -34,12 +33,7 @@ export const checkAccessRoute = async (
 };
 
 export const getPermissions = async (rscData: Resource): Promise<Permissions> => {
-    const actions: Array<"read" | "create" | "update" | "delete"> = [
-        "read",
-        "create",
-        "update",
-        "delete",
-    ];
+    const actions: Array<"read" | "create" | "update"> = ["read", "create", "update"];
     const session = await getServerSession(authOptions);
     const user = session?.user;
     if (!user) redirect("/login");
@@ -53,7 +47,7 @@ export const getPermissions = async (rscData: Resource): Promise<Permissions> =>
     };
 
     if (permitions) {
-        actions.map((action: "read" | "create" | "update" | "delete") => {
+        actions.map((action: "read" | "create" | "update") => {
             if (permitions[action] && Array.isArray(permitions[action])) {
                 // @ts-ignore
                 const permition = permitions[action].find((role) => role === user.role);
