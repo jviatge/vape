@@ -81,9 +81,9 @@ export const HeaderTable = ({
                         </TableHead>
                     )
                 )}
-                {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
+                {/* {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
                     <TableHead className="px-2">...</TableHead>
-                ) : null}
+                ) : null} */}
             </TableRow>
         </TableHeader>
     );

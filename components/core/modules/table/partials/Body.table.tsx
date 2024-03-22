@@ -84,12 +84,14 @@ export const BodyTable = ({
                             )}
                             {/* // TODO: Permissions filter by token user */}
                             {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
-                                <TableCell className="p-2 pointer-events-none bg-card border-l">
-                                    {TC.tableBuilder.actions.map((action, index) =>
-                                        action.single ? (
-                                            <Action key={index} action={action} dataRow={row} />
-                                        ) : null
-                                    )}
+                                <TableCell className="p-0 pointer-events-none bg-card border-l">
+                                    <div className="flex justify-center items-center w-full h-full">
+                                        {TC.tableBuilder.actions.map((action, index) =>
+                                            action.single ? (
+                                                <Action key={index} action={action} dataRow={row} />
+                                            ) : null
+                                        )}
+                                    </div>
                                 </TableCell>
                             ) : null}
                         </TableRow>
