@@ -12,6 +12,7 @@ export type ResourceParams = {
         create?: string[];
         read?: string[];
         update?: string[];
+        delete?: string[];
     };
 };
 

@@ -18,13 +18,6 @@ export type FieldTable = {
 };
 
 export type ActionProps = {
-    setOpen: (value: boolean) => void;
-    data: Record<string, any> | Record<string, any>[];
-    isSingle?: boolean;
-    isMultiple?: boolean;
-};
-
-export type ActionPropsLoad = {
     label: string;
     title?: string;
     description?: string;
@@ -33,8 +26,22 @@ export type ActionPropsLoad = {
     component: string;
     single: boolean;
     permissons?: string[];
-    model?: string;
-    modelMethod?: string;
+    props?: Record<string, any>;
+};
+
+export type CompActionProps = {
+    props?: Record<string, any>;
+    setActionDialog: Dispatch<SetStateAction<ActionDialogType>>;
+    data: {
+        // Select one id
+        selectRowData: Record<string, any> | null;
+        setSelectRowData: Dispatch<SetStateAction<Record<string, any>>>;
+        // Select multiple ids
+        selectRowsDatas: Record<string, any>[];
+        setSelectRowsDatas: Dispatch<SetStateAction<Record<string, any>[]>>;
+    };
+    isSingle?: boolean;
+    isMultiple?: boolean;
 };
 
 export type TableBuilder = {
@@ -42,7 +49,7 @@ export type TableBuilder = {
     model: string;
     remove: string;
     searchInputField?: string[];
-    actions: ActionPropsLoad[];
+    actions: ActionProps[];
     get:
         | string
         | {

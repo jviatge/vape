@@ -104,3 +104,21 @@ export const queryDeleteByModule = authAndPermModelAction(
         return res;
     }
 );
+
+export const queryDeleteMulitpleByModule = authAndPermModelAction(
+    z.object({
+        model: z.string(),
+        remove: z.string(),
+        ids: z.array(z.string()),
+    }),
+    async ({ model, remove, ids }) => {
+        let res: Record<string, any> = {};
+
+        if (remove && model) {
+            const classModel = await getModel(model);
+            revalidatePath("/" + model);
+            return await classModel[remove](ids);
+        }
+        return res;
+    }
+);

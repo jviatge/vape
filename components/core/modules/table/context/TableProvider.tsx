@@ -1,9 +1,15 @@
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import useLazy from "@vape/hooks/useLazy";
 import useLocalStorage from "@vape/hooks/useLocalStorage";
 import { Permissions } from "@vape/lib/permissions";
-import { TableBuilder } from "@vape/types/modules/table/table";
-import { ReactNode, useCallback, useState } from "react";
+import { CompActionProps, TableBuilder } from "@vape/types/modules/table/table";
+import { Dispatch, ReactNode, SetStateAction, useCallback, useMemo, useState } from "react";
 import useParamsTable from "../hook/useParamsTable";
-import TablesContext, { Query, SetQueryValue } from "./Table.context";
+import TablesContext, {
+    ActionDialog as ActionDialogType,
+    Query,
+    SetQueryValue,
+} from "./Table.context";
 
 const TablesProvider = ({
     children,
@@ -24,6 +30,11 @@ const TablesProvider = ({
 
     const [notification, setNotification] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [actionDialog, setActionDialog] = useState<ActionDialogType>({
+        open: false,
+        component: null,
+    });
+
     const [selectRowsDatas, setSelectRowsDatas] = useState<Record<string, any>[]>([]);
     const [selectRowData, setSelectRowData] = useState<Record<string, any> | null>(null);
 
@@ -194,6 +205,8 @@ const TablesProvider = ({
                 deleteAllQuery,
                 hideColumns,
                 setHideColumns: setHideColumnsValue,
+                actionDialog,
+                setActionDialog,
                 selectRowsDatas,
                 setSelectRowsDatas,
                 selectRowData,
@@ -207,8 +220,62 @@ const TablesProvider = ({
             }}
         >
             {children}
+
+            <ActionDialog
+                shouldImport={actionDialog.open}
+                setShouldImport={setActionDialog}
+                component={actionDialog.component}
+                componentProps={{
+                    props: actionDialog.props,
+                    setActionDialog,
+                    data: {
+                        selectRowData,
+                        selectRowsDatas,
+                        setSelectRowData,
+                        setSelectRowsDatas,
+                    },
+                    isSingle: actionDialog.isSingle,
+                    isMultiple: actionDialog.isMultiple,
+                }}
+            />
         </TablesContext.Provider>
     );
 };
 
+const ActionDialog = ({
+    shouldImport,
+    setShouldImport,
+    component,
+    componentProps,
+}: {
+    shouldImport: boolean;
+    setShouldImport: Dispatch<SetStateAction<ActionDialogType>>;
+    component: string | null;
+    componentProps?: CompActionProps;
+}) => {
+    const { isLoading, result } = useLazy(
+        useMemo(
+            () => (component ? [() => import(`../../../../../../actions/${component}`)] : []),
+            [component]
+        ),
+        shouldImport
+    );
+
+    // @ts-ignore
+    const [LazyComponent] = result;
+    return (
+        <Dialog
+            open={shouldImport}
+            onOpenChange={(value: boolean) => {
+                setShouldImport((prev) => ({ ...prev, open: value }));
+            }}
+        >
+            <DialogContent>
+                <DialogHeader>
+                    {!isLoading && LazyComponent ? <LazyComponent {...componentProps} /> : null}
+                </DialogHeader>
+            </DialogContent>
+        </Dialog>
+    );
+};
 export default TablesProvider;

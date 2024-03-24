@@ -44,6 +44,7 @@ export const HeaderTable = ({
                     className="w-10 bg-card border-r flex justify-center items-center px-0 py-4 cursor-pointer"
                 >
                     <Checkbox
+                        disabled={TC.loading}
                         checked={
                             getAll.data?.paginateData.length === 0
                                 ? false

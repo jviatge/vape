@@ -18,6 +18,23 @@ export type Query = {
     } | null;
 };
 
+/* export type ModalAction = {
+    open: boolean;
+    loading: boolean;
+    title?: string;
+    description?: string;
+    icon?: keyof typeof dynamicIconImports;
+    component: string;
+};*/
+
+export type ActionDialog = {
+    open: boolean;
+    component: string | null;
+    isSingle?: boolean;
+    isMultiple?: boolean;
+    props?: Record<string, any>;
+};
+
 export type SetQueryValue = (
     key: keyof Query,
     action: "add" | "delete",
@@ -37,6 +54,9 @@ export type TableContext = {
     // hide/show columns
     hideColumns: string[];
     setHideColumns: (value: string[]) => void;
+    // Modal Action
+    actionDialog: ActionDialog;
+    setActionDialog: Dispatch<SetStateAction<ActionDialog>>;
     // Select one id
     selectRowData: Record<string, any> | null;
     setSelectRowData: Dispatch<SetStateAction<Record<string, any>>>;

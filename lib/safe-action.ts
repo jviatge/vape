@@ -53,13 +53,13 @@ export const authAndPermModelAction = createSafeActionClient({
                 }
             }
 
-            /* if (parsedInput.remove && permissons?.delete) {
+            if (parsedInput.remove && permissons?.delete) {
                 if (permissons.delete.includes(user.role)) {
                     return endData;
                 } else {
                     throw new Error("Unauthorized");
                 }
-            } */
+            }
 
             return endData;
         } else {

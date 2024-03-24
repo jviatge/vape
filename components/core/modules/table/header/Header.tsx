@@ -15,9 +15,6 @@ export default function Header({
         getAll: UseQueryResult<any, Error>;
     };
     config: {
-        Actions?: {
-            disabled?: boolean;
-        };
         Refresh?: {
             disabled?: boolean;
         };
@@ -27,11 +24,7 @@ export default function Header({
         <div className="flex justify-between items-center md:flex-row flex-col space-y-4 md:space-y-0 w-full">
             <TabsFilter className="w-full md:w-1/4" />
             <SearchInput className="w-full md:w-1/4" />
-            <Actions
-                query={query}
-                disabled={config?.Actions?.disabled}
-                className="w-full md:w-1/5"
-            />
+            <Actions className="w-full md:w-1/5" />
             <div className="flex items-center justify-between md:justify-end space-x-3 w-full md:w-1/5">
                 <Refresh query={query} disabled={config?.Refresh?.disabled} />
                 <ClearFilter query={query} />

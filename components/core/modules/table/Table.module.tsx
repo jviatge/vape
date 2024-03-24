@@ -65,9 +65,6 @@ const ContentModuleTable: React.FC = () => {
                     getAll: dataGetAll,
                 }}
                 config={{
-                    Actions: {
-                        disabled: false,
-                    },
                     Refresh: {
                         disabled: false,
                     },
