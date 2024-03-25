@@ -5,7 +5,7 @@ import { rscGetAllParams } from "@vape/actions/resources";
 import { CommandBar } from "@vape/components/CommandBar";
 import { SideBar } from "@vape/components/partials/SideBar";
 import { authOptions } from "@vape/lib/auth";
-import dynamicIconImports from "lucide-react/dynamicIconImports";
+import { TypeLink } from "@vape/types/general";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -18,12 +18,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
         redirect("/login");
     }
 
-    const links: {
-        href: string;
-        label: string;
-        icon: keyof typeof dynamicIconImports;
-        separator?: boolean;
-    }[] = [];
+    const links: TypeLink[] = [];
 
     const rscAllParams = await rscGetAllParams();
 
@@ -84,7 +79,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
                                 height: "50px",
                             }}
                         />
-                        <CommandBar />
+                        <CommandBar links={links} />
 
                         <div className="flex items-center space-x-3">
                             <ModeToggle />

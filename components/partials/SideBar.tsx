@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@vape/lib/utils";
+import { TypeLink } from "@vape/types/general";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import Link from "next/link";
@@ -10,20 +11,13 @@ import { CardUser } from "../CardUser";
 import Icon from "../Icon";
 import { BurgerIcon } from "../ui/BurgerIcon";
 
-type Link = {
-    href: string;
-    label: string;
-    separator?: boolean;
-    icon: keyof typeof dynamicIconImports;
-};
-
 export const SideBar = ({
     links,
     firstName,
     lastName,
     role,
 }: {
-    links: Link[];
+    links: TypeLink[];
     firstName: string;
     lastName: string;
     role: string;
@@ -69,7 +63,7 @@ const Nav = ({
     lastName,
     role,
 }: {
-    links: Link[];
+    links: TypeLink[];
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
     mobile: boolean;

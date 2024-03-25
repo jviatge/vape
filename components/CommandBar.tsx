@@ -8,58 +8,67 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-    CommandShortcut,
 } from "@/components/ui/command";
-import {
-    CalendarIcon,
-    Mail,
-    RocketIcon,
-    ScanFace,
-    Search,
-    Settings,
-    User2Icon,
-} from "lucide-react";
-import { useState } from "react";
+import { TypeLink } from "@vape/types/general";
+import { Plus, Search } from "lucide-react";
 
-export function CommandBar() {
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Icon from "./Icon";
+
+export function CommandBar({ links }: { links: TypeLink[] }) {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        const down = (e: KeyboardEvent) => {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                setOpen((open) => !open);
+            }
+        };
+        document.addEventListener("keydown", down);
+        return () => document.removeEventListener("keydown", down);
+    }, []);
+
     return (
         <div className={"w-full md:w-1/3 flex justify-center items-center mx-3"}>
             <CommandDialog open={open} onOpenChange={setOpen}>
-                <CommandInput placeholder="Type a command or search..." />
+                <CommandInput placeholder="Tapez une commande ou effectuez une recherche..." />
                 <CommandList>
-                    <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Suggestions">
-                        <CommandItem>
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            <span>Calendar</span>
-                        </CommandItem>
-                        <CommandItem>
-                            <ScanFace className="mr-2 h-4 w-4" />
-                            <span>Search Emoji</span>
-                        </CommandItem>
-                        <CommandItem>
-                            <RocketIcon className="mr-2 h-4 w-4" />
-                            <span>Launch</span>
-                        </CommandItem>
+                    <CommandEmpty>Aucun résultat trouvé.</CommandEmpty>
+                    <CommandGroup heading="Ressources">
+                        {links.map((link, index) => (
+                            <CommandItem
+                                key={index}
+                                className="cursor-pointer"
+                                onSelect={() => {
+                                    router.push(link.href);
+                                    setOpen(false);
+                                }}
+                            >
+                                <Icon name={link.icon} className="mr-2 h-4 w-4" />
+                                <span>{link.label}</span>
+                            </CommandItem>
+                        ))}
                     </CommandGroup>
                     <CommandSeparator />
-                    <CommandGroup heading="Settings">
-                        <CommandItem>
-                            <User2Icon className="mr-2 h-4 w-4" />
-                            <span>Profile</span>
-                            <CommandShortcut>⌘P</CommandShortcut>
-                        </CommandItem>
-                        <CommandItem>
-                            <Mail className="mr-2 h-4 w-4" />
-                            <span>Mail</span>
-                            <CommandShortcut>⌘B</CommandShortcut>
-                        </CommandItem>
-                        <CommandItem>
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
-                            <CommandShortcut>⌘S</CommandShortcut>
-                        </CommandItem>
+                    <CommandGroup heading="Actions">
+                        {links.map((link, index) =>
+                            link.href === "/dashboard" ? null : (
+                                <CommandItem
+                                    key={"+" + index}
+                                    className="cursor-pointer"
+                                    onSelect={() => {
+                                        router.push(link.href + "/+");
+                                        setOpen(false);
+                                    }}
+                                >
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    <span>Ajout {link.label}</span>
+                                </CommandItem>
+                            )
+                        )}
                     </CommandGroup>
                 </CommandList>
             </CommandDialog>
