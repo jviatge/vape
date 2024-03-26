@@ -13,5 +13,9 @@ export default async function RscLayout({
 
     if (!rscData) return notFound();
 
-    return <LayoutRsc params={rscData.params}>{children}</LayoutRsc>;
+    return (
+        <LayoutRsc params={rscData.params} idRsc={rscData.id}>
+            {children}
+        </LayoutRsc>
+    );
 }

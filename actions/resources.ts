@@ -3,9 +3,20 @@
 import { Resource, RessourceParamsWithRoute } from "@/types/resources.type";
 import { ls } from "@vape/lib/fs";
 
-export const rscGetOne = async (resources: string): Promise<Resource | undefined> => {
+export const rscGetOne = async (
+    resources: string
+): Promise<
+    | (Resource & {
+          id: string;
+      })
+    | undefined
+> => {
     try {
-        return await import("~/resources/" + resources).then((module) => module.default);
+        const rsc = await import("~/resources/" + resources).then((module) => module.default);
+        return {
+            ...rsc,
+            id: resources,
+        };
     } catch {
         return undefined;
     }

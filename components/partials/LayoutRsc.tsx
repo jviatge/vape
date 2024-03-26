@@ -1,7 +1,7 @@
 "use client";
 
 import { ResourceParams } from "@vape/types/resources.type";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "../Icon";
@@ -10,10 +10,12 @@ import { Button } from "../ui/button";
 export const LayoutRsc = ({
     children,
     params,
+    idRsc,
     disabledCreate,
 }: {
     children: React.ReactNode;
     params: ResourceParams;
+    idRsc?: string;
     disabledCreate?: boolean;
 }) => {
     const pathname = usePathname();
@@ -22,6 +24,8 @@ export const LayoutRsc = ({
         const paths = pathname.split("/");
         return paths[paths.length - 1];
     };
+
+    /* console.log("LayoutRsc", idRsc, params); */
 
     return (
         <div
@@ -35,17 +39,51 @@ export const LayoutRsc = ({
                         <h1 className="font-semibold text-3xl">{params.label}</h1>
                     </div>
 
-                    {getLastPath(pathname) !== "+" && !disabledCreate ? (
+                    {/* INDEX */}
+                    {getLastPath(pathname) === idRsc ? (
                         <Link href={`${pathname}/+`}>
                             <Button>
                                 <Plus size={24} strokeWidth={1.6} />
                             </Button>
                         </Link>
                     ) : null}
+
+                    {/* CREATE */}
+                    {getLastPath(pathname) === "+" ? (
+                        <>
+                            <CancelButton />
+                        </>
+                    ) : null}
+
+                    {/* UPDATE */}
+                    {getLastPath(pathname) !== "+" && getLastPath(pathname) !== idRsc ? (
+                        <>
+                            <CancelButton />
+                        </>
+                    ) : null}
                 </div>
 
                 <main className="space-y-4">{children}</main>
             </div>
         </div>
+    );
+};
+
+const CancelButton = () => {
+    const pathname = usePathname();
+    const genLinkBack = () => {
+        const paths = pathname.split("/");
+        paths.pop();
+        console.log("genLinkBack", paths.join("/"));
+        return paths.join("/");
+    };
+
+    return (
+        <Link
+            href={genLinkBack()}
+            className="cursor-pointer rounded flex justify-center items-center w-11 h-11 text-destructive-foreground hover:bg-card border"
+        >
+            <X size={24} strokeWidth={1.6} />
+        </Link>
     );
 };

@@ -200,7 +200,8 @@ const NavItem = ({
 const ButtonOpen = ({ setOpen, open }: { setOpen: (open: boolean) => void; open: boolean }) => {
     return (
         <div className="text-grey-0 bottom-0 sticky bg-grey-700 w-full p-2 flex justify-end items-center mb-4">
-            <div
+            <button
+                type="button"
                 onClick={() => setOpen(!open)}
                 className="cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card"
             >
@@ -209,7 +210,7 @@ const ButtonOpen = ({ setOpen, open }: { setOpen: (open: boolean) => void; open:
                 ) : (
                     <ChevronRight size={26} strokeWidth={1.4} />
                 )}
-            </div>
+            </button>
         </div>
     );
 };
