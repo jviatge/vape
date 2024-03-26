@@ -1,15 +1,6 @@
 "use client";
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { queryPostByModule, queryPutByModule } from "@vape/actions/queries";
-import { Button } from "@vape/components/ui/button";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { DatePicker } from "@vape/components/ui/date-picker";
 import { Input } from "@vape/components/ui/input";
@@ -22,10 +13,6 @@ import {
 } from "@vape/components/ui/select";
 import { Switch } from "@vape/components/ui/switch";
 import { Textarea } from "@vape/components/ui/textarea";
-import { useToast } from "@vape/components/ui/use-toast";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 export type FormBuilder = {
     type: "form";
@@ -47,90 +34,7 @@ interface FormModuleProps {
     id?: string;
 }
 
-const resolveDefaultValues = (data: Record<string, any>, formBuilder: FormBuilder) => {
-    if (!data) return {};
-    const defaultValues: any = {};
-
-    formBuilder.fields.map((field) => {
-        switch (field.type) {
-            case "date":
-                defaultValues[field.name] = new Date(data[field.name]).toISOString().split("T")[0];
-                break;
-
-            default:
-                defaultValues[field.name] = data[field.name];
-                break;
-        }
-    });
-
-    return defaultValues;
-};
-
-const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id }) => {
-    const { toast } = useToast();
-
-    const [isLoading, setLoading] = useState(false);
-
-    const formSchema = z.object({
-        username: z.string().min(2, {
-            message: "Username must be at least 2 characters.",
-        }),
-    });
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        //resolver: zodResolver(formSchema),
-        defaultValues: resolveDefaultValues(data, formBuilder),
-    });
-
-    const handleSubmit = async (data: any) => {
-        setLoading(true);
-        try {
-            let response = null;
-            if (id) {
-                response = await queryPutByModule({
-                    data,
-                    model: formBuilder.model,
-                    put: formBuilder.post,
-                    id,
-                });
-            } else {
-                response = await queryPostByModule({
-                    data,
-                    model: formBuilder.model,
-                    post: formBuilder.post,
-                });
-            }
-            setLoading(false);
-            toast({
-                title: "Success",
-                description: "ressource created successfully!",
-            });
-        } catch (error) {
-            setLoading(false);
-            toast({
-                variant: "destructive",
-                title: "Error",
-                description: "An error occured!",
-            });
-        }
-    };
-
-    return (
-        <Form {...form}>
-            {/* {"=>"} {JSON.stringify(data)} */}
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 grid">
-                {formBuilder.fields.map((fieldData) => {
-                    return <MakeField key={fieldData.name} form={form} {...fieldData} />;
-                })}
-                <Button disabled={isLoading} type="submit">
-                    {isLoading ? "Loading..." : "Submit"}
-                </Button>
-            </form>
-        </Form>
-    );
-};
-
-const MakeField = (fieldData: any, form: any) => {
+export const RenderFields = (fieldData: any, form: any) => {
     return (
         <FormField
             key={fieldData.name}
@@ -138,12 +42,13 @@ const MakeField = (fieldData: any, form: any) => {
             name={fieldData.name}
             render={({ field }) => (
                 <FormItem className="flex flex-col">
-                    <FormLabel>{fieldData.label ?? fieldData.name}</FormLabel>
+                    <FormLabel>
+                        {fieldData.label ?? fieldData.name}{" "}
+                        {fieldData?.rules?.required ? <span className="text-xs">*</span> : null}
+                    </FormLabel>
                     <FormControl>
                         <>
-                            {fieldData.type === "text" && (
-                                <Input type="text" id={fieldData.name} {...field} />
-                            )}
+                            {fieldData.type === "text" && <Input type="text" {...field} />}
 
                             {fieldData.type === "password" && (
                                 <Input type="password" id={fieldData.name} {...field} />
@@ -201,5 +106,3 @@ const MakeField = (fieldData: any, form: any) => {
         />
     );
 };
-
-export default FormModule;

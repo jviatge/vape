@@ -1,8 +1,41 @@
 import { cn } from "@vape/lib/utils";
+import { ReactNode } from "react";
+import { buttonVariants } from "./button";
+
+type Variant =
+    | "secondary"
+    | "default"
+    | "link"
+    | "destructive"
+    | "outline"
+    | "ghost"
+    | null
+    | undefined;
+
+export const LoadingButton = ({
+    variant,
+    children,
+    isLoading,
+}: {
+    variant?: Variant;
+    children: ReactNode;
+    isLoading?: boolean;
+}) => {
+    return (
+        <div className="relative">
+            <span className={cn(isLoading && "opacity-25")}>{children}</span>
+            {isLoading ? (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <Loading className={cn("h-7", buttonVariants({ variant: variant }))} />
+                </div>
+            ) : null}
+        </div>
+    );
+};
 
 export const Loading = ({ className }: { className?: string }) => {
     return (
-        <div className={cn("animate-spin text-primary h-16 w-16", className)}>
+        <div className={cn("text-primary", className, "animate-spin h-16 w-16 bg-inherit")}>
             <svg
                 stroke="currentColor"
                 fill="currentColor"

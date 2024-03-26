@@ -1,10 +1,11 @@
 "use client";
 
 import { ResourceParams } from "@vape/types/resources.type";
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "../Icon";
+import { CancelButtonRsc } from "../ui/CancelButtonRsc";
 import { Button } from "../ui/button";
 
 export const LayoutRsc = ({
@@ -51,14 +52,14 @@ export const LayoutRsc = ({
                     {/* CREATE */}
                     {getLastPath(pathname) === "+" ? (
                         <>
-                            <CancelButton />
+                            <CancelButtonRsc type={"close"} />
                         </>
                     ) : null}
 
                     {/* UPDATE */}
                     {getLastPath(pathname) !== "+" && getLastPath(pathname) !== idRsc ? (
                         <>
-                            <CancelButton />
+                            <CancelButtonRsc type={"close"} />
                         </>
                     ) : null}
                 </div>
@@ -66,24 +67,5 @@ export const LayoutRsc = ({
                 <main className="space-y-4">{children}</main>
             </div>
         </div>
-    );
-};
-
-const CancelButton = () => {
-    const pathname = usePathname();
-    const genLinkBack = () => {
-        const paths = pathname.split("/");
-        paths.pop();
-        console.log("genLinkBack", paths.join("/"));
-        return paths.join("/");
-    };
-
-    return (
-        <Link
-            href={genLinkBack()}
-            className="cursor-pointer rounded flex justify-center items-center w-11 h-11 text-destructive-foreground hover:bg-card border"
-        >
-            <X size={24} strokeWidth={1.6} />
-        </Link>
     );
 };

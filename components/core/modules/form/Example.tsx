@@ -41,7 +41,7 @@ export function ProfileForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form className="space-y-8">
                 <FormField
                     control={form.control}
                     name="username"
@@ -56,8 +56,13 @@ export function ProfileForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
             </form>
+            <Button type="button" onClick={form.handleSubmit(onSubmit)}>
+                Submit
+            </Button>
+            <button type="button" onClick={() => form.reset()} className="btn">
+                reset
+            </button>
         </Form>
     );
 }

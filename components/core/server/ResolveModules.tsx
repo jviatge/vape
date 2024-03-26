@@ -4,7 +4,7 @@ import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { getPermissions } from "@vape/lib/permissions";
 import { Resource } from "@vape/types/resources.type";
 import { CustomModule } from "../modules/Custom.module";
-import FormModule from "../modules/Form.module";
+import FormModule from "../modules/form/Form.module";
 import FormBuilder from "../modules/formBuilder/FormBuilder";
 import TableModule from "../modules/table/Table.module";
 
@@ -13,7 +13,7 @@ export const ResolveModules = async ({
     page,
     id,
 }: {
-    rscData: Resource;
+    rscData: Resource & { id: string };
     page: "index" | "create" | "_id";
     id?: string;
 }) => {
@@ -57,6 +57,7 @@ export const ResolveModules = async ({
                                     formBuilder={module}
                                     data={response.data}
                                     id={id}
+                                    rscId={rscData.id}
                                 />
                             );
                         break;
