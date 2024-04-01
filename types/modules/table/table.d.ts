@@ -1,7 +1,7 @@
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import { Filter } from "./filterTable";
 
-type Option = {
+export type Option = {
     label: string;
     value: string;
     color?: string;

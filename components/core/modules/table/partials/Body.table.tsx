@@ -1,4 +1,5 @@
 import { UseQueryResult } from "@tanstack/react-query";
+import Empty from "@vape/components/core/views/Empty";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { Loading } from "@vape/components/ui/loading";
 import { TableBody, TableCell, TableRow } from "@vape/components/ui/table";
@@ -68,16 +69,23 @@ export const BodyTable = ({
                                         key={column.name + index}
                                         className="p-1.5 text-sm"
                                     >
-                                        {column.type === "date" ? (
-                                            <DateView value={row[column.name]} />
-                                        ) : column.type === "hour" ? (
-                                            <HourView value={row[column.name]} />
-                                        ) : column.type === "boolean" ? (
+                                        {column.type === "boolean" ? (
                                             <BooleanView value={row[column.name] as boolean} />
-                                        ) : column.type === "badge" ? (
-                                            <BadgeView value={row[column.name]} />
+                                        ) : row[column.name] ? (
+                                            column.type === "date" ? (
+                                                <DateView value={row[column.name]} />
+                                            ) : column.type === "hour" ? (
+                                                <HourView value={row[column.name]} />
+                                            ) : column.type === "badge" ? (
+                                                <BadgeView
+                                                    value={row[column.name]}
+                                                    options={column.options}
+                                                />
+                                            ) : (
+                                                String(row[column.name])
+                                            )
                                         ) : (
-                                            String(row[column.name])
+                                            <Empty />
                                         )}
                                     </TableCell>
                                 )

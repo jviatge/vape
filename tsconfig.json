@@ -30,7 +30,8 @@
         "../../resources/**/*.ts",
         "../../actions/**/*.tsx",
         "../../modules/**/*.tsx",
-        "../../database/**/*.ts"
+        "../../database/**/*.ts",
+        "../../api/**/*.ts"
     ],
     "exclude": ["node_modules"]
 }

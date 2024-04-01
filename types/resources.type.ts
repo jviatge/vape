@@ -1,11 +1,11 @@
 import { FormBuilder } from "@vape/components/core/modules/form/Form.module";
 import { MakeForm } from "@vape/components/core/modules/formBuilder/FormBuilder";
-import dynamicIconImports from "lucide-react/dynamicIconImports";
 import { TableBuilder } from "./modules/table/table";
+import { IconProps } from "@vape/components/Icon";
 
 export type ResourceParams = {
     label: string;
-    icon: keyof typeof dynamicIconImports;
+    icon: IconProps["name"];
     separator?: boolean;
     order: number;
     permissons?: {

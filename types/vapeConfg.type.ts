@@ -10,5 +10,6 @@ export type VapeConfig = {
     roles: {
         label: string;
         value: string;
+        color?: string;
     }[];
 };
