@@ -8,6 +8,7 @@ export default async function RscLayout({
 }) {
     return (
         <LayoutRsc
+            isDashboard={true}
             params={{
                 order: 0,
                 icon: "home",

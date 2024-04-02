@@ -13,7 +13,9 @@ export const LayoutRsc = ({
     params,
     idRsc,
     disabledCreate,
+    isDashboard,
 }: {
+    isDashboard?: boolean;
     children: React.ReactNode;
     params: ResourceParams;
     idRsc?: string;
@@ -40,28 +42,32 @@ export const LayoutRsc = ({
                         <h1 className="font-semibold text-3xl">{params.label}</h1>
                     </div>
 
-                    {/* INDEX */}
-                    {getLastPath(pathname) === idRsc ? (
-                        <Link href={`${pathname}/+`}>
-                            <Button>
-                                <Plus size={24} strokeWidth={1.6} />
-                            </Button>
-                        </Link>
-                    ) : null}
-
-                    {/* CREATE */}
-                    {getLastPath(pathname) === "+" ? (
+                    {isDashboard ? null : (
                         <>
-                            <CancelButtonRsc type={"close"} />
-                        </>
-                    ) : null}
+                            {/* INDEX */}
+                            {getLastPath(pathname) === idRsc ? (
+                                <Link href={`${pathname}/+`}>
+                                    <Button>
+                                        <Plus size={24} strokeWidth={1.6} />
+                                    </Button>
+                                </Link>
+                            ) : null}
 
-                    {/* UPDATE */}
-                    {getLastPath(pathname) !== "+" && getLastPath(pathname) !== idRsc ? (
-                        <>
-                            <CancelButtonRsc type={"close"} />
+                            {/* CREATE */}
+                            {getLastPath(pathname) === "+" ? (
+                                <>
+                                    <CancelButtonRsc type={"close"} />
+                                </>
+                            ) : null}
+
+                            {/* UPDATE */}
+                            {getLastPath(pathname) !== "+" && getLastPath(pathname) !== idRsc ? (
+                                <>
+                                    <CancelButtonRsc type={"close"} />
+                                </>
+                            ) : null}
                         </>
-                    ) : null}
+                    )}
                 </div>
 
                 <main className="space-y-4">{children}</main>

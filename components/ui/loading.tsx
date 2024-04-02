@@ -35,7 +35,7 @@ export const LoadingButton = ({
 
 export const Loading = ({ className }: { className?: string }) => {
     return (
-        <div className={cn("text-primary", className, "animate-spin h-16 w-16 bg-inherit")}>
+        <div className={cn("text-primary", className, "animate-spin h-16 w-16")}>
             <svg
                 stroke="currentColor"
                 fill="currentColor"
