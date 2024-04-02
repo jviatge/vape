@@ -1,7 +1,7 @@
+import { IconProps } from "@vape/components/Icon";
 import { FormBuilder } from "@vape/components/core/modules/form/Form.module";
 import { MakeForm } from "@vape/components/core/modules/formBuilder/FormBuilder";
 import { TableBuilder } from "./modules/table/table";
-import { IconProps } from "@vape/components/Icon";
 
 export type ResourceParams = {
     label: string;
