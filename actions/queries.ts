@@ -1,5 +1,6 @@
 "use server";
 
+import { logQuery } from "@vape/lib/logs";
 import { authAndPermModelAction } from "@vape/lib/safe-action";
 import { FilterModel } from "@vape/types/model.type";
 import { revalidatePath } from "next/cache";
@@ -13,6 +14,7 @@ export const queryGetByModule = authAndPermModelAction(
         searchInputField: z.array(z.string()).optional(),
     }),
     async ({ model, query, searchInputField }, { userId, role }) => {
+        logQuery(`[queryGetByModule] | model:${model}`);
         let data: Record<string, any> = [];
 
         const queryWithSearchInputField = {
@@ -38,6 +40,7 @@ export const queryGetByModuleAndId = authAndPermModelAction(
         id: z.string(),
     }),
     async ({ model, get, id }) => {
+        logQuery(`[queryGetByModuleAndId] | model:${model} | id:${id} | get:${get}`);
         let data: Record<string, any> = [];
 
         if (get && model) {
@@ -56,6 +59,7 @@ export const queryPutByModule = authAndPermModelAction(
         id: z.string(),
     }),
     async ({ model, put, data, id }) => {
+        logQuery(`[queryGetByModuleAndId] | model:${model} | id:${id} | put:${put}`);
         let res: Record<string, any> = {};
 
         if (put && model) {
@@ -75,6 +79,7 @@ export const queryPostByModule = authAndPermModelAction(
         data: z.record(z.unknown()),
     }),
     async ({ model, post, data }) => {
+        logQuery(`[queryGetByModuleAndId] | model:${model} | put:${post}`);
         let res: Record<string, any> = {};
 
         if (post && model) {
@@ -94,6 +99,7 @@ export const queryDeleteByModule = authAndPermModelAction(
         id: z.string(),
     }),
     async ({ model, remove, id }) => {
+        logQuery(`[queryGetByModuleAndId] | model:${model} | id:${id} | remove:${remove}`);
         let res: Record<string, any> = {};
 
         if (remove && model) {
@@ -112,6 +118,11 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
         ids: z.array(z.string()),
     }),
     async ({ model, remove, ids }) => {
+        logQuery(
+            `[queryGetByModuleAndId] | model:${model} | ids:${JSON.stringify(
+                ids
+            )} | remove:${remove}`
+        );
         let res: Record<string, any> = {};
 
         if (remove && model) {

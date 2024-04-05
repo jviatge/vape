@@ -13,6 +13,11 @@ const nextConfig = {
     swcMinify: true,
     transpilePackages: ["lucide-react"],
     pageExtensions: ["mdx", "ts", "tsx"],
+    logging: {
+        fetches: {
+            fullUrl: true,
+        },
+    },
 };
 
 module.exports = withMDX(nextConfig);

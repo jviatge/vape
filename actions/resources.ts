@@ -2,6 +2,7 @@
 
 import { Resource, RessourceParamsWithRoute } from "@/types/resources.type";
 import { ls } from "@vape/lib/fs";
+import { logRsc } from "@vape/lib/logs";
 
 export const rscGetOne = async (
     resources: string
@@ -11,6 +12,7 @@ export const rscGetOne = async (
       })
     | undefined
 > => {
+    logRsc(`[rscGetOne] | resources:${resources}`);
     try {
         const rsc = await import("~/resources/" + resources).then((module) => module.default);
         return {
@@ -23,6 +25,7 @@ export const rscGetOne = async (
 };
 
 export const rscGetAllParams = async (): Promise<RessourceParamsWithRoute[]> => {
+    logRsc(`[rscGetAllParams]`);
     try {
         const files = await ls("resources");
         const params = await Promise.all(
@@ -43,6 +46,7 @@ export const rscGetAllParams = async (): Promise<RessourceParamsWithRoute[]> => 
 };
 
 export const getModel = async (model: string): Promise<undefined | any> => {
+    logRsc(`[getModel] | model:${model}`);
     try {
         return await import("~/models/" + model + ".model").then((module) => module.default);
     } catch (error) {

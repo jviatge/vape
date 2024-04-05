@@ -1,5 +1,6 @@
 "use server";
 
+import { logApi } from "@vape/lib/logs";
 import { NextRequest } from "next/server";
 
 export const getActionApiBySegements = async (
@@ -8,6 +9,7 @@ export const getActionApiBySegements = async (
     type: "GET" | "POST",
     data?: any | null
 ): Promise<any> => {
+    logApi(`[getActionApiBySegements] | ${type} => ${JSON.stringify(segements)}`);
     try {
         let pathAction = segements.join("/");
 
