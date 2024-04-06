@@ -59,7 +59,6 @@ export default function LoginForm({ logo }: { logo: StaticImageData }) {
     return (
         <div className="shadow-2xl bg-secondary">
             <div className="grid-cols-2 md:grid">
-                <div className="bg-[url('/kayak.jpg')] bg-cover bg-center" />
                 <div className="flex flex-col items-center justify-center h-screen shadow-2xl">
                     <Image
                         src={logo.src}
@@ -134,6 +133,7 @@ export default function LoginForm({ logo }: { logo: StaticImageData }) {
                         </form>
                     </Form>
                 </div>
+                <div className="bg-[url('/pontdugard.jpg')] bg-cover bg-center" />
             </div>
         </div>
     );
