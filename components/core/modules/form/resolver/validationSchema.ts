@@ -18,7 +18,29 @@ export const validationSchema = (formBuilder: FormBuilder) => {
     let zObjectRules: Record<string, any> = {};
 
     formBuilder.fields.map((field) => {
-        zObjectRules[field.name] = z.string();
+        switch (field.type) {
+            case "checkbox":
+            case "switch":
+                zObjectRules[field.name] = z.boolean();
+                break;
+
+            case "number":
+                /* zObjectRules[field.name] = z.union([z.string(), z.number()]); */
+                /* zObjectRules[field.name] = z.number({ coerce: true }); */
+                /* zObjectRules[field.name] = z.coerce.number(); */
+                zObjectRules[field.name] = z.any().transform(Number).pipe(z.number());
+                /* zObjectRules[field.name] = 33 */
+                break;
+
+            case "date":
+                zObjectRules[field.name] = z.date();
+                break;
+
+            default:
+                zObjectRules[field.name] = z.string();
+                break;
+        }
+
         if (field.rules) {
             for (const [key, value] of Object.entries(field.rules)) {
                 zObjectRules[field.name] = createZodObject(

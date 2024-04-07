@@ -21,7 +21,11 @@ export const DatePicker = ({ field }: any) => {
                             !field.value && "text-muted-foreground"
                         )}
                     >
-                        {field.value ? format(field.value, "dd/MM/yyyy") : <span>Pick a date</span>}
+                        {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                        ) : (
+                            <span>Choisis une date</span>
+                        )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                 </FormControl>
@@ -31,7 +35,7 @@ export const DatePicker = ({ field }: any) => {
                     captionLayout="dropdown"
                     locale={fr}
                     mode="single"
-                    selected={field.value}
+                    selected={new Date(field.value)}
                     onSelect={field.onChange}
                     // fromYear={2015}
                     // toYear={2025}

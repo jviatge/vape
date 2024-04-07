@@ -26,7 +26,13 @@ export const LoadingButton = ({
             <span className={cn(isLoading && "opacity-25")}>{children}</span>
             {isLoading ? (
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <Loading className={cn("h-7", buttonVariants({ variant: variant }))} />
+                    <Loading
+                        className={cn(
+                            "h-7",
+                            buttonVariants({ variant: variant }),
+                            "bg-transparent"
+                        )}
+                    />
                 </div>
             ) : null}
         </div>

@@ -21,7 +21,16 @@ export type FormBuilder = {
     fields: {
         label?: string;
         name: string;
-        type: "text" | "password" | "date" | "checkbox" | "hour" | "select" | "textarea" | "number";
+        type:
+            | "text"
+            | "password"
+            | "date"
+            | "checkbox"
+            | "hour"
+            | "select"
+            | "textarea"
+            | "number"
+            | "switch";
         options?: { label: string; value: string }[];
         format?: (value: any) => string;
         rules?: RulesField;
