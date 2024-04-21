@@ -31,7 +31,8 @@
         "../../actions/**/*.tsx",
         "../../modules/**/*.tsx",
         "../../database/**/*.ts",
-        "../../api/**/*.ts"
+        "../../api/**/*.ts",
+        "components/core/modules/form/render/Decorates.render.tsx"
     ],
     "exclude": ["node_modules"]
 }

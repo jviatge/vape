@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { FormBuilder } from "../Form.module";
+import { isNotDecorateBuilder } from "../../lib/condition";
+import { FieldBuilder } from "../RenderFields";
 
 export type RulesField = {
     required?: boolean;
@@ -14,55 +15,71 @@ export type RulesField = {
     postalCode?: boolean;
 };
 
-export const validationSchema = (formBuilder: FormBuilder) => {
-    let zObjectRules: Record<string, any> = {};
+export const validationSchema = (fieldBuilder: FieldBuilder[]) => {
+    return zodResolver(z.object(createZodObject(fieldBuilder)));
+};
 
-    formBuilder.fields.map((field) => {
-        switch (field.type) {
-            case "checkbox":
-            case "switch":
-                zObjectRules[field.name] = z.boolean();
-                break;
+const createZodObject = (fieldBuilder: FieldBuilder[], entryZObject?: Record<string, any>) => {
+    let zObject = entryZObject ?? {};
 
-            case "number":
-                /* zObjectRules[field.name] = z.union([z.string(), z.number()]); */
-                /* zObjectRules[field.name] = z.number({ coerce: true }); */
-                /* zObjectRules[field.name] = z.coerce.number(); */
-                zObjectRules[field.name] = z.any().transform(Number).pipe(z.number());
-                /* zObjectRules[field.name] = 33 */
-                break;
+    fieldBuilder.map((field) => {
+        if (field.type === "container" && field.fields) {
+            zObject = createZodObject(field.fields, zObject);
+        } else if (field.type === "sections" && field.tabs) {
+            field.tabs.map((tab) => {
+                zObject = createZodObject(tab.fields, zObject);
+            });
+        } else if (isNotDecorateBuilder(field)) {
+            switch (field.type) {
+                case "checkbox":
+                case "switch":
+                    zObject[field.name] = z.boolean();
+                    break;
 
-            case "date":
-                zObjectRules[field.name] = z.date();
-                break;
+                case "oneToOne":
+                    zObject[field.name] = field.fields
+                        ? z.object({
+                              ...createZodObject(field.fields),
+                          })
+                        : z.object({});
+                    break;
 
-            default:
-                zObjectRules[field.name] = z.string();
-                break;
-        }
+                case "number":
+                    zObject[field.name] = z.any().transform(Number).pipe(z.number());
+                    break;
 
-        if (field.rules) {
-            for (const [key, value] of Object.entries(field.rules)) {
-                zObjectRules[field.name] = createZodObject(
-                    zObjectRules[field.name],
-                    key as keyof RulesField,
-                    value
-                );
+                case "date":
+                    zObject[field.name] = z.date();
+                    break;
+
+                default:
+                    zObject[field.name] = z.string();
+                    break;
+            }
+
+            if (field.rules) {
+                for (const [key, value] of Object.entries(field.rules)) {
+                    zObject[field.name] = createZodRules(
+                        zObject[field.name],
+                        key as keyof RulesField,
+                        value
+                    );
+                }
             }
         }
     });
 
-    return zodResolver(z.object(zObjectRules));
+    return zObject;
 };
 
-const createZodObject = (obj: any, key: keyof RulesField, rule: any) => {
+const createZodRules = (obj: any, key: keyof RulesField, rule: any) => {
     switch (key) {
         case "required":
             return obj.min(1, "Ce champ est requis");
         case "minLength":
-            return obj.min(rule, `Le nom doit contenir au moins ${rule} caractères`);
+            return obj.min(rule, `Le champ doit contenir au moins ${rule} caractères`);
         case "maxLength":
-            return obj.max(rule, `Le nom doit contenir au maximum ${rule} caractères`);
+            return obj.max(rule, `Le champ doit contenir au maximum ${rule} caractères`);
         case "pattern":
             return obj.regex(rule.value, { message: rule.message });
         case "isEmail":
