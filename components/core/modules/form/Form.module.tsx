@@ -11,7 +11,7 @@ import { Col, Gap, resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { FieldBuilder, RenderFields } from "./RenderFields";
 import { defaultValues } from "./resolver/defaultValue";
 import { validationSchema } from "./resolver/validationSchema";
@@ -97,7 +97,7 @@ const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id, rscId, c
     };
 
     return (
-        <>
+        <FormProvider {...form}>
             <Form {...form}>
                 <form
                     className={cn(
@@ -145,7 +145,7 @@ const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id, rscId, c
                 </div>
             </Form>
             <DevTool control={form.control} />
-        </>
+        </FormProvider>
     );
 };
 

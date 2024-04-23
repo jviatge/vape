@@ -38,6 +38,11 @@ export type InputBuilder = {
     rules?: RulesField;
     fields?: FieldBuilder[];
     span?: Span;
+    show?: {
+        watch: string;
+        notEgual?: string[];
+        egual?: string[];
+    }[];
 };
 
 export const RenderInputs = ({

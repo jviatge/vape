@@ -1,4 +1,4 @@
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useFormContext } from "react-hook-form";
 import { isNotDecorateBuilder } from "../lib/condition";
 import { DecorateBuilder, RenderDecorates } from "./render/Decorates.render";
 import { InputBuilder, RenderInputs } from "./render/Inputs.render";
@@ -14,25 +14,42 @@ export const RenderFields = ({
     form: UseFormReturn<any, any, undefined>;
     addPrefix?: string;
 }) => {
+    const { watch } = useFormContext();
+
     return fieldBuilders.map((field, index) => {
         if (isNotDecorateBuilder(field)) {
+            let show = true;
+            if (field.show) {
+                show = false;
+                field.show.map((condition) => {
+                    const value = watch(
+                        addPrefix ? `${addPrefix}.${condition.watch}` : condition.watch
+                    );
+                    if (condition.notEgual && !condition.notEgual.includes(value)) show = true;
+                    if (condition.egual && condition.egual.includes(value)) show = true;
+                });
+            }
+            if (show) {
+                return (
+                    <RenderInputs
+                        addPrefix={addPrefix}
+                        key={index}
+                        form={form}
+                        fieldBuilder={field as InputBuilder}
+                        span={field.span}
+                    />
+                );
+            }
+            return null;
+        } else {
             return (
-                <RenderInputs
-                    addPrefix={addPrefix}
+                <RenderDecorates
                     key={index}
-                    form={form}
-                    fieldBuilder={field as InputBuilder}
+                    decorateBuilder={field as DecorateBuilder}
                     span={field.span}
+                    form={form}
                 />
             );
         }
-        return (
-            <RenderDecorates
-                key={index}
-                decorateBuilder={field as DecorateBuilder}
-                span={field.span}
-                form={form}
-            />
-        );
     });
 };
