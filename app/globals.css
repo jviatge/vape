@@ -76,4 +76,14 @@
     .container-page {
         @apply mx-auto px-20 py-8;
     }
+    input[type="checkbox"] {
+        -webkit-appearance: none; /* Remove default checkbox style on Safari */
+        -moz-appearance: none; /* Remove default checkbox style on Firefox */
+        appearance: none; /* Remove default checkbox style on other browsers */
+        width: 20px; /* Adjust the size of the checkbox */
+        height: 20px; /* Adjust the size of the checkbox */
+        border-radius: 4px; /* Add some border radius for a rounded look */
+        outline: none; /* Remove the highlight when focused */
+        transition: background-color 0.3s; /* Add a smooth transition effect */
+    }
 }

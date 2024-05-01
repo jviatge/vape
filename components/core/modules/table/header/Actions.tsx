@@ -26,9 +26,11 @@ export const Actions = ({ className }: { className?: string }) => {
                     onClick={() => {
                         if (Selected) {
                             TC.setActionDialog({
-                                props: TC.tableBuilder.actions.find(
-                                    (action) => action.component === Selected
-                                )?.props,
+                                props: TC.tableBuilder.actions
+                                    ? TC.tableBuilder.actions.find(
+                                          (action) => action.component === Selected
+                                      )?.props
+                                    : {},
                                 open: true,
                                 component: Selected,
                                 isMultiple: true,

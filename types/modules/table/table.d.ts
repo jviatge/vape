@@ -47,9 +47,9 @@ export type CompActionProps = {
 export type TableBuilder = {
     type: "table";
     model: string;
-    remove: string;
+    remove?: string;
     searchInputField?: string[];
-    actions: ActionProps[];
+    actions?: ActionProps[];
     get:
         | string
         | {

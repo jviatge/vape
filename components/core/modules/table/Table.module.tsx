@@ -18,31 +18,43 @@ import { HeaderTable } from "./partials/Header.table";
 import { LoadingTable } from "./partials/Loading.table";
 
 interface TableModuleProps {
+    modeSelect?: "single" | "multiple";
     tableBuilder: TableBuilder;
     permissions?: Permissions;
+    onChangeSelect?: (data: any) => void;
 }
 
-const TableModule: React.FC<TableModuleProps> = ({ tableBuilder, permissions }) => {
+const TableModule: React.FC<TableModuleProps> = ({
+    tableBuilder,
+    permissions,
+    modeSelect,
+    onChangeSelect,
+}) => {
     const isSSR = useIsSSR();
     const { getAll } = useParamsTable();
 
     return (
         !isSSR && (
             <TablesProvider
+                modeSelect={modeSelect}
                 value={{
                     tableBuilder: tableBuilder,
                     permissions: permissions,
                     defaultQuery: getAll(),
                 }}
             >
-                <ContentModuleTable />
+                <ContentModuleTable onChangeSelect={onChangeSelect} />
             </TablesProvider>
         )
     );
 };
 
-const ContentModuleTable: React.FC = () => {
+const ContentModuleTable = ({ onChangeSelect }: { onChangeSelect?: (data: any) => void }) => {
     const TC = useContext(TableContext);
+
+    useEffect(() => {
+        onChangeSelect && TC.selectRowsDatas && onChangeSelect(TC.selectRowsDatas);
+    }, [onChangeSelect, TC]);
 
     const dataGetAll = useQuery<any, Error, Data>({
         queryKey: [TC.tableBuilder.model, TC.query],

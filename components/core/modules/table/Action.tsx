@@ -24,9 +24,11 @@ export const Action = ({
                     e.stopPropagation();
                     TC.setSelectRowData(dataRow);
                     TC.setActionDialog({
-                        props: TC.tableBuilder.actions.find(
-                            (actionBuilder) => actionBuilder.component === action.component
-                        )?.props,
+                        props: TC.tableBuilder?.actions
+                            ? TC.tableBuilder?.actions.find(
+                                  (actionBuilder) => actionBuilder.component === action.component
+                              )?.props
+                            : {},
                         open: true,
                         component: action.component,
                         isMultiple: false,

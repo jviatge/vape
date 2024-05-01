@@ -13,7 +13,8 @@ export const ClearFilter = ({
     };
 }) => {
     const TC = useContext(TableContext);
-    return (
+
+    return !TC.modeSelect ? (
         <InfosHover message={"Supprimer tous les filtres"}>
             <Button
                 disabled={query.getAll.isFetching || query.getAll.isLoading || TC.queryCount() <= 0}
@@ -25,5 +26,5 @@ export const ClearFilter = ({
                 <Eraser className="pointer-events-none" size={18} />
             </Button>
         </InfosHover>
-    );
+    ) : null;
 };

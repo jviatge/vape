@@ -18,15 +18,6 @@ export type Query = {
     } | null;
 };
 
-/* export type ModalAction = {
-    open: boolean;
-    loading: boolean;
-    title?: string;
-    description?: string;
-    icon?: keyof typeof dynamicIconImports;
-    component: string;
-};*/
-
 export type ActionDialog = {
     open: boolean;
     component: string | null;
@@ -48,6 +39,7 @@ export type TableContext = {
     setQueryValue: SetQueryValue;
     deleteAllQuery: () => void;
     queryCount: () => number;
+    modeSelect?: "single" | "multiple";
     // Notification search
     notification: number;
     setNotification: Dispatch<SetStateAction<number>>;

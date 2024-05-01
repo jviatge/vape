@@ -3,7 +3,7 @@ import { FieldBuilder } from "../RenderFields";
 import { InputBuilder } from "../render/Inputs.render";
 
 export const defaultValues = (
-    data: Record<string, any>,
+    data: Record<string, any> | undefined,
     fieldsBuilder: FieldBuilder[],
     entryValues?: Record<string, any>
 ) => {
@@ -24,7 +24,7 @@ export const defaultValues = (
 };
 
 const getDefaultValueByKey = (
-    data: Record<string, any>,
+    data: Record<string, any> | undefined,
     field: InputBuilder,
     values: Record<string, any>
 ) => {
@@ -34,11 +34,8 @@ const getDefaultValueByKey = (
             values[field.name] = data ? data[field.name] ?? false : false;
             break;
 
-        case "oneToOne":
-            data &&
-                data[field.name] &&
-                field.fields &&
-                (values[field.name] = defaultValues(data[field.name], field.fields));
+        case "manyToOne":
+            values[field.name] = data ? data[field.name] ?? {} : {};
             break;
 
         default:

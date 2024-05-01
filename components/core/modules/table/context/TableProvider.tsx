@@ -12,9 +12,11 @@ import TablesContext, {
 } from "./Table.context";
 
 const TablesProvider = ({
+    modeSelect,
     children,
     value,
 }: {
+    modeSelect?: "single" | "multiple";
     children: ReactNode;
     value: {
         tableBuilder: TableBuilder;
@@ -22,7 +24,7 @@ const TablesProvider = ({
         defaultQuery: Query;
     };
 }) => {
-    const { set, get, clearAll } = useParamsTable();
+    const { set, get, clearAll } = useParamsTable(modeSelect ? true : false);
     const [hideColumns, setUnselectColumnStorage] = useLocalStorage(
         "unselect-column-" + value.tableBuilder.model,
         value.tableBuilder.fields.filter((field) => field.hidden).map((field) => field.name)
@@ -200,6 +202,7 @@ const TablesProvider = ({
         <TablesContext.Provider
             value={{
                 query,
+                modeSelect,
                 setQueryValue,
                 queryCount,
                 deleteAllQuery,

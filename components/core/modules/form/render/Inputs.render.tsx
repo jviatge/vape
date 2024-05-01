@@ -17,7 +17,7 @@ import { Span, resolveSpanClass } from "@vape/lib/resolveGrid";
 import { UseFormReturn } from "react-hook-form";
 import { FieldBuilder } from "../RenderFields";
 import { RulesField } from "../resolver/validationSchema";
-import { OneToOneInput } from "./fields/inputs/OneToOne.input";
+import { ManyToOneInput, ManyToOneInputProps } from "./fields/inputs/ManyToOne.input";
 
 export type InputBuilder = {
     label?: string;
@@ -32,7 +32,7 @@ export type InputBuilder = {
         | "textarea"
         | "number"
         | "switch"
-        | "oneToOne";
+        | "manyToOne";
     options?: { label: string; value: string }[];
     format?: (value: any) => string;
     rules?: RulesField;
@@ -64,12 +64,17 @@ export const RenderInputs = ({
             name={prefix + fieldBuilder.name}
             render={({ field }) => (
                 <FormItem className={`flex flex-col relative ${resolveSpanClass(span)}`}>
-                    <FormLabel>
-                        {fieldBuilder.label ?? fieldBuilder.name}
-                        {fieldBuilder?.rules?.required ? <span className="text-xs">*</span> : null}
-                    </FormLabel>
+                    {fieldBuilder.label ? (
+                        <FormLabel>
+                            {fieldBuilder.label}
+                            {fieldBuilder?.rules?.required ? (
+                                <span className="text-xs">*</span>
+                            ) : null}
+                        </FormLabel>
+                    ) : null}
                     <FormControl>
                         <>
+                            {/* {JSON.stringify(field)} */}
                             {fieldBuilder.type === "text" && <Input type="text" {...field} />}
 
                             {fieldBuilder.type === "password" && (
@@ -95,7 +100,7 @@ export const RenderInputs = ({
                             )}
 
                             {fieldBuilder.type === "select" && (
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <Select onValueChange={field.onChange} value={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue />
@@ -113,14 +118,13 @@ export const RenderInputs = ({
                                 </Select>
                             )}
 
-                            {fieldBuilder.type === "oneToOne" && fieldBuilder.fields && (
-                                <OneToOneInput
-                                    value={field.value}
-                                    fieldBuilder={fieldBuilder}
-                                    form={form}
-                                    name={fieldBuilder.name}
-                                />
-                            )}
+                            {fieldBuilder.type === "manyToOne" ? (
+                                <div className={`flex flex-col relative ${resolveSpanClass(span)}`}>
+                                    <ManyToOneInput
+                                        {...(fieldBuilder as InputBuilder & ManyToOneInputProps)}
+                                    />
+                                </div>
+                            ) : null}
                         </>
                     </FormControl>
                     {/* <FormDescription>This is your public display name.</FormDescription> */}

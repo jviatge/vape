@@ -2,6 +2,7 @@
 
 import { Form } from "@/components/ui/form";
 import { DevTool } from "@hookform/devtools";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryPostByModule, queryPutByModule } from "@vape/actions/queries";
 import { CancelButtonRsc } from "@vape/components/ui/CancelButtonRsc";
 import { Button } from "@vape/components/ui/button";
@@ -13,6 +14,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldBuilder, RenderFields } from "./RenderFields";
+import { FormGeneralProvider } from "./context/FormGeneral.Provider";
 import { defaultValues } from "./resolver/defaultValue";
 import { validationSchema } from "./resolver/validationSchema";
 
@@ -20,7 +22,8 @@ export type FormBuilder = {
     type: "form";
     model: string;
     get?: string;
-    post: string;
+    post?: string;
+    put?: string;
     fields: FieldBuilder[];
     className?: string;
     col?: Col;
@@ -29,17 +32,26 @@ export type FormBuilder = {
 
 interface FormModuleProps {
     formBuilder: FormBuilder;
-    containerPage?: boolean;
     data: Record<string, any>;
     id?: string;
     rscId?: string;
+    submitButtonOutID?: string;
+    onSuccesSubmit?: (data: Record<string, any>) => void;
 }
 
-const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id, rscId, containerPage }) => {
+const FormModule: React.FC<FormModuleProps> = ({
+    formBuilder,
+    data,
+    id,
+    rscId,
+    submitButtonOutID,
+    onSuccesSubmit,
+}) => {
     const { toast } = useToast();
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
     const mode: "create" | "edit" = id ? "edit" : "create";
+    const queryClient = useQueryClient();
 
     const form = useForm<any>({
         resolver: validationSchema(formBuilder.fields),
@@ -53,19 +65,24 @@ const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id, rscId, c
         setLoading(true);
         try {
             let response = null;
-            if (id) {
+            if (id && formBuilder.put) {
                 response = await queryPutByModule({
                     data,
                     model: formBuilder.model,
-                    put: formBuilder.post,
+                    put: formBuilder.put,
                     id,
                 });
+                queryClient.invalidateQueries({ queryKey: [formBuilder.model] });
             } else {
-                response = await queryPostByModule({
-                    data,
-                    model: formBuilder.model,
-                    post: formBuilder.post,
-                });
+                if (formBuilder.post) {
+                    response = await queryPostByModule({
+                        data,
+                        model: formBuilder.model,
+                        post: formBuilder.post,
+                    });
+                } else {
+                    throw new Error("No post or put in formBuilder");
+                }
             }
 
             if (!response.data.id) throw new Error("No id in response");
@@ -79,6 +96,8 @@ const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id, rscId, c
                         ? "Ressource créée avec succès !"
                         : "Enregistrée",
             });
+
+            if (onSuccesSubmit) return onSuccesSubmit(response.data);
 
             if (button === "save" || button === "create")
                 router.push(`/${rscId}/${response.data.id}`);
@@ -97,55 +116,65 @@ const FormModule: React.FC<FormModuleProps> = ({ formBuilder, data, id, rscId, c
     };
 
     return (
-        <FormProvider {...form}>
-            <Form {...form}>
-                <form
-                    className={cn(
-                        resolveColumnsClass(formBuilder.col ?? 4, formBuilder.gap ?? 5),
-                        /* (typeof containerPage === "undefined" || containerPage) && "container-page", */
-                        formBuilder.className && formBuilder.className
-                    )}
-                >
-                    <RenderFields fieldBuilders={formBuilder.fields} form={form} />
-                </form>
-                <div className="space-y-3 md:space-y-0 space-x-0 md:space-x-3 pt-3 flex flex-col md:flex-row">
-                    {mode === "edit" ? (
-                        <Button
-                            disabled={isLoading}
-                            onClick={form.handleSubmit((data) => handleSubmit(data, "save"))}
-                        >
-                            {/* Save changes */}
-                            <LoadingButton isLoading={isLoading}>
-                                Sauvegarder les modifications
-                            </LoadingButton>
-                        </Button>
-                    ) : (
-                        <>
-                            <Button
-                                disabled={isLoading}
-                                onClick={form.handleSubmit((data) => handleSubmit(data, "create"))}
-                            >
-                                {/* Create */}
-                                <LoadingButton isLoading={isLoading}>Créer</LoadingButton>
-                            </Button>
-                            <Button
-                                disabled={isLoading}
-                                variant={"secondary"}
-                                onClick={form.handleSubmit((data) =>
-                                    handleSubmit(data, "createAndCreateAnother")
-                                )}
-                            >
-                                <LoadingButton isLoading={isLoading} variant={"secondary"}>
-                                    Créer et créer un autre
-                                </LoadingButton>
-                            </Button>
-                        </>
-                    )}
-                    <CancelButtonRsc type={"button"} />
-                </div>
-            </Form>
-            <DevTool control={form.control} />
-        </FormProvider>
+        <FormGeneralProvider>
+            <FormProvider {...form}>
+                <Form {...form}>
+                    <form
+                        id={submitButtonOutID}
+                        onSubmit={form.handleSubmit((data) => handleSubmit(data, "create"))}
+                        className={cn(
+                            resolveColumnsClass(formBuilder.col ?? 4, formBuilder.gap ?? 5),
+                            /* (typeof containerPage === "undefined" || containerPage) && "container-page", */
+                            formBuilder.className && formBuilder.className
+                        )}
+                    >
+                        <RenderFields fieldBuilders={formBuilder.fields} form={form} />
+                    </form>
+                    {!submitButtonOutID ? (
+                        <div className="space-y-3 md:space-y-0 space-x-0 md:space-x-3 pt-3 flex flex-col md:flex-row">
+                            {mode === "edit" ? (
+                                <Button
+                                    disabled={isLoading || !form.formState.isDirty}
+                                    onClick={form.handleSubmit((data) =>
+                                        handleSubmit(data, "save")
+                                    )}
+                                >
+                                    {/* Save changes */}
+                                    <LoadingButton isLoading={isLoading}>
+                                        Sauvegarder les modifications
+                                    </LoadingButton>
+                                </Button>
+                            ) : (
+                                <>
+                                    <Button
+                                        disabled={isLoading || !form.formState.isDirty}
+                                        onClick={form.handleSubmit((data) =>
+                                            handleSubmit(data, "create")
+                                        )}
+                                    >
+                                        {/* Create */}
+                                        <LoadingButton isLoading={isLoading}>Créer</LoadingButton>
+                                    </Button>
+                                    <Button
+                                        disabled={isLoading || !form.formState.isDirty}
+                                        variant={"secondary"}
+                                        onClick={form.handleSubmit((data) =>
+                                            handleSubmit(data, "createAndCreateAnother")
+                                        )}
+                                    >
+                                        <LoadingButton isLoading={isLoading} variant={"secondary"}>
+                                            Créer et créer un autre
+                                        </LoadingButton>
+                                    </Button>
+                                </>
+                            )}
+                            <CancelButtonRsc type={"button"} />
+                        </div>
+                    ) : null}
+                </Form>
+                <DevTool control={form.control} />
+            </FormProvider>
+        </FormGeneralProvider>
     );
 };
 

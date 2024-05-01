@@ -5,12 +5,13 @@ const decodeURI = (uri: string) => {
     return decodeURIComponent(uri);
 };
 
-const useParamsTable = () => {
+const useParamsTable = (disabled?: boolean) => {
     const router = useRouter();
     const pathname = usePathname();
     const params = useSearchParams();
 
     const get = (key: string, subKey?: string): string => {
+        if (disabled) return "";
         if (subKey) {
             return params.get(`[${key}][${subKey}]`) as string;
         }
@@ -19,6 +20,7 @@ const useParamsTable = () => {
     };
 
     const set = (value: string | null, key: string, subKey?: string) => {
+        if (disabled) return "";
         const newParams = new URLSearchParams(params);
 
         //// DELETE PARAMS PAGE IF NOT EXIST IN QUERY
@@ -113,12 +115,14 @@ const useParamsTable = () => {
     };
 
     const clear = (key: string) => {
+        if (disabled) return "";
         const newParams = new URLSearchParams(params);
         newParams.delete(key);
         router.push(`${pathname}?${newParams.toString()}`);
     };
 
     const clearAll = () => {
+        if (disabled) return "";
         router.push(pathname);
     };
 

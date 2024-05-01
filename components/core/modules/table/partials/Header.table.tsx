@@ -26,33 +26,39 @@ export const HeaderTable = ({
             TC.setQueryValue("sort", "add", columnName, "asc");
         }
     };
-
     return (
         <TableHeader className="bg-card">
             <TableRow>
                 <TableHead
                     onClick={(e) => {
-                        e.stopPropagation();
-                        if (getAll.data.paginateData) {
-                            if (TC.selectRowsDatas.length === getAll.data.paginateData.length) {
-                                TC.setSelectRowsDatas([]);
-                            } else {
-                                TC.setSelectRowsDatas(getAll.data.paginateData);
+                        if (TC.modeSelect !== "single") {
+                            e.stopPropagation();
+                            if (getAll.data.paginateData) {
+                                if (TC.selectRowsDatas.length === getAll.data.paginateData.length) {
+                                    TC.setSelectRowsDatas([]);
+                                } else {
+                                    TC.setSelectRowsDatas(getAll.data.paginateData);
+                                }
                             }
                         }
                     }}
-                    className="w-10 bg-card border-r flex justify-center items-center px-0 py-4 cursor-pointer"
+                    className={cn(
+                        "w-10 bg-card border-r flex justify-center items-center px-0 py-4",
+                        TC.modeSelect !== "single" && "cursor-pointer"
+                    )}
                 >
-                    <Checkbox
-                        disabled={TC.loading}
-                        checked={
-                            getAll.data?.paginateData.length === 0
-                                ? false
-                                : getAll.data?.paginateData &&
-                                  TC.selectRowsDatas.length === getAll.data.paginateData.length
-                        }
-                        className="mt-1"
-                    />
+                    {TC.modeSelect !== "single" ? (
+                        <Checkbox
+                            disabled={TC.loading}
+                            checked={
+                                getAll.data?.paginateData.length === 0
+                                    ? false
+                                    : getAll.data?.paginateData &&
+                                      TC.selectRowsDatas.length === getAll.data.paginateData.length
+                            }
+                            className="mt-1"
+                        />
+                    ) : null}
                 </TableHead>
                 {TC.tableBuilder.fields.map((column) =>
                     TC.hideColumns.includes(column.name) ? null : (

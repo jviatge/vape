@@ -36,12 +36,8 @@ const createZodObject = (fieldBuilder: FieldBuilder[], entryZObject?: Record<str
                     zObject[field.name] = z.boolean();
                     break;
 
-                case "oneToOne":
-                    zObject[field.name] = field.fields
-                        ? z.object({
-                              ...createZodObject(field.fields),
-                          })
-                        : z.object({});
+                case "manyToOne":
+                    zObject[field.name] = z.record(z.string(), z.any());
                     break;
 
                 case "number":
@@ -59,17 +55,38 @@ const createZodObject = (fieldBuilder: FieldBuilder[], entryZObject?: Record<str
 
             if (field.rules) {
                 for (const [key, value] of Object.entries(field.rules)) {
-                    zObject[field.name] = createZodRules(
-                        zObject[field.name],
-                        key as keyof RulesField,
-                        value
-                    );
+                    if (field.type === "manyToOne") {
+                        zObject[field.name] = zObject[field.name] = createZodRulesObject(
+                            zObject[field.name],
+                            key as keyof RulesField,
+                            value
+                        );
+                    } else {
+                        for (const [key, value] of Object.entries(field.rules)) {
+                            zObject[field.name] = createZodRules(
+                                zObject[field.name],
+                                key as keyof RulesField,
+                                value
+                            );
+                        }
+                    }
                 }
             }
         }
     });
 
     return zObject;
+};
+
+const createZodRulesObject = (obj: any, key: keyof RulesField, rule: any) => {
+    switch (key) {
+        case "required":
+            return obj.refine((data: Record<string, string>) => Object.keys(data).length > 0, {
+                message: "Ce champ est requis",
+            });
+        default:
+            return obj;
+    }
 };
 
 const createZodRules = (obj: any, key: keyof RulesField, rule: any) => {

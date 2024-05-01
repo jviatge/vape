@@ -9,12 +9,17 @@ export const RenderFields = ({
     fieldBuilders,
     form,
     addPrefix,
+    noFormOnlyRead,
 }: {
     fieldBuilders: FieldBuilder[];
     form: UseFormReturn<any, any, undefined>;
     addPrefix?: string;
+    noFormOnlyRead?: boolean;
 }) => {
     const { watch } = useFormContext();
+
+    if (noFormOnlyRead) {
+    }
 
     return fieldBuilders.map((field, index) => {
         if (isNotDecorateBuilder(field)) {

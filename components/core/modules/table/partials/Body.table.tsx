@@ -24,6 +24,18 @@ export const BodyTable = ({
     const pathname = usePathname();
     const TC = useContext(TablesContext);
 
+    const handleSelectRow = (row: Record<string, any>) => {
+        if (TC.modeSelect === "single") {
+            TC.setSelectRowsDatas([row]);
+            return;
+        }
+        if (TC.selectRowsDatas.some((item: any) => item.id === row.id)) {
+            TC.setSelectRowsDatas(TC.selectRowsDatas.filter((item: any) => item.id !== row.id));
+        } else {
+            TC.setSelectRowsDatas([...TC.selectRowsDatas, row]);
+        }
+    };
+
     return (
         <TableBody className="bg-primary-foreground">
             {!getAll.isLoading && getAll.data && getAll.data ? (
@@ -40,22 +52,15 @@ export const BodyTable = ({
                             <TableCell
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    if (
-                                        TC.selectRowsDatas.some((item: any) => item.id === row.id)
-                                    ) {
-                                        TC.setSelectRowsDatas(
-                                            TC.selectRowsDatas.filter(
-                                                (item: any) => item.id !== row.id
-                                            )
-                                        );
-                                    } else {
-                                        TC.setSelectRowsDatas([...TC.selectRowsDatas, row]);
-                                    }
+                                    handleSelectRow(row);
                                 }}
                                 className="flex w-10 bg-card border-r justify-center items-center px-0 py-3"
                             >
                                 <Checkbox
-                                    className="mt-1"
+                                    className={cn(
+                                        "mt-1",
+                                        TC.modeSelect === "single" && "rounded-full"
+                                    )}
                                     checked={TC.selectRowsDatas.some(
                                         (item: any) => item.id === row.id
                                     )}
@@ -65,7 +70,16 @@ export const BodyTable = ({
                             {TC.tableBuilder.fields.map((column, index) =>
                                 TC.hideColumns.includes(column.name) ? null : (
                                     <TableCell
-                                        onClick={() => router.push(`${pathname}/${row.id}`)}
+                                        onClick={() => {
+                                            if (
+                                                TC.modeSelect === "single" ||
+                                                TC.modeSelect === "multiple"
+                                            ) {
+                                                handleSelectRow(row);
+                                            } else {
+                                                router.push(`${pathname}/${row.id}`);
+                                            }
+                                        }}
                                         key={column.name + index}
                                         className="p-1.5 text-sm"
                                     >

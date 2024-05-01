@@ -46,7 +46,7 @@ export const Columns = () => {
                             checked={!TC.hideColumns.includes(option.name)}
                             onCheckedChange={(value) => handleHideColumns(value, option.name)}
                         >
-                            {option.label}
+                            {option.label ?? option.name}
                         </DropdownMenuCheckboxItem>
                     );
                 })}
