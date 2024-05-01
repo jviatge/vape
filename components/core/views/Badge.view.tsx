@@ -21,7 +21,7 @@ const BadgeView: React.FC<BadgeViewProps> = ({ value, options }) => {
     return opt?.label ? (
         <div className="flex items-center">
             <Badge
-                className="text-xs dark:text-white text-black"
+                className="text-xs dark:text-white text-black text-nowrap overflow-hidden"
                 variant={"default"}
                 style={{
                     ...(opt?.color && {
