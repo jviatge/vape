@@ -16,7 +16,7 @@ export const Refresh = ({
 }) => {
     const TC = useContext(TableContext);
 
-    return disabled || !TC.modeSelect ? null : (
+    return disabled || TC.modeSelect ? null : (
         <InfosHover message="Actualise les données">
             <Button
                 disabled={query.getAll.isFetching || query.getAll.isLoading}
