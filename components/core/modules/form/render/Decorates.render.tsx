@@ -4,7 +4,7 @@ import { IconProps } from "@vape/components/Icon";
 import { Col, Gap, Span, resolveSpanClass } from "@vape/lib/resolveGrid";
 import { UseFormReturn } from "react-hook-form";
 import { FieldBuilder } from "../RenderFields";
-import { ContainerDecorate } from "./fields/decorates/Container.decorate";
+import { ContainerDecorate, DecorateContainerProps } from "./fields/decorates/Container.decorate";
 import { SectionsDecorate } from "./fields/decorates/Section.decorate";
 
 export type DecorateBuilder = {
@@ -24,6 +24,11 @@ export type DecorateBuilder = {
         fields: FieldBuilder[];
     }[];
     noBorder?: boolean;
+    show?: {
+        watch: string;
+        notEgual?: string[];
+        egual?: string[];
+    }[];
 };
 
 export const RenderDecorates = ({
@@ -39,12 +44,7 @@ export const RenderDecorates = ({
         <div className={`flex flex-col relative ${resolveSpanClass(span)}`}>
             {decorateBuilder.type === "container" && decorateBuilder.fields ? (
                 <ContainerDecorate
-                    fieldBuilders={decorateBuilder.fields}
-                    form={form}
-                    label={decorateBuilder.label}
-                    col={decorateBuilder?.col}
-                    gap={decorateBuilder?.gap}
-                    noBorder={decorateBuilder?.noBorder}
+                    {...(decorateBuilder as DecorateBuilder & DecorateContainerProps)}
                 />
             ) : null}
 

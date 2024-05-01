@@ -3,6 +3,7 @@
 import { Badge } from "@vape/components/ui/badge";
 import { Option } from "@vape/types/modules/table/table";
 import React from "react";
+import Empty from "./Empty";
 
 interface BadgeViewProps {
     value: string;
@@ -17,7 +18,7 @@ const BadgeView: React.FC<BadgeViewProps> = ({ value, options }) => {
               label: value,
           };
 
-    return (
+    return opt?.label ? (
         <div className="flex items-center">
             <Badge
                 className="text-xs dark:text-white text-black"
@@ -31,6 +32,8 @@ const BadgeView: React.FC<BadgeViewProps> = ({ value, options }) => {
                 {opt?.label}
             </Badge>
         </div>
+    ) : (
+        <Empty />
     );
 };
 
