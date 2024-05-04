@@ -145,7 +145,7 @@ const FormModule: React.FC<FormModuleProps> = ({
                                 >
                                     {/* Save changes */}
                                     <LoadingButton isLoading={isLoading}>
-                                        Sauvegarder les modifications
+                                        Enregistrer les modifications
                                     </LoadingButton>
                                 </Button>
                             ) : (
@@ -167,7 +167,7 @@ const FormModule: React.FC<FormModuleProps> = ({
                                         )}
                                     >
                                         <LoadingButton isLoading={isLoading} variant={"secondary"}>
-                                            Créer et créer un autre
+                                            Enregistrer et créer un autre
                                         </LoadingButton>
                                     </Button>
                                 </>
