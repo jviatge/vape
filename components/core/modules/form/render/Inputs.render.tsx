@@ -1,6 +1,7 @@
 "use client";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Badge } from "@vape/components/ui/badge";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { DatePicker } from "@vape/components/ui/date-picker";
 import { Input } from "@vape/components/ui/input";
@@ -14,8 +15,10 @@ import {
 import { Switch } from "@vape/components/ui/switch";
 import { Textarea } from "@vape/components/ui/textarea";
 import { Span, resolveSpanClass } from "@vape/lib/resolveGrid";
+import { useContext } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FieldBuilder } from "../RenderFields";
+import FormGeneralContext from "../context/FormGeneral.context";
 import { RulesField } from "../resolver/validationSchema";
 import { ManyToOneInput, ManyToOneInputProps } from "./fields/inputs/ManyToOne.input";
 
@@ -43,6 +46,11 @@ export type InputBuilder = {
         notEgual?: string[];
         egual?: string[];
     }[];
+    disabled?: {
+        edit?: boolean;
+        create?: boolean;
+    };
+    defaultValue?: any;
 };
 
 export const RenderInputs = ({
@@ -57,6 +65,13 @@ export const RenderInputs = ({
     span?: Span;
 }) => {
     const prefix = addPrefix ? `${addPrefix}.` : "";
+    const formGeneral = useContext(FormGeneralContext);
+    const disabled =
+        formGeneral.mode === "edit" && fieldBuilder.disabled?.edit
+            ? true
+            : formGeneral.mode === "create" && fieldBuilder.disabled?.create
+            ? true
+            : false;
     return (
         <FormField
             key={prefix + fieldBuilder.name}
@@ -73,34 +88,66 @@ export const RenderInputs = ({
                         </FormLabel>
                     ) : null}
                     <FormControl>
+                        {/* {JSON.stringify(disabled)} */}
                         <>
                             {/* {JSON.stringify(field)} */}
-                            {fieldBuilder.type === "text" && <Input type="text" {...field} />}
+                            {fieldBuilder.type === "text" && (
+                                <Input disabled={disabled} type="text" {...field} />
+                            )}
 
                             {fieldBuilder.type === "password" && (
-                                <Input type="password" id={fieldBuilder.name} {...field} />
+                                <Input
+                                    disabled={disabled}
+                                    type="password"
+                                    id={fieldBuilder.name}
+                                    {...field}
+                                />
                             )}
 
                             {fieldBuilder.type === "textarea" && (
-                                <Textarea id={fieldBuilder.name} rows={3} {...field} />
+                                <Textarea
+                                    disabled={disabled}
+                                    id={fieldBuilder.name}
+                                    rows={3}
+                                    {...field}
+                                />
                             )}
 
                             {fieldBuilder.type === "number" && (
-                                <Input type="number" id={fieldBuilder.name} {...field} />
+                                <Input
+                                    disabled={disabled}
+                                    type="number"
+                                    id={fieldBuilder.name}
+                                    {...field}
+                                />
                             )}
 
-                            {fieldBuilder.type === "date" && <DatePicker field={field} />}
+                            {fieldBuilder.type === "date" && (
+                                <DatePicker disabled={disabled} field={field} />
+                            )}
 
                             {fieldBuilder.type === "checkbox" && (
-                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                <Checkbox
+                                    disabled={disabled}
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
                             )}
 
                             {fieldBuilder.type === "switch" && (
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                <Switch
+                                    disabled={disabled}
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
                             )}
 
                             {fieldBuilder.type === "select" && (
-                                <Select onValueChange={field.onChange} value={field.value}>
+                                <Select
+                                    disabled={disabled}
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                >
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue />
@@ -110,7 +157,19 @@ export const RenderInputs = ({
                                         {fieldBuilder.options?.map((option: any) => {
                                             return (
                                                 <SelectItem key={option.value} value={option.value}>
-                                                    {option.label}
+                                                    {option.color ? (
+                                                        <Badge
+                                                            className="text-xs dark:text-white text-black text-nowrap overflow-hidden"
+                                                            variant={"default"}
+                                                            style={{
+                                                                backgroundColor: option.color,
+                                                            }}
+                                                        >
+                                                            {option.label}
+                                                        </Badge>
+                                                    ) : (
+                                                        option.label
+                                                    )}
                                                 </SelectItem>
                                             );
                                         })}

@@ -15,12 +15,18 @@ export type ManyToOneInputProps = {
     tableBuilder: TableBuilder;
     form: UseFormReturn<any, any, undefined>;
     name: string;
+    disabled?: {
+        create?: boolean;
+        edit?: boolean;
+        select?: boolean;
+    };
 };
 
 export const ManyToOneInput = ({
     formBuilder,
     tableBuilder,
     name,
+    disabled,
 }: InputBuilder & ManyToOneInputProps) => {
     const { modal, setModal } = useContext(FormGeneralContext);
 
@@ -45,6 +51,7 @@ export const ManyToOneInput = ({
         <div className="flex flex-col">
             <div className="flex items-center">
                 <Input
+                    disabled={disabled?.select}
                     readOnly
                     value={
                         isNotObjectEmpty(value)
@@ -68,7 +75,7 @@ export const ManyToOneInput = ({
                             tableBuilder: tableBuilder,
                         })
                     }
-                    placeholder={"Sélectionner"}
+                    placeholder={"Sélectionner..."}
                     className="w-full my-3 rounded-r-none rounded-l-md border border-border cursor-pointer"
                 />
                 <button

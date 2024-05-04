@@ -14,7 +14,15 @@ import { Dispatch, SetStateAction, useState } from "react";
 import FormModule, { FormBuilder } from "../Form.module";
 import TablesContext, { ModalProps } from "./FormGeneral.context";
 
-export const FormGeneralProvider = ({ children }: { children: React.ReactNode }) => {
+export const FormGeneralProvider = ({
+    children,
+    value,
+}: {
+    children: React.ReactNode;
+    value: {
+        mode: "create" | "edit";
+    };
+}) => {
     const [modal, setModal] = useState<ModalProps>({
         open: null,
     });
@@ -22,6 +30,7 @@ export const FormGeneralProvider = ({ children }: { children: React.ReactNode })
     return (
         <TablesContext.Provider
             value={{
+                mode: value.mode,
                 modal,
                 setModal,
             }}

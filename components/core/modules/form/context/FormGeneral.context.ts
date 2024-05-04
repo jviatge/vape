@@ -13,6 +13,7 @@ export type ModalProps = {
 export type FormGeneralContext = {
     modal: ModalProps;
     setModal: Dispatch<SetStateAction<ModalProps>>;
+    mode: "create" | "edit";
 };
 
 export default createContext<FormGeneralContext>({} as FormGeneralContext);

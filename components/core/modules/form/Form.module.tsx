@@ -116,7 +116,11 @@ const FormModule: React.FC<FormModuleProps> = ({
     };
 
     return (
-        <FormGeneralProvider>
+        <FormGeneralProvider
+            value={{
+                mode,
+            }}
+        >
             <FormProvider {...form}>
                 <Form {...form}>
                     <form
