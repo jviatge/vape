@@ -5,7 +5,7 @@ import { Checkbox } from "@vape/components/ui/checkbox";
 import { Input } from "@vape/components/ui/input";
 import { Textarea } from "@vape/components/ui/textarea";
 import { Span, resolveSpanClass } from "@vape/lib/resolveGrid";
-import { InputBuilder } from "./Inputs.render";
+import { InputBuilder } from "../input/InputRender.type";
 
 export const RenderViews = ({
     fieldBuilder,

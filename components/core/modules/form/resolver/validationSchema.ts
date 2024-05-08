@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { isNotDecorateBuilder } from "../../lib/condition";
-import { FieldBuilder } from "../RenderFields";
+import { FieldBuilder } from "../render/renderFields.type";
 
 export type RulesField = {
     required?: boolean;

@@ -32,7 +32,7 @@
         "../../modules/**/*.tsx",
         "../../database/**/*.ts",
         "../../api/**/*.ts",
-        "components/core/modules/form/render/Decorates.render.tsx"
+        "components/core/modules/form/render/decorate/Decorate.render.tsx"
     ],
     "exclude": ["node_modules"]
 }

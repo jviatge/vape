@@ -1,17 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Col, Gap, resolveColumnsClass } from "@/lib/resolveGrid";
+import { Col, resolveColumnsClass } from "@/lib/resolveGrid";
 import { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { FieldBuilder, RenderFields } from "../../../RenderFields";
+import { RenderFields } from "../../RenderFields";
+import { FieldBuilder } from "../../renderFields.type";
+import { BaseDecorate } from "../DecorateRender.type";
 
-const SectionsDecorate = ({
-    form,
-    tabs,
-    col,
-    gap,
-}: {
-    form: UseFormReturn<any, any, undefined>;
+export interface DecorateSectionProps extends BaseDecorate {
+    type: "sections";
     tabs: {
         label: string;
         name: string;
@@ -19,9 +15,9 @@ const SectionsDecorate = ({
         disabled?: boolean;
         fields: FieldBuilder[];
     }[];
-    col?: Col;
-    gap?: Gap;
-}) => {
+}
+
+const SectionsDecorate = ({ tabs, col, gap }: DecorateSectionProps) => {
     const [tabActivated, setTabActivated] = useState<string>(tabs[0].name);
 
     /* useEffect(() => {
@@ -68,7 +64,7 @@ const SectionsDecorate = ({
                             </CardHeader>
                             <CardContent>
                                 <div className={resolveColumnsClass(col ?? 4, gap ?? 5) + " gap-6"}>
-                                    <RenderFields fieldBuilders={tab.fields} form={form} />
+                                    <RenderFields fields={tab.fields} />
                                 </div>
                             </CardContent>
                         </Card>

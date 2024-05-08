@@ -2,11 +2,11 @@
 
 import { Card } from "@vape/components/ui/card";
 import { Loading } from "@vape/components/ui/loading";
-import { TypeCustomModule } from "@vape/types/resources.type";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
+import { CustomBuilder } from "./form/render/custom/CustomRender.type";
 
-export const CustomModule = (props: TypeCustomModule) => {
+export const CustomModule = (props: CustomBuilder) => {
     const DynamicComponent = useMemo(
         () =>
             dynamic(() => import(`../../../../modules/${props.component}`), {

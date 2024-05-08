@@ -13,8 +13,9 @@ import { cn } from "@vape/lib/utils";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { FieldBuilder, RenderFields } from "./RenderFields";
 import { FormGeneralProvider } from "./context/FormGeneral.Provider";
+import { RenderFields } from "./render/RenderFields";
+import { FieldBuilder } from "./render/renderFields.type";
 import { defaultValues } from "./resolver/defaultValue";
 import { validationSchema } from "./resolver/validationSchema";
 
@@ -132,7 +133,7 @@ const FormModule: React.FC<FormModuleProps> = ({
                             formBuilder.className && formBuilder.className
                         )}
                     >
-                        <RenderFields fieldBuilders={formBuilder.fields} form={form} />
+                        <RenderFields fields={formBuilder.fields} />
                     </form>
                     {!submitButtonOutID ? (
                         <div className="space-y-3 md:space-y-0 space-x-0 md:space-x-3 pt-3 flex flex-col md:flex-row">

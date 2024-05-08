@@ -1,6 +1,6 @@
 import { isNotDecorateBuilder } from "../../lib/condition";
-import { FieldBuilder } from "../RenderFields";
-import { InputBuilder } from "../render/Inputs.render";
+import { InputBuilder } from "../render/input/InputRender.type";
+import { FieldBuilder } from "../render/renderFields.type";
 
 export const defaultValues = (
     data: Record<string, any> | undefined,

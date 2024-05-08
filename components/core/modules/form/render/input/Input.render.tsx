@@ -14,75 +14,36 @@ import {
 } from "@vape/components/ui/select";
 import { Switch } from "@vape/components/ui/switch";
 import { Textarea } from "@vape/components/ui/textarea";
-import { Span, resolveSpanClass } from "@vape/lib/resolveGrid";
+import { TimePicker } from "@vape/components/ui/time-picker";
+import { resolveSpanClass } from "@vape/lib/resolveGrid";
 import { useContext } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { FieldBuilder } from "../RenderFields";
-import FormGeneralContext from "../context/FormGeneral.context";
-import { RulesField } from "../resolver/validationSchema";
-import { ManyToOneInput, ManyToOneInputProps } from "./fields/inputs/ManyToOne.input";
+import { useFormContext } from "react-hook-form";
+import FormGeneralContext from "../../context/FormGeneral.context";
+import { InputBuilder } from "./InputRender.type";
+import { ManyToOneInput } from "./fields/ManyToOne.input";
 
-export type InputBuilder = {
-    label?: string;
-    name: string;
-    type:
-        | "text"
-        | "password"
-        | "date"
-        | "checkbox"
-        | "hour"
-        | "select"
-        | "textarea"
-        | "number"
-        | "switch"
-        | "manyToOne";
-    options?: { label: string; value: string }[];
-    format?: (value: any) => string;
-    rules?: RulesField;
-    fields?: FieldBuilder[];
-    span?: Span;
-    show?: {
-        watch: string;
-        notEgual?: string[];
-        egual?: string[];
-    }[];
-    disabled?: {
-        edit?: boolean;
-        create?: boolean;
-    };
-    defaultValue?: any;
-};
-
-export const RenderInputs = ({
-    addPrefix,
-    fieldBuilder,
-    form,
-    span,
-}: {
-    addPrefix?: string;
-    fieldBuilder: InputBuilder;
-    form: UseFormReturn<any, any, undefined>;
-    span?: Span;
-}) => {
-    const prefix = addPrefix ? `${addPrefix}.` : "";
+export const RenderInputs = (inputBuilder: InputBuilder) => {
+    const form = useFormContext();
     const formGeneral = useContext(FormGeneralContext);
     const disabled =
-        formGeneral.mode === "edit" && fieldBuilder.disabled?.edit
+        formGeneral.mode === "edit" && inputBuilder.disabled?.edit
             ? true
-            : formGeneral.mode === "create" && fieldBuilder.disabled?.create
+            : formGeneral.mode === "create" && inputBuilder.disabled?.create
             ? true
             : false;
     return (
         <FormField
-            key={prefix + fieldBuilder.name}
+            key={inputBuilder.name}
             control={form.control}
-            name={prefix + fieldBuilder.name}
+            name={inputBuilder.name}
             render={({ field }) => (
-                <FormItem className={`flex flex-col relative ${resolveSpanClass(span)}`}>
-                    {fieldBuilder.label ? (
+                <FormItem
+                    className={`flex flex-col relative ${resolveSpanClass(inputBuilder.span)}`}
+                >
+                    {inputBuilder.label ? (
                         <FormLabel>
-                            {fieldBuilder.label}
-                            {fieldBuilder?.rules?.required ? (
+                            {inputBuilder.label}
+                            {inputBuilder?.rules?.required ? (
                                 <span className="text-xs">*</span>
                             ) : null}
                         </FormLabel>
@@ -91,42 +52,52 @@ export const RenderInputs = ({
                         {/* {JSON.stringify(disabled)} */}
                         <>
                             {/* {JSON.stringify(field)} */}
-                            {fieldBuilder.type === "text" && (
+                            {inputBuilder.type === "text" && (
                                 <Input disabled={disabled} type="text" {...field} />
                             )}
 
-                            {fieldBuilder.type === "password" && (
+                            {inputBuilder.type === "password" && (
                                 <Input
                                     disabled={disabled}
                                     type="password"
-                                    id={fieldBuilder.name}
+                                    id={inputBuilder.name}
                                     {...field}
                                 />
                             )}
 
-                            {fieldBuilder.type === "textarea" && (
+                            {inputBuilder.type === "textarea" && (
                                 <Textarea
                                     disabled={disabled}
-                                    id={fieldBuilder.name}
+                                    id={inputBuilder.name}
                                     rows={3}
                                     {...field}
                                 />
                             )}
 
-                            {fieldBuilder.type === "number" && (
+                            {inputBuilder.type === "number" && (
                                 <Input
                                     disabled={disabled}
                                     type="number"
-                                    id={fieldBuilder.name}
+                                    id={inputBuilder.name}
                                     {...field}
                                 />
                             )}
 
-                            {fieldBuilder.type === "date" && (
+                            {inputBuilder.type === "date" && (
                                 <DatePicker disabled={disabled} field={field} />
                             )}
 
-                            {fieldBuilder.type === "checkbox" && (
+                            {inputBuilder.type === "time" && (
+                                <TimePicker field={field} />
+
+                                /*  <TimePicker onChange={field.onChange} value={field.value}>
+                                 <TimePickerSegment segment={"hours"} />
+                                 <TimePickerSeparator>:</TimePickerSeparator>
+                                 <TimePickerSegment segment={"minutes"} />
+                             </TimePicker> */
+                            )}
+
+                            {inputBuilder.type === "checkbox" && (
                                 <Checkbox
                                     disabled={disabled}
                                     checked={field.value}
@@ -134,7 +105,7 @@ export const RenderInputs = ({
                                 />
                             )}
 
-                            {fieldBuilder.type === "switch" && (
+                            {inputBuilder.type === "switch" && (
                                 <Switch
                                     disabled={disabled}
                                     checked={field.value}
@@ -142,7 +113,7 @@ export const RenderInputs = ({
                                 />
                             )}
 
-                            {fieldBuilder.type === "select" && (
+                            {inputBuilder.type === "select" && (
                                 <Select
                                     disabled={disabled}
                                     onValueChange={field.onChange}
@@ -154,7 +125,7 @@ export const RenderInputs = ({
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {fieldBuilder.options?.map((option: any) => {
+                                        {inputBuilder.options?.map((option: any) => {
                                             return (
                                                 <SelectItem key={option.value} value={option.value}>
                                                     {option.color ? (
@@ -177,11 +148,13 @@ export const RenderInputs = ({
                                 </Select>
                             )}
 
-                            {fieldBuilder.type === "manyToOne" ? (
-                                <div className={`flex flex-col relative ${resolveSpanClass(span)}`}>
-                                    <ManyToOneInput
-                                        {...(fieldBuilder as InputBuilder & ManyToOneInputProps)}
-                                    />
+                            {inputBuilder.type === "manyToOne" ? (
+                                <div
+                                    className={`flex flex-col relative ${resolveSpanClass(
+                                        inputBuilder.span
+                                    )}`}
+                                >
+                                    <ManyToOneInput {...inputBuilder} />
                                 </div>
                             ) : null}
                         </>

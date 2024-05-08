@@ -7,10 +7,11 @@ import { useContext, useEffect } from "react";
 import { UseFormReturn, useFormContext } from "react-hook-form";
 import { FormBuilder } from "../../../Form.module";
 import FormGeneralContext from "../../../context/FormGeneral.context";
-import { InputBuilder } from "../../Inputs.render";
-import { RenderViews } from "../../Views.render";
+import { RenderViews } from "../../view/View.render";
+import { BaseInput } from "../InputRender.type";
 
-export type ManyToOneInputProps = {
+export interface ManyToOneInputProps extends BaseInput {
+    type: "manyToOne";
     formBuilder: FormBuilder;
     tableBuilder: TableBuilder;
     form: UseFormReturn<any, any, undefined>;
@@ -20,14 +21,14 @@ export type ManyToOneInputProps = {
         edit?: boolean;
         select?: boolean;
     };
-};
+}
 
 export const ManyToOneInput = ({
     formBuilder,
     tableBuilder,
     name,
     disabled,
-}: InputBuilder & ManyToOneInputProps) => {
+}: ManyToOneInputProps) => {
     const { modal, setModal } = useContext(FormGeneralContext);
 
     const form = useFormContext();

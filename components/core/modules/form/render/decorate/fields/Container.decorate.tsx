@@ -1,15 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Icon from "@vape/components/Icon";
+import Icon, { IconProps } from "@vape/components/Icon";
 import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { useFormContext } from "react-hook-form";
-import { RenderFields } from "../../../RenderFields";
-import { DecorateBuilder } from "../../Decorates.render";
+import { RenderFields } from "../../RenderFields";
+import { FieldBuilder } from "../../renderFields.type";
+import { BaseDecorate } from "../DecorateRender.type";
 
-export type DecorateContainerProps = {
+export interface DecorateContainerProps extends BaseDecorate {
+    type: "container";
     description?: string;
-};
+    icon?: IconProps["name"];
+    fields: FieldBuilder[];
+    noBorder?: boolean;
+}
 
-const ContainerDecorate = (props: DecorateBuilder & DecorateContainerProps) => {
+const ContainerDecorate = (props: DecorateContainerProps) => {
     const form = useFormContext();
 
     let show = true;
@@ -27,7 +32,7 @@ const ContainerDecorate = (props: DecorateBuilder & DecorateContainerProps) => {
     if (props.noBorder)
         return (
             <div className={resolveColumnsClass(props.col ?? 4, props.gap ?? 5)}>
-                <RenderFields fieldBuilders={props.fields} form={form} />
+                <RenderFields fields={props.fields} />
             </div>
         );
 
@@ -49,7 +54,7 @@ const ContainerDecorate = (props: DecorateBuilder & DecorateContainerProps) => {
                 </CardHeader>
             ) : null}
             <CardContent className={resolveColumnsClass(props.col ?? 4, props.gap ?? 5)}>
-                <RenderFields fieldBuilders={props.fields} form={form} />
+                <RenderFields fields={props.fields} />
             </CardContent>
         </Card>
     );
