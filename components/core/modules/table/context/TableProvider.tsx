@@ -189,6 +189,7 @@ const TablesProvider = ({
     }, [query]);
 
     const deleteAllQuery = useCallback(() => {
+        console.log("deleteAllQuery", resolveDefaultQuery(value.defaultQuery, value.tableBuilder));
         setQuery(resolveDefaultQuery(value.defaultQuery, value.tableBuilder));
         clearAll();
     }, [setQuery, clearAll, resolveDefaultQuery, value]);

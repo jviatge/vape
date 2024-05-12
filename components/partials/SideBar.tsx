@@ -39,7 +39,7 @@ export const SideBar = ({
                 />
             </aside>
             <div className="h-14 border-b w-[58px] border-0 bg-primary-foreground md:hidden flex justify-center items-center relative border-r p-2">
-                <BurgerIcon onClick={() => setOpen(!open)} />
+                <BurgerIcon onClick={() => setOpen(!open)} isOpen={open} />
                 <Nav
                     links={links}
                     open={open}
@@ -182,13 +182,17 @@ const NavItem = ({
     label: string;
     pathname: string;
 }) => {
+    const buttonClass =
+        "hover:bg-accent hover:text-accent-foreground relative select-none text-sm outline-none focus:bg-accent focus:text-accent-foreground flex items-center gap-2 px-2 rounded cursor-pointer transition py-2";
+
     return (
         <Link
             href={href}
             className={cn(
-                "flex items-center gap-2 px-2 rounded text-muted-foreground hover:bg-grey-500 cursor-pointer transition white hover:bg-card hover:text-destructive-foreground py-3",
+                buttonClass,
+                "flex items-center gap-2 px-2 rounded text-muted-foreground cursor-pointer transition py-3",
                 open ? "py-2" : "justify-center",
-                "/" + pathname.split("/")[1] === href && "bg-card text-destructive-foreground"
+                "/" + pathname.split("/")[1] === href && "bg-accent text-accent-foreground"
             )}
         >
             <Icon name={icon} size={26} strokeWidth={1.4} className="h-5 w-5" />
@@ -198,12 +202,22 @@ const NavItem = ({
 };
 
 const ButtonOpen = ({ setOpen, open }: { setOpen: (open: boolean) => void; open: boolean }) => {
+    const buttonClass =
+        "hover:bg-accent hover:text-accent-foreground relative select-none text-sm outline-none focus:bg-accent focus:text-accent-foreground flex items-center gap-2 px-2 rounded cursor-pointer transition py-2";
+
     return (
-        <div className="text-grey-0 bottom-0 sticky bg-grey-700 w-full p-2 flex justify-end items-center mb-4">
+        <div
+            className={
+                "text-grey-0 bottom-0 sticky bg-grey-700 w-full p-2 flex justify-end items-center mb-4"
+            }
+        >
             <button
                 type="button"
                 onClick={() => setOpen(!open)}
-                className="cursor-pointer rounded flex justify-center items-center w-11 h-11 text-muted-foreground hover:text-destructive-foreground hover:bg-card"
+                className={cn(
+                    buttonClass,
+                    "cursor-pointer rounded flex justify-center items-center w-10 h-10"
+                )}
             >
                 {open ? (
                     <ChevronLeft size={26} strokeWidth={1.4} />

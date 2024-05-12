@@ -1,58 +1,24 @@
+import { cn } from "@vape/lib/utils";
+import { Menu, X } from "lucide-react";
 import { Button } from "./button";
 
-export const BurgerIcon = ({ onClick }: { onClick?: () => void }) => {
+export const BurgerIcon = ({ onClick, isOpen }: { onClick?: () => void; isOpen?: boolean }) => {
+    const buttonClass =
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10";
+
     return (
-        <Button className="z-50" variant="outline" size="icon" type="button" onClick={onClick}>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 10 10"
-                stroke="#eee"
-                strokeWidth=".6"
-                fill="rgba(0,0,0,0)"
-                strokeLinecap="round"
-                style={{
-                    margin: "0 auto",
-                    display: "block",
-                    cursor: "pointer",
-                }}
-            >
-                <path d="M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7">
-                    <animate
-                        dur="0.2s"
-                        attributeName="d"
-                        values="M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7;M3,3L5,5L7,3M5,5L5,5M3,7L5,5L7,7"
-                        fill="freeze"
-                        begin="start.begin"
-                    />
-                    <animate
-                        dur="0.2s"
-                        attributeName="d"
-                        values="M3,3L5,5L7,3M5,5L5,5M3,7L5,5L7,7;M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7"
-                        fill="freeze"
-                        begin="reverse.begin"
-                    />
-                </path>
-                <rect width="10" height="10" stroke="none">
-                    <animate dur="2s" id="reverse" attributeName="width" begin="click" />
-                </rect>
-                <rect width="10" height="10" stroke="none">
-                    <animate
-                        dur="0.001s"
-                        id="start"
-                        attributeName="width"
-                        values="10;0"
-                        fill="freeze"
-                        begin="click"
-                    />
-                    <animate
-                        dur="0.001s"
-                        attributeName="width"
-                        values="0;10"
-                        fill="freeze"
-                        begin="reverse.begin"
-                    />
-                </rect>
-            </svg>
+        <Button
+            className={cn(buttonClass, "z-50")}
+            variant="outline"
+            size="icon"
+            type="button"
+            onClick={onClick}
+        >
+            {isOpen ? (
+                <X className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            ) : (
+                <Menu className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            )}
         </Button>
     );
 };

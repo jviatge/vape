@@ -17,6 +17,10 @@ export const Actions = ({ className }: { className?: string }) => {
 
     const ref = useRef<HTMLDivElement>(null);
 
+    const selectedAction = TC.tableBuilder?.actions?.find(
+        (action) => action.component === Selected
+    );
+
     return TC.tableBuilder.actions &&
         TC.tableBuilder.actions.length > 0 &&
         TC.tableBuilder.actions.some((action) => action.multiple) ? (
@@ -61,13 +65,21 @@ export const Actions = ({ className }: { className?: string }) => {
                                 "w-full rounded-l-none rounded-r-md border border-border flex items-center justify-between"
                             )}
                         >
-                            <span className={cn(!Selected && "text-muted-foreground")}>
-                                {Selected
-                                    ? TC.tableBuilder.actions.find(
-                                          (action) => action.component === Selected
-                                      )?.label
-                                    : "Action"}
-                            </span>
+                            <div
+                                className={cn(
+                                    !selectedAction && "text-muted-foreground",
+                                    "flex items-center justify-between"
+                                )}
+                            >
+                                {selectedAction ? (
+                                    <>
+                                        <Icon name={selectedAction.icon} className="mr-2 h-4 w-4" />
+                                        {selectedAction.label}
+                                    </>
+                                ) : (
+                                    "Action"
+                                )}
+                            </div>
                             <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>

@@ -25,7 +25,7 @@ export const CardUser = ({
     return (
         <DropdownMenu>
             <DropdownMenuTrigger className="w-full">
-                <div className={"p-3 hover:bg-card w-full"}>
+                <div className={"p-3 hover:bg-accent w-full"}>
                     <div className="relative text-grey-0">
                         <div>
                             <div className="flex text-sm rounded-full">
