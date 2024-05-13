@@ -57,6 +57,7 @@ const ContentModuleTable = ({ onChangeSelect }: { onChangeSelect?: (data: any) =
     }, [onChangeSelect, TC]);
 
     const dataGetAll = useQuery<any, Error, Data>({
+        enabled: TC.mounted,
         queryKey: [TC.tableBuilder.model, TC.query],
         queryFn: () =>
             queryGetByModule({

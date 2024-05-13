@@ -60,6 +60,9 @@ export type TableContext = {
     setLoading: Dispatch<SetStateAction<boolean>>;
     tableBuilder: TableBuilder;
     permissions?: Permissions;
+    //////////////////////////
+    mounted: boolean;
+    setMounted: Dispatch<SetStateAction<boolean>>;
 };
 
 export default createContext<TableContext>({} as TableContext);

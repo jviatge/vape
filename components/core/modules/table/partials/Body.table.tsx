@@ -95,6 +95,12 @@ export const BodyTable = ({
                                                     value={row[column.name]}
                                                     options={column.options}
                                                 />
+                                            ) : column.keys && column.keys.length > 0 ? (
+                                                column.keys.map((key, index) => (
+                                                    <span key={key + index} className="mr-1">
+                                                        {row[column.name][key]}
+                                                    </span>
+                                                ))
                                             ) : (
                                                 String(row[column.name])
                                             )

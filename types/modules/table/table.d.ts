@@ -12,9 +12,10 @@ export type FieldTable = {
     label?: string;
     name: string;
     type: "string" | "date" | "boolean" | "hour" | "badge";
-    format?: (value: any) => string;
+    keys?: string[];
     filter?: Filter;
     hidden?: boolean;
+    orderDefault?: boolean;
 };
 
 export type ActionProps = {

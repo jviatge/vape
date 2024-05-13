@@ -24,6 +24,7 @@ const TablesProvider = ({
         defaultQuery: Query;
     };
 }) => {
+    const [mounted, setMounted] = useState(false);
     const { set, get, clearAll } = useParamsTable(modeSelect ? true : false);
     const [hideColumns, setUnselectColumnStorage] = useLocalStorage(
         "unselect-column-" + value.tableBuilder.model,
@@ -221,6 +222,8 @@ const TablesProvider = ({
                 setLoading,
                 tableBuilder: value.tableBuilder,
                 permissions: value.permissions,
+                mounted,
+                setMounted,
             }}
         >
             {children}

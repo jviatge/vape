@@ -3,7 +3,7 @@ import { Checkbox } from "@vape/components/ui/checkbox";
 import { TableHead, TableHeader, TableRow } from "@vape/components/ui/table";
 import { cn } from "@vape/lib/utils";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import TablesContext from "../context/Table.context";
 
 export const HeaderTable = ({
@@ -15,7 +15,7 @@ export const HeaderTable = ({
 }) => {
     const TC = useContext(TablesContext);
 
-    const handleSort = (columnName: string) => {
+    const handleSort = (columnName: string, keys?: string[]) => {
         if (TC.query.sort[columnName] === "desc") {
             TC.setQueryValue("sort", "delete", columnName);
             return;
@@ -26,6 +26,18 @@ export const HeaderTable = ({
             TC.setQueryValue("sort", "add", columnName, "asc");
         }
     };
+
+    useEffect(() => {
+        !TC.mounted &&
+            TC.tableBuilder.fields.map((column) => {
+                if (TC.hideColumns.includes(column.name)) return null;
+                if (column.orderDefault) {
+                    TC.setQueryValue("sort", "add", column.name, column.orderDefault);
+                }
+            });
+        TC.setMounted(true);
+    }, [TC]);
+
     return (
         <TableHeader className="bg-card">
             <TableRow>
@@ -70,27 +82,28 @@ export const HeaderTable = ({
                                     !TC.loading && "hover:text-card-foreground hover:bg-card"
                                 )}
                                 type="button"
-                                onClick={() => handleSort(column.name)}
+                                onClick={() => !column.keys && handleSort(column.name, column.keys)}
                             >
                                 <span>{column.label ?? column.name}</span>
 
-                                {TC.query.sort[column.name] !== "desc" &&
-                                    TC.query.sort[column.name] !== "asc" && (
-                                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                                    )}
-                                {TC.query.sort[column.name] === "asc" && (
-                                    <ArrowDown className="ml-2 h-4 w-4 text-primary" />
-                                )}
-                                {TC.query.sort[column.name] === "desc" && (
-                                    <ArrowUp className="ml-2 h-4 w-4 text-primary" />
+                                {column.keys ? null : (
+                                    <>
+                                        {TC.query.sort[column.name] !== "desc" &&
+                                            TC.query.sort[column.name] !== "asc" && (
+                                                <ArrowUpDown className="ml-2 h-4 w-4" />
+                                            )}
+                                        {TC.query.sort[column.name] === "asc" && (
+                                            <ArrowDown className="ml-2 h-4 w-4 text-primary" />
+                                        )}
+                                        {TC.query.sort[column.name] === "desc" && (
+                                            <ArrowUp className="ml-2 h-4 w-4 text-primary" />
+                                        )}
+                                    </>
                                 )}
                             </button>
                         </TableHead>
                     )
                 )}
-                {/* {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
-                    <TableHead className="px-2">...</TableHead>
-                ) : null} */}
             </TableRow>
         </TableHeader>
     );

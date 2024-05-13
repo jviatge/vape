@@ -1,5 +1,4 @@
 import { X } from "lucide-react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./button";
 
@@ -21,8 +20,8 @@ export const CancelButtonRsc = ({ type }: { type: "close" | "button" }) => {
             {/* Cancel */}
         </Button>
     ) : (
-        <Link href={genLinkBack()} className={buttonClass}>
+        <Button onClick={() => router.back()} variant={"secondary"} type="button">
             <X size={24} strokeWidth={1.6} />
-        </Link>
+        </Button>
     );
 };
