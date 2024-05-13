@@ -8,14 +8,16 @@ import Empty from "./Empty";
 interface BadgeViewProps {
     value: string;
     options?: Option[];
+    minLabel?: boolean;
 }
 
-const BadgeView: React.FC<BadgeViewProps> = ({ value, options }) => {
+const BadgeView: React.FC<BadgeViewProps> = ({ value, options, minLabel }) => {
     const opt = options
         ? options.find((option) => option.value === value)
         : {
               color: undefined,
               label: value,
+              minLabel: undefined,
           };
 
     return opt?.label ? (
@@ -29,7 +31,7 @@ const BadgeView: React.FC<BadgeViewProps> = ({ value, options }) => {
                     }),
                 }}
             >
-                {opt?.label}
+                {minLabel && opt?.minLabel ? opt?.minLabel : opt?.label}
             </Badge>
         </div>
     ) : (

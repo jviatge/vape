@@ -5,6 +5,7 @@ export type Option = {
     label: string;
     value: string;
     color?: string;
+    minLabel?: string;
 };
 
 export type FieldTable = {
@@ -13,6 +14,7 @@ export type FieldTable = {
     name: string;
     type: "string" | "date" | "boolean" | "hour" | "badge";
     keys?: string[];
+    minLabel?: boolean;
     filter?: Filter;
     hidden?: boolean;
     orderDefault?: boolean;

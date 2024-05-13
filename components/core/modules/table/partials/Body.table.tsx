@@ -92,6 +92,7 @@ export const BodyTable = ({
                                                 <HourView value={row[column.name]} />
                                             ) : column.type === "badge" ? (
                                                 <BadgeView
+                                                    minLabel={column.minLabel}
                                                     value={row[column.name]}
                                                     options={column.options}
                                                 />
