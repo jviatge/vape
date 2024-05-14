@@ -15,6 +15,7 @@ export interface BaseInput extends baseField {
         watch: string;
         notEgual?: string[];
         egual?: string[];
+        message?: string;
     }[];
     disabled?: {
         edit?: boolean;

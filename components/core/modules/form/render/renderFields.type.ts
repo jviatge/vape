@@ -10,6 +10,7 @@ export interface baseField {
         watch: string;
         notEgual?: string[];
         egual?: string[];
+        message?: string;
     }[];
 }
 

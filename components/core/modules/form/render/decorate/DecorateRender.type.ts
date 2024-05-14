@@ -6,6 +6,8 @@ import { DecorateSectionProps } from "./fields/Section.decorate";
 export interface BaseDecorate extends baseField {
     col?: Col;
     gap?: Gap;
+    data?: Record<string, any>;
+    onlyRead?: boolean;
 }
 
 export type DecorateBuilder = DecorateContainerProps | DecorateSectionProps;

@@ -24,6 +24,7 @@ export const FormGeneralProvider = ({
     };
 }) => {
     const [modal, setModal] = useState<ModalProps>({
+        name: "",
         open: null,
     });
 
@@ -70,7 +71,15 @@ const ModalForm = ({
                 id={id}
                 formBuilder={formBuilder}
                 submitButtonOutID={"edit-" + formBuilder.model}
-                onSuccesSubmit={(data: any) => setModal({ open: null, data: data })}
+                onSuccesSubmit={(data: any) =>
+                    setModal((prev) => ({
+                        ...prev,
+                        open: null,
+                        data: {
+                            [modal.name]: data,
+                        },
+                    }))
+                }
             />
         ) : null;
     };
@@ -92,7 +101,15 @@ const ModalForm = ({
                                 data={{}}
                                 formBuilder={modal.formBuilder}
                                 submitButtonOutID={"create-" + modal.formBuilder.model}
-                                onSuccesSubmit={(data: any) => setModal({ open: null, data: data })}
+                                onSuccesSubmit={(data: any) =>
+                                    setModal((prev) => ({
+                                        ...prev,
+                                        open: null,
+                                        data: {
+                                            [modal.name]: data,
+                                        },
+                                    }))
+                                }
                             />
                         )}
                     </div>
@@ -145,7 +162,13 @@ const ModalSelect = ({
                     <Button
                         type="button"
                         onClick={() => {
-                            setModal((prev) => ({ ...prev, open: null, data: data }));
+                            setModal((prev) => ({
+                                ...prev,
+                                open: null,
+                                data: {
+                                    [modal.name]: data,
+                                },
+                            }));
                         }}
                     >
                         Validé

@@ -38,12 +38,3 @@ export const RenderCustom = (customBuilder: CustomBuilder) => {
         </div>
     );
 };
-
-/* - Nom 
-- Prémon 
-- Parcours
-- Bateau
-- Heure d'arriver
-- Nombre de personne */
-
-// 80min

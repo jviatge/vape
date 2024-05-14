@@ -32,7 +32,7 @@ const ContainerDecorate = (props: DecorateContainerProps) => {
     if (props.noBorder)
         return (
             <div className={resolveColumnsClass(props.col ?? 4, props.gap ?? 5)}>
-                <RenderFields fields={props.fields} />
+                <RenderFields fields={props.fields} data={props.data} onlyRead={props.onlyRead} />
             </div>
         );
 
@@ -54,7 +54,7 @@ const ContainerDecorate = (props: DecorateContainerProps) => {
                 </CardHeader>
             ) : null}
             <CardContent className={resolveColumnsClass(props.col ?? 4, props.gap ?? 5)}>
-                <RenderFields fields={props.fields} />
+                <RenderFields fields={props.fields} data={props.data} onlyRead={props.onlyRead} />
             </CardContent>
         </Card>
     );

@@ -5,9 +5,10 @@ import { FormBuilder } from "../Form.module";
 export type ModalProps = {
     open: "create" | "select" | "edit" | null;
     id?: string;
-    data?: Record<string, any>[] | Record<string, any>;
+    data?: Record<string, any>;
     tableBuilder?: TableBuilder;
     formBuilder?: FormBuilder;
+    name: string;
 };
 
 export type FormGeneralContext = {

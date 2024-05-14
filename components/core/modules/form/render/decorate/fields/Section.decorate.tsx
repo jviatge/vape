@@ -17,7 +17,7 @@ export interface DecorateSectionProps extends BaseDecorate {
     }[];
 }
 
-const SectionsDecorate = ({ tabs, col, gap }: DecorateSectionProps) => {
+const SectionsDecorate = ({ tabs, col, gap, data, onlyRead }: DecorateSectionProps) => {
     const [tabActivated, setTabActivated] = useState<string>(tabs[0].name);
 
     /* useEffect(() => {
@@ -64,7 +64,11 @@ const SectionsDecorate = ({ tabs, col, gap }: DecorateSectionProps) => {
                             </CardHeader>
                             <CardContent>
                                 <div className={resolveColumnsClass(col ?? 4, gap ?? 5) + " gap-6"}>
-                                    <RenderFields fields={tab.fields} />
+                                    <RenderFields
+                                        fields={tab.fields}
+                                        data={data}
+                                        onlyRead={onlyRead}
+                                    />
                                 </div>
                             </CardContent>
                         </Card>
