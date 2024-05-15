@@ -116,7 +116,11 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
                             {inputBuilder.type === "select" && (
                                 <Select
                                     disabled={disabled}
-                                    onValueChange={field.onChange}
+                                    onValueChange={(value) => {
+                                        value === "unassigned-select-control-value"
+                                            ? field.onChange(null)
+                                            : field.onChange(value);
+                                    }}
                                     value={field.value}
                                 >
                                     <FormControl>
@@ -125,6 +129,14 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
+                                        {inputBuilder.nullable ? (
+                                            <SelectItem
+                                                value={"unassigned-select-control-value"}
+                                                className="italic"
+                                            >
+                                                vide
+                                            </SelectItem>
+                                        ) : null}
                                         {inputBuilder.options?.map((option: any) => {
                                             return (
                                                 <SelectItem key={option.value} value={option.value}>
