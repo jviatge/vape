@@ -22,7 +22,11 @@ const SelectFilter = ({ field, valuesFields, setQueryValue, disabled }: Props) =
                       setQueryValue("select", "add", field.name, value.join(","))
                     : setQueryValue("select", "delete", field.name);
             }}
-            options={filter.options}
+            options={filter.options.map((option) => ({
+                value: option.value,
+                label: option.minLabel ?? option.label,
+                color: option.color,
+            }))}
             selected={valuesFields[field.name] ? valuesFields[field.name].split(",") : []}
             className="w-full"
         />

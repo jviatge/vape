@@ -31,6 +31,7 @@ export type FilterSelect = {
     options: {
         value: string;
         label: string;
+        minLabel?: string;
         color?: string;
     }[];
 } & BaseFilter;
