@@ -81,6 +81,7 @@ const FormModule: React.FC<FormModuleProps> = ({
                         model: formBuilder.model,
                         post: formBuilder.post,
                     });
+                    queryClient.invalidateQueries({ queryKey: [formBuilder.model] });
                 } else {
                     throw new Error("No post or put in formBuilder");
                 }
