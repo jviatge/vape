@@ -11,6 +11,7 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt",
+        maxAge: 24 * 60 * 60, // 24 hours
     },
     pages: {
         signIn: "/login",
@@ -53,6 +54,7 @@ export const authOptions: NextAuthOptions = {
             if (user) {
                 return {
                     ...token,
+                    id: user.id,
                     first_name: user.first_name,
                     last_name: user.last_name,
                     email: user.email,
@@ -66,6 +68,8 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
+                    id: token.id,
+                    name: `${token.first_name} ${token.last_name}`,
                     first_name: token.first_name,
                     last_name: token.last_name,
                     email: token.email,

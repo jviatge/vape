@@ -1,8 +1,10 @@
 "use server";
 
+import { authOptions } from "@vape/lib/auth";
 import { logQuery } from "@vape/lib/logs";
 import { authAndPermModelAction } from "@vape/lib/safe-action";
 import { FilterModel } from "@vape/types/model.type";
+import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getModel } from "./resources";
@@ -16,11 +18,6 @@ export const queryGetByModule = authAndPermModelAction(
     async ({ model, query, searchInputField }, { userId, role }) => {
         logQuery(`[queryGetByModule] | model:${model}`);
         let data: Record<string, any> = [];
-
-        const queryWithSearchInputField = {
-            ...query,
-            searchInputField,
-        };
 
         if (model) {
             const classModel = await getModel(model);
@@ -59,14 +56,19 @@ export const queryPutByModule = authAndPermModelAction(
         id: z.string(),
     }),
     async ({ model, put, data, id }) => {
-        logQuery(`[queryGetByModuleAndId] | model:${model} | id:${id} | put:${put}`);
+        const session = await getServerSession(authOptions);
+        const user = session?.user;
+
+        logQuery(
+            `[queryGetByModuleAndId] | user: ${user?.name} | model: ${model} | id: ${id} | put: ${put}`
+        );
         let res: Record<string, any> = {};
 
         if (put && model) {
             const classModel = await getModel(model);
             revalidatePath("/" + model);
             revalidatePath("/" + model + "/" + id);
-            return await classModel[put](id, data);
+            return await classModel[put](id, data, user);
         }
         return res;
     }
@@ -79,13 +81,16 @@ export const queryPostByModule = authAndPermModelAction(
         data: z.record(z.unknown()),
     }),
     async ({ model, post, data }) => {
-        logQuery(`[queryGetByModuleAndId] | model:${model} | put:${post}`);
+        const session = await getServerSession(authOptions);
+        const user = session?.user;
+
+        logQuery(`[queryGetByModuleAndId] | user: ${user?.name} | model:${model} | put:${post}`);
         let res: Record<string, any> = {};
 
         if (post && model) {
             const classModel = await getModel(model);
             revalidatePath("/" + model);
-            return await classModel[post](data);
+            return await classModel[post](data, user);
         }
 
         return res;
@@ -99,13 +104,18 @@ export const queryDeleteByModule = authAndPermModelAction(
         id: z.string(),
     }),
     async ({ model, remove, id }) => {
-        logQuery(`[queryGetByModuleAndId] | model:${model} | id:${id} | remove:${remove}`);
+        const session = await getServerSession(authOptions);
+        const user = session?.user;
+
+        logQuery(
+            `[queryGetByModuleAndId] | user: ${user?.name} | model:${model} | id:${id} | remove:${remove}`
+        );
         let res: Record<string, any> = {};
 
         if (remove && model) {
             const classModel = await getModel(model);
             revalidatePath("/" + model);
-            return await classModel[remove](id);
+            return await classModel[remove](id, user);
         }
         return res;
     }
@@ -118,8 +128,11 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
         ids: z.array(z.string()),
     }),
     async ({ model, remove, ids }) => {
+        const session = await getServerSession(authOptions);
+        const user = session?.user;
+
         logQuery(
-            `[queryGetByModuleAndId] | model:${model} | ids:${JSON.stringify(
+            `[queryGetByModuleAndId] | user: ${user?.name} | model:${model} | ids:${JSON.stringify(
                 ids
             )} | remove:${remove}`
         );
@@ -128,7 +141,7 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
         if (remove && model) {
             const classModel = await getModel(model);
             revalidatePath("/" + model);
-            return await classModel[remove](ids);
+            return await classModel[remove](ids, user);
         }
         return res;
     }

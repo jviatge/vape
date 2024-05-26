@@ -100,24 +100,26 @@ export const ManyToOneInput = ({
                 </div>
             ) : (
                 <Card className="p-3 space-y-4 relative overflow-hidden">
-                    <div className="absolute flex top-0 right-0 rounded-bl-md border-l border-b overflow-hidden">
-                        <button
-                            onClick={() => {
-                                setModal({
-                                    name: name,
-                                    open: "edit",
-                                    formBuilder: formBuilder,
-                                    id: String(value.id),
-                                });
-                            }}
-                            type="button"
-                            className={cn(
-                                "h-10 flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/90",
-                                classNameBtn
-                            )}
-                        >
-                            <Edit className="pointer-events-none mx-3" size={18} />
-                        </button>
+                    <div className="absolute flex top-0 right-0 rounded-bl-md border-l border-b overflow-hidden z-40">
+                        {disabled?.edit ? null : (
+                            <button
+                                onClick={() => {
+                                    setModal({
+                                        name: name,
+                                        open: "edit",
+                                        formBuilder: formBuilder,
+                                        id: String(value.id),
+                                    });
+                                }}
+                                type="button"
+                                className={cn(
+                                    "h-10 flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/90",
+                                    classNameBtn
+                                )}
+                            >
+                                <Edit className="pointer-events-none mx-3" size={18} />
+                            </button>
+                        )}
                         <button
                             onClick={() => form.setValue(name, {}, { shouldDirty: true })}
                             type="button"

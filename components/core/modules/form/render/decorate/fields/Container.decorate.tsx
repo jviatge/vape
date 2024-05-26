@@ -41,7 +41,7 @@ const ContainerDecorate = (props: DecorateContainerProps) => {
             {props.label ? (
                 <CardHeader className={"mb-2 py-3"}>
                     <CardTitle>
-                        <span className={"flex"}>
+                        <span className={"flex text-base"}>
                             {props.icon ? (
                                 <Icon name={props.icon} className={"mr-2 text-primary"} />
                             ) : null}

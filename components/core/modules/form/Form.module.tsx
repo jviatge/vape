@@ -2,12 +2,12 @@
 
 import { Form } from "@/components/ui/form";
 import { DevTool } from "@hookform/devtools";
-import { useQueryClient } from "@tanstack/react-query";
 import { queryPostByModule, queryPutByModule } from "@vape/actions/queries";
 import { CancelButtonRsc } from "@vape/components/ui/CancelButtonRsc";
 import { Button } from "@vape/components/ui/button";
 import { LoadingButton } from "@vape/components/ui/loading";
 import { useToast } from "@vape/components/ui/use-toast";
+import { queryClient } from "@vape/lib/queryClient";
 import { Col, Gap, resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
 import { useRouter } from "next/navigation";
@@ -52,7 +52,6 @@ const FormModule: React.FC<FormModuleProps> = ({
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
     const mode: "create" | "edit" = id ? "edit" : "create";
-    const queryClient = useQueryClient();
 
     const form = useForm<any>({
         resolver: validationSchema(formBuilder.fields),
