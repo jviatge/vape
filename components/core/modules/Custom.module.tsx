@@ -29,6 +29,7 @@ export const CustomModule = (props: CustomBuilder) => {
                 custom: true,
             },
         ],
+        staleTime: 0,
         queryFn: () =>
             queryGetByModule({
                 model: props.model,

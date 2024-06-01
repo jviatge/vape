@@ -83,8 +83,6 @@ export const authenicatedAction = createSafeActionClient({
     },
 });
 
-type UserAction = { userId: string; role: string };
-
 export const permissionAction = async (role: string, action: () => any) => {
     return action();
 };
