@@ -37,6 +37,9 @@ export const DatePicker = ({ field }: any) => {
                     mode="single"
                     selected={new Date(field.value)}
                     onSelect={field.onChange}
+                    /* onSelect={(dateSelect) => {
+                        dateSelect && field.onChange(new Date(dateSelect.toUTCString()));
+                    }} */
                     // fromYear={2015}
                     // toYear={2025}
                     //disabled={(date) => date > new Date() || date < new Date("1900-01-01")}

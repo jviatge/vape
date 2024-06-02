@@ -102,8 +102,8 @@ const FormModule: React.FC<FormModuleProps> = ({
 
             if (onSuccesSubmit) return onSuccesSubmit(response.data);
 
-            if (button === "save" || button === "create")
-                router.push(`/${rscId}/${response.data.id}`);
+            if (button === "save" || button === "create") router.back();
+            /* router.push(`/${rscId}/${response.data.id}`); */
 
             if (button === "createAndCreateAnother") {
                 form.reset();
