@@ -45,7 +45,7 @@ const createZodObject = (fieldBuilder: FieldBuilder[], entryZObject?: Record<str
                     break;
 
                 case "date":
-                    zObject[field.name] = z.date();
+                    zObject[field.name] = z.coerce.date();
                     break;
 
                 default:
