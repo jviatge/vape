@@ -64,6 +64,7 @@ const FormModule: React.FC<FormModuleProps> = ({
         data: Record<string, any>,
         button: "save" | "create" | "createAndCreateAnother"
     ) => {
+        console.log("data", data);
         setLoading(true);
         try {
             let response = null;

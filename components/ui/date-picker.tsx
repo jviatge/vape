@@ -38,7 +38,8 @@ export const DatePicker = ({ field }: any) => {
                     selected={new Date(field.value)}
                     /* onSelect={field.onChange} */
                     onSelect={(dateSelect) => {
-                        console.log(dateSelect, new Date());
+                        dateSelect &&
+                            console.log(dateSelect, new Date(), new Date(dateSelect.toUTCString()));
                         dateSelect && field.onChange(new Date(dateSelect.toUTCString()));
                     }}
                     // fromYear={2015}
