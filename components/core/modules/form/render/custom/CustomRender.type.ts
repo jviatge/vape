@@ -8,6 +8,7 @@ export interface BaseCustom extends baseField {
     component: string;
     model: string;
     modelMethod: string;
+    authUser?: Record<string, any>;
 }
 
 export type CustomBuilder = BaseCustom;

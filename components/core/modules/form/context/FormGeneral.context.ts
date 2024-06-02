@@ -15,6 +15,7 @@ export type FormGeneralContext = {
     modal: ModalProps;
     setModal: Dispatch<SetStateAction<ModalProps>>;
     mode: "create" | "edit";
+    authUser?: Record<string, any>;
 };
 
 export default createContext<FormGeneralContext>({} as FormGeneralContext);

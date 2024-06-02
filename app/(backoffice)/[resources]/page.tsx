@@ -25,5 +25,5 @@ export default async function PageRsc({
 
     if (!session?.user) return notFound();
 
-    return <ResolveModules rscData={rscData} page="index" />;
+    return <ResolveModules rscData={rscData} page="index" session={session} />;
 }

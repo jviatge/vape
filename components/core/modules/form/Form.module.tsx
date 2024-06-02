@@ -38,6 +38,7 @@ interface FormModuleProps {
     rscId?: string;
     submitButtonOutID?: string;
     onSuccesSubmit?: (data: Record<string, any>) => void;
+    authUser?: Record<string, any>;
 }
 
 const FormModule: React.FC<FormModuleProps> = ({
@@ -47,6 +48,7 @@ const FormModule: React.FC<FormModuleProps> = ({
     rscId,
     submitButtonOutID,
     onSuccesSubmit,
+    authUser,
 }) => {
     const { toast } = useToast();
     const router = useRouter();
@@ -120,6 +122,7 @@ const FormModule: React.FC<FormModuleProps> = ({
         <FormGeneralProvider
             value={{
                 mode,
+                authUser,
             }}
         >
             <FormProvider {...form}>

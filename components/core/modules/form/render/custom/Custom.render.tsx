@@ -33,6 +33,7 @@ export const RenderCustom = (customBuilder: CustomBuilder) => {
                 props={{
                     customBuilder,
                     form,
+                    authUser: customBuilder.authUser,
                 }}
             />
         </div>

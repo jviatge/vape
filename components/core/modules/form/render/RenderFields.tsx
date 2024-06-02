@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { isNotDecorateBuilder } from "../../lib/condition";
+import { useFormGeneral } from "../hook/useFormGeneral";
 import { RenderMessage } from "./RenderMessage";
 import { RenderCustom } from "./custom/Custom.render";
 import { RenderDecorates } from "./decorate/Decorate.render";
@@ -17,6 +18,7 @@ export const RenderFields = ({
     onlyRead?: boolean;
 }) => {
     const { watch } = useFormContext();
+    const { authUser } = useFormGeneral();
 
     return fields.map((field, index) => {
         let show = true;
@@ -39,7 +41,7 @@ export const RenderFields = ({
         }
         if (show) {
             if (field.type === "custom") {
-                return <RenderCustom key={index} {...field} />;
+                return <RenderCustom key={index} {...field} authUser={authUser} />;
             }
             if (isNotDecorateBuilder(field)) {
                 if (onlyRead && data) {

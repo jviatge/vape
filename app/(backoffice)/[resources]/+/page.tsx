@@ -14,5 +14,5 @@ export default async function PageNewRsc({
 
     const session = await checkAccessRoute(rscData, ["read", "create"]);
 
-    return <ResolveModules rscData={rscData} page="create" />;
+    return <ResolveModules rscData={rscData} page="create" session={session} />;
 }

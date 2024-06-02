@@ -1,4 +1,4 @@
-import { QueryCache, useMutation, useQueries } from "@tanstack/react-query";
+import { QueryCache, QueryObserver, useMutation, useQueries } from "@tanstack/react-query";
 import { cn } from "@vape/lib/utils";
 import { queryDeleteByModule, queryDeleteMulitpleByModule } from "./actions/queries";
 import Icon from "./components/Icon";
@@ -18,6 +18,7 @@ const queryCache = new QueryCache({
 export {
     Icon,
     Loading,
+    QueryObserver,
     cn,
     queryCache,
     queryClient,

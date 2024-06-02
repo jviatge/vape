@@ -2,17 +2,21 @@
 
 import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { getPermissions } from "@vape/lib/permissions";
+import { resolveColumnsClass, resolveSpanClass } from "@vape/lib/resolveGrid";
 import { Resource } from "@vape/types/resources.type";
+import { Session } from "next-auth";
 import { CustomModule } from "../modules/Custom.module";
 import FormModule from "../modules/form/Form.module";
 import FormBuilder from "../modules/formBuilder/FormBuilder";
 import TableModule from "../modules/table/Table.module";
 
 export const ResolveModules = async ({
+    session,
     rscData,
     page,
     id,
 }: {
+    session: Session | void;
     rscData: Resource & { id: string };
     page: "index" | "create" | "_id";
     id?: string;
@@ -26,11 +30,14 @@ export const ResolveModules = async ({
         await Promise.all(
             // @ts-ignore
             rscData[page].modules.map(async (module, i) => {
+                let moduleCache: any;
+
                 switch (module.type) {
                     case "custom":
-                        modules.push(
+                        moduleCache = (
                             <CustomModule
                                 key={i}
+                                authUser={session?.user}
                                 {...{
                                     ...module,
                                     /* ...{ component: "../../../../modules/" + module.component }, */
@@ -40,7 +47,7 @@ export const ResolveModules = async ({
                         );
                         break;
                     case "table":
-                        modules.push(
+                        moduleCache = (
                             <TableModule key={i} tableBuilder={module} permissions={permissions} />
                         );
                         break;
@@ -51,10 +58,11 @@ export const ResolveModules = async ({
                             id: String(id),
                         });
                         if (response)
-                            modules.push(
+                            moduleCache = (
                                 <FormModule
                                     key={i}
                                     formBuilder={module}
+                                    authUser={session?.user}
                                     data={response.data}
                                     id={id}
                                     rscId={rscData.id}
@@ -79,7 +87,7 @@ export const ResolveModules = async ({
                       
                         @@unique([name, userId])
                       } */
-                        modules.push(
+                        moduleCache = (
                             <FormBuilder
                                 key={i}
                                 form={{
@@ -105,10 +113,19 @@ export const ResolveModules = async ({
                         );
                         break;
                 }
+
+                modules.push(
+                    <div
+                        key={i}
+                        className={`flex flex-col relative ${resolveSpanClass(module?.span ?? 4)}`}
+                    >
+                        {moduleCache}
+                    </div>
+                );
             })
         );
     }
-    return modules.map((module, i) => <>{module}</>);
+    return <div className={resolveColumnsClass(4, 5)}>{modules.map((module, i) => module)}</div>;
 };
 
-const getDataModule = (module: any, data: any) => {};
+const moduleCache = (module: any, data: any) => {};

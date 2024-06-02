@@ -16,5 +16,5 @@ export default async function PageOneRsc({
 
     if (!session?.user) return notFound();
 
-    return <ResolveModules rscData={rscData} page="_id" id={id} />;
+    return <ResolveModules rscData={rscData} page="_id" id={id} session={session} />;
 }

@@ -48,6 +48,7 @@ export const CustomModule = (props: CustomBuilder) => {
                 <DynamicComponent
                     /* @ts-ignore  */
                     props={{
+                        authUser: props.authUser,
                         query,
                     }}
                 />

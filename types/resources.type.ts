@@ -1,6 +1,7 @@
 import { IconProps } from "@vape/components/Icon";
 import { FormBuilder } from "@vape/components/core/modules/form/Form.module";
 import { MakeForm } from "@vape/components/core/modules/formBuilder/FormBuilder";
+import { Span } from "@vape/lib/resolveGrid";
 import { TableBuilder } from "./modules/table/table";
 
 export type ResourceParams = {
@@ -23,7 +24,9 @@ export type TypeCustomModule = {
     modelMethod: string;
 };
 
-export type Module = TableBuilder | FormBuilder | MakeForm | TypeCustomModule;
+export type Module = {
+    span?: Span;
+} & (TableBuilder | FormBuilder | MakeForm | TypeCustomModule);
 
 export type Resource = {
     params: ResourceParams;

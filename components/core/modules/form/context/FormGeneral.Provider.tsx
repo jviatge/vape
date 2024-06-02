@@ -12,7 +12,7 @@ import {
 import { Loading } from "@vape/tools";
 import { Dispatch, SetStateAction, useState } from "react";
 import FormModule, { FormBuilder } from "../Form.module";
-import TablesContext, { ModalProps } from "./FormGeneral.context";
+import FormGeneralContext, { ModalProps } from "./FormGeneral.context";
 
 export const FormGeneralProvider = ({
     children,
@@ -21,6 +21,7 @@ export const FormGeneralProvider = ({
     children: React.ReactNode;
     value: {
         mode: "create" | "edit";
+        authUser?: Record<string, any>;
     };
 }) => {
     const [modal, setModal] = useState<ModalProps>({
@@ -29,9 +30,10 @@ export const FormGeneralProvider = ({
     });
 
     return (
-        <TablesContext.Provider
+        <FormGeneralContext.Provider
             value={{
                 mode: value.mode,
+                authUser: value.authUser,
                 modal,
                 setModal,
             }}
@@ -39,7 +41,7 @@ export const FormGeneralProvider = ({
             {children}
             <ModalForm modal={modal} setModal={setModal} />
             <ModalSelect modal={modal} setModal={setModal} />
-        </TablesContext.Provider>
+        </FormGeneralContext.Provider>
     );
 };
 

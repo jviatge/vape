@@ -21,7 +21,7 @@ export default function Header({
     };
 }) {
     return (
-        <div className="flex justify-between items-center md:flex-row flex-col space-y-4 md:space-y-0 w-full">
+        <div className="flex justify-between items-center md:flex-row flex-col space-y-4 md:space-y-0 w-full mb-4">
             <TabsFilter className="w-full md:w-1/4" />
             <SearchInput className="w-full md:w-1/4" />
             <Actions className="w-full md:w-1/5" />
