@@ -86,4 +86,7 @@
         outline: none; /* Remove the highlight when focused */
         transition: background-color 0.3s; /* Add a smooth transition effect */
     }
+    .modal-relation .lucide-x {
+        display: none;
+    }
 }

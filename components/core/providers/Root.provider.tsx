@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient } from "@vape/lib/queryClient";
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
+import { RouteChangesProvider } from "../modules/form/hook/useRouteChangeEvents";
 
 interface Props {
     children: ReactNode;
@@ -21,7 +22,9 @@ const RootProvider = ({ children }: Props) => {
                 enableSystem
                 disableTransitionOnChange
             >
-                <SessionProvider>{children}</SessionProvider>
+                <SessionProvider>
+                    <RouteChangesProvider>{children}</RouteChangesProvider>
+                </SessionProvider>
                 <Toaster />
             </ThemeProvider>
             <ReactQueryDevtools initialIsOpen={false} />

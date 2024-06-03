@@ -86,7 +86,6 @@ export default async function RootLayoutBo({ children }: { children: React.React
                         </div>
                     </div>
                 </header>
-
                 {children}
             </div>
         </div>

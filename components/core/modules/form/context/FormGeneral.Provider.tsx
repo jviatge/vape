@@ -89,10 +89,10 @@ const ModalForm = ({
     return modal.formBuilder ? (
         <Dialog
             open={modal.open === "create" || modal.open === "edit"}
-            onOpenChange={() => setModal((prev) => ({ ...prev, open: null }))}
+            /* onOpenChange={() => setModal((prev) => ({ ...prev, open: null }))} */
         >
             {/* sm:max-w-[80vw] max-h-[95vh] */}
-            <DialogContent className="sm:max-w-[80vw] w-full max-h-[95vh]">
+            <DialogContent className="sm:max-w-[80vw] w-full max-h-[95vh] modal-relation">
                 <DialogHeader>
                     <DialogTitle className="pb-6">Ajouter</DialogTitle>
                     <div className={"overflow-y-scroll max-h-[70vh] px-4"}>
@@ -117,6 +117,13 @@ const ModalForm = ({
                     </div>
                 </DialogHeader>
                 <DialogFooter>
+                    <Button
+                        variant={"secondary"}
+                        type="button"
+                        onClick={() => setModal((prev) => ({ ...prev, open: null }))}
+                    >
+                        Annuler
+                    </Button>
                     <Button
                         form={(modal.id ? "edit-" : "create-") + modal.formBuilder.model}
                         type={"submit"}

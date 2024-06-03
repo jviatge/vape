@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormGeneralProvider } from "./context/FormGeneral.Provider";
+import useLeaveConfirmation from "./hook/useLeaveConfirmation";
 import { RenderFields } from "./render/RenderFields";
 import { FieldBuilder } from "./render/renderFields.type";
 import { defaultValues } from "./resolver/defaultValue";
@@ -119,6 +120,8 @@ const FormModule: React.FC<FormModuleProps> = ({
         }
     };
 
+    const { confirmationDialog } = useLeaveConfirmation(form.formState.isDirty);
+
     return (
         <FormGeneralProvider
             value={{
@@ -126,6 +129,7 @@ const FormModule: React.FC<FormModuleProps> = ({
                 authUser,
             }}
         >
+            {confirmationDialog}
             <FormProvider {...form}>
                 <Form {...form}>
                     <form
