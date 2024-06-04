@@ -35,21 +35,23 @@ export type FormBuilder = {
 interface FormModuleProps {
     formBuilder: FormBuilder;
     data: Record<string, any>;
+    extraData?: Record<string, any>;
     id?: string;
-    rscId?: string;
     submitButtonOutID?: string;
     onSuccesSubmit?: (data: Record<string, any>) => void;
     authUser?: Record<string, any>;
+    disabledLeaveConfirmation?: boolean;
 }
 
 const FormModule: React.FC<FormModuleProps> = ({
     formBuilder,
     data,
+    extraData,
     id,
-    rscId,
     submitButtonOutID,
     onSuccesSubmit,
     authUser,
+    disabledLeaveConfirmation,
 }) => {
     const { toast } = useToast();
     const router = useRouter();
@@ -120,11 +122,15 @@ const FormModule: React.FC<FormModuleProps> = ({
         }
     };
 
-    const { confirmationDialog } = useLeaveConfirmation(form.formState.isDirty);
+    const { confirmationDialog } = useLeaveConfirmation(
+        form.formState.isDirty,
+        disabledLeaveConfirmation
+    );
 
     return (
         <FormGeneralProvider
             value={{
+                extraData,
                 mode,
                 authUser,
             }}

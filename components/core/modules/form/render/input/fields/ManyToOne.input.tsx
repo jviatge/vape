@@ -53,100 +53,94 @@ export const ManyToOneInput = ({
         }
     }, [modal.data, form, name]);
     const value = form.getValues(name);
+    const valueParent = form.getValues();
 
-    return (
-        <>
-            {!isNotObjectEmpty(value) ? (
-                <div className="flex justify-between items-center gap-4">
-                    {!disabled?.select ? (
-                        <button
-                            onClick={() =>
-                                setModal({
-                                    open: "select",
-                                    name: name,
-                                    tableBuilder: tableBuilder,
-                                })
-                            }
-                            type="button"
-                            className={cn(
-                                "h-10 w-full flex justify-center items-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90",
-                                classNameBtn
-                            )}
-                        >
-                            <Search size={20} />
-                            <span className="ml-2">Sélectionner</span>
-                        </button>
-                    ) : null}
+    return !isNotObjectEmpty(value) ? (
+        <div className="flex justify-between items-center gap-4">
+            {!disabled?.select ? (
+                <button
+                    onClick={() =>
+                        setModal({
+                            open: "select",
+                            name: name,
+                            tableBuilder: tableBuilder,
+                        })
+                    }
+                    type="button"
+                    className={cn(
+                        "h-10 w-full flex justify-center items-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90",
+                        classNameBtn
+                    )}
+                >
+                    <Search size={20} />
+                    <span className="ml-2">Sélectionner</span>
+                </button>
+            ) : null}
 
-                    {!disabled?.create ? (
-                        <button
-                            onClick={() =>
-                                setModal({
-                                    open: "create",
-                                    formBuilder: formBuilder,
-                                    name: name,
-                                })
-                            }
-                            type="button"
-                            className={cn(
-                                "h-10 w-full flex justify-center items-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90",
-                                classNameBtn
-                            )}
-                        >
-                            <Plus size={20} />
-                            <span className="ml-2">Ajouter</span>
-                        </button>
-                    ) : null}
-                </div>
-            ) : (
-                <Card className="p-3 space-y-4 relative overflow-hidden">
-                    <div className="absolute flex top-0 right-0 rounded-bl-md border-l border-b overflow-hidden z-40">
-                        {disabled?.edit ? null : (
-                            <button
-                                onClick={() => {
-                                    setModal({
-                                        name: name,
-                                        open: "edit",
-                                        formBuilder: formBuilder,
-                                        id: String(value.id),
-                                    });
-                                }}
-                                type="button"
-                                className={cn(
-                                    "h-10 flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/90",
-                                    classNameBtn
-                                )}
-                            >
-                                <Edit className="pointer-events-none mx-3" size={18} />
-                            </button>
+            {!disabled?.create ? (
+                <button
+                    onClick={() =>
+                        setModal({
+                            open: "create",
+                            formBuilder,
+                            valueParent,
+                            name,
+                        })
+                    }
+                    type="button"
+                    className={cn(
+                        "h-10 w-full flex justify-center items-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90",
+                        classNameBtn
+                    )}
+                >
+                    <Plus size={20} />
+                    <span className="ml-2">Ajouter</span>
+                </button>
+            ) : null}
+        </div>
+    ) : (
+        <Card className="p-3 space-y-4 relative overflow-hidden">
+            <div className="absolute flex top-0 right-0 rounded-bl-md border-l border-b overflow-hidden z-40">
+                {disabled?.edit ? null : (
+                    <button
+                        onClick={() => {
+                            setModal({
+                                name: name,
+                                open: "edit",
+                                formBuilder: formBuilder,
+                                id: String(value.id),
+                            });
+                        }}
+                        type="button"
+                        className={cn(
+                            "h-10 flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/90",
+                            classNameBtn
                         )}
-                        <button
-                            onClick={() => form.setValue(name, {}, { shouldDirty: true })}
-                            type="button"
-                            className={cn(
-                                "h-10 flex items-center bg-destructive text-destructive-foreground hover:bg-destructive/90",
-                                classNameBtn
-                            )}
-                        >
-                            <X className="pointer-events-none mx-3" size={18} />
-                        </button>
-                    </div>
-                    {formBuilder.fields && value ? (
-                        <div
-                            className={cn(
-                                resolveColumnsClass(formBuilder.col ?? 4, formBuilder.gap ?? 5),
-                                formBuilder.className && formBuilder.className
-                            )}
-                        >
-                            <RenderFields
-                                fields={formBuilder.fields}
-                                data={value}
-                                onlyRead={true}
-                            />
-                        </div>
-                    ) : null}
-                </Card>
-            )}
-        </>
+                    >
+                        <Edit className="pointer-events-none mx-3" size={18} />
+                    </button>
+                )}
+                <button
+                    onClick={() => form.setValue(name, {}, { shouldDirty: true })}
+                    type="button"
+                    className={cn(
+                        "h-10 flex items-center bg-destructive text-destructive-foreground hover:bg-destructive/90",
+                        classNameBtn
+                    )}
+                >
+                    <X className="pointer-events-none mx-3" size={18} />
+                </button>
+            </div>
+            {formBuilder.fields && value ? (
+                <div
+                    className={cn(
+                        resolveColumnsClass(formBuilder.col ?? 4, formBuilder.gap ?? 5),
+                        formBuilder.className && formBuilder.className
+                    )}
+                >
+                    <RenderFields fields={formBuilder.fields} data={value} onlyRead={true} />
+                </div>
+            ) : null}
+        </Card>
     );
 };

@@ -1,5 +1,4 @@
 import { isNotDecorateBuilder } from "../../lib/condition";
-import { InputBuilder } from "../render/input/InputRender.type";
 import { FieldBuilder } from "../render/renderFields.type";
 
 export const defaultValues = (
@@ -16,8 +15,10 @@ export const defaultValues = (
             field.tabs.map((tab) => {
                 values = defaultValues(data, tab.fields, values);
             });
+        } else if (field.type === "custom" && field.name && field.returnTypes) {
+            values = getDefaultValueByKey(data, field.name, field.returnTypes, values);
         } else if (isNotDecorateBuilder(field)) {
-            values = getDefaultValueByKey(data, field, values);
+            values = getDefaultValueByKey(data, field.name, field.type, values);
         }
     });
     return values;
@@ -25,21 +26,22 @@ export const defaultValues = (
 
 const getDefaultValueByKey = (
     data: Record<string, any> | undefined,
-    field: InputBuilder,
+    name: string,
+    type: FieldBuilder["type"],
     values: Record<string, any>
 ) => {
-    switch (field.type) {
+    switch (type) {
         case "checkbox":
         case "switch":
-            values[field.name] = data ? data[field.name] ?? false : false;
+            values[name] = data ? data[name] ?? false : false;
             break;
 
         case "manyToOne":
-            values[field.name] = data ? data[field.name] ?? {} : {};
+            values[name] = data ? data[name] ?? {} : {};
             break;
 
         default:
-            values[field.name] = data ? data[field.name] ?? "" : "";
+            values[name] = data ? data[name] ?? "" : "";
             break;
     }
 

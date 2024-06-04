@@ -65,7 +65,6 @@ export const ResolveModules = async ({
                                     authUser={session?.user}
                                     data={response.data}
                                     id={id}
-                                    rscId={rscData.id}
                                 />
                             );
                         break;

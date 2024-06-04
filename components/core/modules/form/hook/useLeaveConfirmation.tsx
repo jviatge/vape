@@ -11,10 +11,10 @@ import {
 import { useCallback, useState } from "react";
 import useRouteChangeEvents from "./useRouteChangeEvents";
 
-const useLeaveConfirmation = (shouldPreventRouteChange: boolean) => {
+const useLeaveConfirmation = (shouldPreventRouteChange: boolean, disabled?: boolean) => {
     const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
     const onBeforeRouteChange = useCallback(() => {
-        if (shouldPreventRouteChange) {
+        if (shouldPreventRouteChange && !disabled) {
             setShowConfirmationDialog(true);
             return false;
         }
@@ -22,10 +22,10 @@ const useLeaveConfirmation = (shouldPreventRouteChange: boolean) => {
         return true;
     }, [shouldPreventRouteChange]);
 
-    const { allowRouteChange } = useRouteChangeEvents({ onBeforeRouteChange });
+    const { allowRouteChange } = useRouteChangeEvents({ onBeforeRouteChange }, disabled);
 
     return {
-        confirmationDialog: (
+        confirmationDialog: disabled ? null : (
             <AlertDialog open={showConfirmationDialog} onOpenChange={setShowConfirmationDialog}>
                 <AlertDialogContent>
                     <AlertDialogHeader>

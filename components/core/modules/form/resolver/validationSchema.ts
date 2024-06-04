@@ -25,45 +25,25 @@ const createZodObject = (fieldBuilder: FieldBuilder[], entryZObject?: Record<str
     fieldBuilder.map((field) => {
         if (field.type === "container" && field.fields) {
             zObject = createZodObject(field.fields, zObject);
+        } else if (field.type === "custom" && field.name && field.returnTypes) {
+            zObject[field.name] = createZodType(field.returnTypes);
         } else if (field.type === "sections" && field.tabs) {
             field.tabs.map((tab) => {
                 zObject = createZodObject(tab.fields, zObject);
             });
         } else if (isNotDecorateBuilder(field)) {
-            switch (field.type) {
-                case "checkbox":
-                case "switch":
-                    zObject[field.name] = z.boolean();
-                    break;
-
-                case "manyToOne":
-                    zObject[field.name] = z.record(z.string(), z.any());
-                    break;
-
-                case "number":
-                    zObject[field.name] = z.any().transform(Number).pipe(z.number());
-                    break;
-
-                case "date":
-                    zObject[field.name] = z.coerce.date();
-                    break;
-
-                default:
-                    zObject[field.name] = z.string();
-                    break;
-            }
-
+            zObject[field.name] = createZodType(field.type);
             if (field.rules) {
                 for (const [key, value] of Object.entries(field.rules)) {
                     if (field.type === "manyToOne") {
-                        zObject[field.name] = zObject[field.name] = createZodRulesObject(
+                        zObject[field.name] = zObject[field.name] = createZodRuleObject(
                             zObject[field.name],
                             key as keyof RulesField,
                             value
                         );
                     } else {
                         for (const [key, value] of Object.entries(field.rules)) {
-                            zObject[field.name] = createZodRules(
+                            zObject[field.name] = createZodRule(
                                 zObject[field.name],
                                 key as keyof RulesField,
                                 value
@@ -78,7 +58,23 @@ const createZodObject = (fieldBuilder: FieldBuilder[], entryZObject?: Record<str
     return zObject;
 };
 
-const createZodRulesObject = (obj: any, key: keyof RulesField, rule: any) => {
+const createZodType = (type: FieldBuilder["type"]) => {
+    switch (type) {
+        case "checkbox":
+        case "switch":
+            return z.boolean();
+        case "manyToOne":
+            return z.record(z.string(), z.any());
+        case "number":
+            return z.any().transform(Number).pipe(z.number());
+        case "date":
+            return z.coerce.date();
+        default:
+            return z.string();
+    }
+};
+
+const createZodRuleObject = (obj: any, key: keyof RulesField, rule: any) => {
     switch (key) {
         case "required":
             return obj.refine((data: Record<string, string>) => Object.keys(data).length > 0, {
@@ -89,7 +85,7 @@ const createZodRulesObject = (obj: any, key: keyof RulesField, rule: any) => {
     }
 };
 
-const createZodRules = (obj: any, key: keyof RulesField, rule: any) => {
+const createZodRule = (obj: any, key: keyof RulesField, rule: any) => {
     switch (key) {
         case "required":
             return obj.min(1, "Ce champ est requis");

@@ -8,6 +8,7 @@ export type ModalProps = {
     data?: Record<string, any>;
     tableBuilder?: TableBuilder;
     formBuilder?: FormBuilder;
+    valueParent?: Record<string, any>;
     name: string;
 };
 
@@ -16,6 +17,7 @@ export type FormGeneralContext = {
     setModal: Dispatch<SetStateAction<ModalProps>>;
     mode: "create" | "edit";
     authUser?: Record<string, any>;
+    extraData?: Record<string, any>;
 };
 
 export default createContext<FormGeneralContext>({} as FormGeneralContext);

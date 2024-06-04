@@ -41,16 +41,31 @@ export const RenderFields = ({
         }
         if (show) {
             if (field.type === "custom") {
-                return <RenderCustom key={index} {...field} authUser={authUser} />;
+                if (onlyRead && data) {
+                    if (field.returnTypes) {
+                        return (
+                            <RenderViews
+                                key={index}
+                                {...field}
+                                type={field.returnTypes}
+                                data={data}
+                            />
+                        );
+                    }
+                } else {
+                    return <RenderCustom key={index} {...field} authUser={authUser} />;
+                }
             }
             if (isNotDecorateBuilder(field)) {
                 if (onlyRead && data) {
-                    return <RenderViews key={index} fieldBuilder={field} data={data} />;
+                    return <RenderViews key={index} {...field} data={data} />;
                 } else {
                     return <RenderInputs key={index} {...field} />;
                 }
             } else {
-                return <RenderDecorates key={index} data={data} onlyRead={true} {...field} />;
+                if (field.type !== "custom") {
+                    return <RenderDecorates key={index} data={data} onlyRead={true} {...field} />;
+                }
             }
         } else {
             if (messages.length > 0) {

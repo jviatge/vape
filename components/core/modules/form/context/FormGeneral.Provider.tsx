@@ -20,6 +20,7 @@ export const FormGeneralProvider = ({
 }: {
     children: React.ReactNode;
     value: {
+        extraData?: Record<string, any>;
         mode: "create" | "edit";
         authUser?: Record<string, any>;
     };
@@ -34,6 +35,7 @@ export const FormGeneralProvider = ({
             value={{
                 mode: value.mode,
                 authUser: value.authUser,
+                extraData: value.extraData,
                 modal,
                 setModal,
             }}
@@ -71,8 +73,10 @@ const ModalForm = ({
             <FormModule
                 data={data.data}
                 id={id}
+                extraData={modal.valueParent}
                 formBuilder={formBuilder}
                 submitButtonOutID={"edit-" + formBuilder.model}
+                disabledLeaveConfirmation={true}
                 onSuccesSubmit={(data: any) =>
                     setModal((prev) => ({
                         ...prev,
@@ -101,8 +105,10 @@ const ModalForm = ({
                         ) : (
                             <FormModule
                                 data={{}}
+                                extraData={modal.valueParent}
                                 formBuilder={modal.formBuilder}
                                 submitButtonOutID={"create-" + modal.formBuilder.model}
+                                disabledLeaveConfirmation={true}
                                 onSuccesSubmit={(data: any) =>
                                     setModal((prev) => ({
                                         ...prev,

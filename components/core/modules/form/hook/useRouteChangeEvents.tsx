@@ -168,18 +168,20 @@ interface RouteChangeCallbacks {
     onRouteChangeComplete?: (target: HistoryURL) => void;
 }
 
-const useRouteChangeEvents = (callbacks: RouteChangeCallbacks) => {
+const useRouteChangeEvents = (callbacks: RouteChangeCallbacks, disabled?: boolean) => {
     const id = useRef(nanoid());
     const { request, revoke } = useFreezeRequestsContext();
     const [confrimationTarget, setConfirmationTarget] = useState<string | null>(null);
 
     useEffect(() => {
+        if (disabled) return;
         request(id.current);
 
         return () => revoke(id.current);
     }, []);
 
     useEffect(() => {
+        if (disabled) return;
         const abortController = new AbortController();
 
         window.addEventListener(
@@ -219,6 +221,7 @@ const useRouteChangeEvents = (callbacks: RouteChangeCallbacks) => {
 
     return {
         allowRouteChange: () => {
+            if (disabled) return;
             if (!confrimationTarget) {
                 console.warn("allowRouteChange called for no specified confirmation target");
                 return;
