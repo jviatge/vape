@@ -12,7 +12,7 @@ export type FieldTable = {
     options?: Option[];
     label?: string;
     name: string;
-    type: "string" | "date" | "boolean" | "hour" | "badge";
+    type: "string" | "date" | "boolean" | "time" | "badge";
     keys?: string[];
     minLabel?: boolean;
     filter?: Filter;

@@ -88,7 +88,7 @@ export const BodyTable = ({
                                         ) : row[column.name] ? (
                                             column.type === "date" ? (
                                                 <DateView value={row[column.name]} />
-                                            ) : column.type === "hour" ? (
+                                            ) : column.type === "time" ? (
                                                 <HourView value={row[column.name]} />
                                             ) : column.type === "badge" ? (
                                                 <BadgeView

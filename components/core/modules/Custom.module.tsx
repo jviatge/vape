@@ -50,6 +50,7 @@ export const CustomModule = (props: CustomBuilder) => {
                     props={{
                         authUser: props.authUser,
                         query,
+                        type: "module",
                     }}
                 />
             )}
