@@ -175,6 +175,14 @@ const ModalSelect = ({
                 </DialogHeader>
                 <DialogFooter>
                     <Button
+                        variant={"secondary"}
+                        type="button"
+                        onClick={() => setModal((prev) => ({ ...prev, open: null }))}
+                    >
+                        Annuler
+                    </Button>
+                    <Button
+                        disabled={data.length === 0}
                         type="button"
                         onClick={() => {
                             setModal((prev) => ({

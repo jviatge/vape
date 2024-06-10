@@ -1,4 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { Card } from "@vape/components/ui/card";
+import { SelectSearch } from "@vape/components/ui/select-search";
 import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
 import { TableBuilder } from "@vape/types/modules/table/table";
@@ -16,6 +19,7 @@ export interface ManyToOneInputProps extends BaseInput {
     tableBuilder: TableBuilder;
     form: UseFormReturn<any, any, undefined>;
     name: string;
+    display?: "select" | "modal";
     disabled?: {
         create?: boolean;
         edit?: boolean;
@@ -23,15 +27,32 @@ export interface ManyToOneInputProps extends BaseInput {
     };
 }
 
-export const ManyToOneInput = ({
+export const ManyToOneInput = (props: ManyToOneInputProps) => {
+    const form = useFormContext();
+
+    const value = form.getValues(props.name);
+    const valueParent = form.getValues();
+
+    if (!props.display || props.display === "modal") {
+        return <DisplayModal {...props} valueParent={valueParent} value={value} form={form} />;
+    }
+    return <DisplaySelect {...props} valueParent={valueParent} value={value} />;
+};
+
+const DisplayModal = ({
     formBuilder,
     tableBuilder,
     name,
     disabled,
-}: ManyToOneInputProps) => {
+    display,
+    value,
+    valueParent,
+    form,
+}: ManyToOneInputProps & {
+    value: Record<string, any>;
+    valueParent: Record<string, any>;
+}) => {
     const { modal, setModal } = useContext(FormGeneralContext);
-
-    const form = useFormContext();
 
     const isNotObjectEmpty = (obj: Record<string, any>) => {
         return Object.keys(obj).length !== 0;
@@ -52,8 +73,6 @@ export const ManyToOneInput = ({
             setModal((v) => ({ ...v, data: {} }));
         }
     }, [modal.data, form, name]);
-    const value = form.getValues(name);
-    const valueParent = form.getValues();
 
     return !isNotObjectEmpty(value) ? (
         <div className="flex justify-between items-center gap-4">
@@ -142,5 +161,54 @@ export const ManyToOneInput = ({
                 </div>
             ) : null}
         </Card>
+    );
+};
+
+const DisplaySelect = ({
+    formBuilder,
+    tableBuilder,
+    name,
+    disabled,
+    value,
+}: ManyToOneInputProps & {
+    value: Record<string, any>;
+    valueParent: Record<string, any>;
+}) => {
+    const { data, isLoading } = useQuery<any, Error, Record<string, any>>({
+        queryKey: [formBuilder.model, value.id],
+        queryFn: () =>
+            queryGetByModuleAndId({
+                model: formBuilder.model,
+                get: formBuilder.get as string,
+                id: value.id,
+            }),
+    });
+
+    return (
+        <SelectSearch
+            options={[
+                {
+                    value: "next.js",
+                    label: "Next.js",
+                },
+                {
+                    value: "sveltekit",
+                    label: "SvelteKit",
+                },
+                {
+                    value: "nuxt.js",
+                    label: "Nuxt.js",
+                },
+                {
+                    value: "remix",
+                    label: "Remix",
+                },
+                {
+                    value: "astro",
+                    label: "Astro",
+                },
+            ]}
+            placeholder={"Sélectionner..."}
+        />
     );
 };

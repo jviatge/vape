@@ -2,7 +2,6 @@ import { Span } from "@vape/lib/resolveGrid";
 import { RulesField } from "../../resolver/validationSchema";
 import { FieldBuilder, baseField } from "../renderFields.type";
 import { ManyToOneInputProps } from "./fields/ManyToOne.input";
-import { nullable } from "zod";
 
 export interface BaseInput extends baseField {
     label?: string;
@@ -24,6 +23,7 @@ export interface BaseInput extends baseField {
     };
     defaultValue?: any;
     nullable?: boolean;
+    minDate?: Date;
 }
 
 export type InputBuilder =

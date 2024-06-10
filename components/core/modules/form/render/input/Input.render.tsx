@@ -84,12 +84,15 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
                             )}
 
                             {inputBuilder.type === "date" && (
-                                <DatePicker disabled={disabled} field={field} />
+                                <DatePicker
+                                    minDate={inputBuilder.minDate}
+                                    disabled={disabled}
+                                    field={field}
+                                />
                             )}
 
                             {inputBuilder.type === "time" && (
                                 <TimePicker field={field} />
-
                                 /*  <TimePicker onChange={field.onChange} value={field.value}>
                                  <TimePickerSegment segment={"hours"} />
                                  <TimePickerSeparator>:</TimePickerSeparator>

@@ -16,9 +16,15 @@ export const defaultValues = (
                 values = defaultValues(data, tab.fields, values);
             });
         } else if (field.type === "custom" && field.name && field.returnTypes) {
-            values = getDefaultValueByKey(data, field.name, field.returnTypes, values);
+            values = getDefaultValueByKey(
+                data,
+                field.name,
+                field.returnTypes,
+                field.defaultValue,
+                values
+            );
         } else if (isNotDecorateBuilder(field)) {
-            values = getDefaultValueByKey(data, field.name, field.type, values);
+            values = getDefaultValueByKey(data, field.name, field.type, field.defaultValue, values);
         }
     });
     return values;
@@ -28,20 +34,21 @@ const getDefaultValueByKey = (
     data: Record<string, any> | undefined,
     name: string,
     type: FieldBuilder["type"],
+    defaultValues: any,
     values: Record<string, any>
 ) => {
     switch (type) {
         case "checkbox":
         case "switch":
-            values[name] = data ? data[name] ?? false : false;
+            values[name] = data && data[name] ? data[name] : defaultValues ? defaultValues : false;
             break;
 
         case "manyToOne":
-            values[name] = data ? data[name] ?? {} : {};
+            values[name] = data && data[name] ? data[name] : defaultValues ? defaultValues : {};
             break;
 
         default:
-            values[name] = data ? data[name] ?? "" : "";
+            values[name] = data && data[name] ? data[name] : defaultValues ? defaultValues : "";
             break;
     }
 

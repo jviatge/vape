@@ -10,13 +10,22 @@ import { Calendar } from "./calendar";
 
 const locale = fr;
 
-export const DatePicker = ({ field }: any) => {
+export const DatePicker = ({
+    field,
+    minDate,
+    disabled,
+}: {
+    field: any;
+    minDate?: Date;
+    disabled: boolean;
+}) => {
     return (
         <>
             <Popover>
                 <PopoverTrigger asChild>
                     <FormControl>
                         <Button
+                            disabled={disabled}
                             variant={"outline"}
                             className={cn(
                                 "bg-card pl-3 text-left font-normal",
@@ -41,6 +50,7 @@ export const DatePicker = ({ field }: any) => {
                         onSelect={(dateSelect) => {
                             dateSelect && field.onChange(gmtResolve(dateSelect));
                         }}
+                        {...(minDate && { fromDate: minDate })}
                         // fromYear={2015}
                         // toYear={2025}
                         //disabled={(date) => date > new Date() || date < new Date("1900-01-01")}

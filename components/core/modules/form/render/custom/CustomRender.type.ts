@@ -12,6 +12,7 @@ export interface BaseCustom extends baseField {
     authUser?: Record<string, any>;
     name?: string;
     returnTypes?: InputBuilder["type"];
+    defaultValue?: any;
 }
 
 export type CustomBuilder = BaseCustom;

@@ -1,5 +1,6 @@
 import { QueryCache, QueryObserver, useMutation, useQueries } from "@tanstack/react-query";
 import { cn } from "@vape/lib/utils";
+import { RefreshCcw } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 import { queryDeleteByModule, queryDeleteMulitpleByModule } from "./actions/queries";
 import Icon from "./components/Icon";
@@ -17,9 +18,14 @@ const queryCache = new QueryCache({
     },
 });
 
+const LR = {
+    RefreshCcw,
+};
+
 export {
     Controller,
     Icon,
+    LR,
     Loading,
     QueryObserver,
     cn,
