@@ -12,11 +12,12 @@ export type FieldTable = {
     options?: Option[];
     label?: string;
     name: string;
-    type: "string" | "date" | "boolean" | "time" | "badge";
+    type: "string" | "date" | "boolean" | "time" | "badge" | "custom";
     keys?: string[];
     minLabel?: boolean;
     filter?: Filter;
     hidden?: boolean;
+    component?: string;
     orderDefault?: boolean;
 };
 

@@ -12,6 +12,7 @@ import DateView from "../../../views/Date.view";
 import HourView from "../../../views/Hour.view.";
 import { Action } from "../Action";
 import TablesContext from "../context/Table.context";
+import { RenderCustom } from "../render/custom/Custom.render";
 
 export const BodyTable = ({
     query: { getAll },
@@ -83,7 +84,9 @@ export const BodyTable = ({
                                         key={column.name + index}
                                         className="p-1.5 text-sm"
                                     >
-                                        {column.type === "boolean" ? (
+                                        {column.type === "custom" && column.component ? (
+                                            <RenderCustom component={column.component} row={row} />
+                                        ) : column.type === "boolean" ? (
                                             <BooleanView value={row[column.name] as boolean} />
                                         ) : row[column.name] ? (
                                             column.type === "date" ? (

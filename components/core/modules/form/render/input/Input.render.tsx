@@ -58,6 +58,7 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
 
                             {inputBuilder.type === "password" && (
                                 <Input
+                                    tabIndex={0}
                                     disabled={disabled}
                                     type="password"
                                     id={inputBuilder.name}
@@ -67,6 +68,7 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
 
                             {inputBuilder.type === "textarea" && (
                                 <Textarea
+                                    tabIndex={0}
                                     disabled={disabled}
                                     id={inputBuilder.name}
                                     rows={3}
@@ -76,6 +78,7 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
 
                             {inputBuilder.type === "number" && (
                                 <Input
+                                    tabIndex={0}
                                     disabled={disabled}
                                     type="number"
                                     id={inputBuilder.name}
@@ -102,6 +105,7 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
 
                             {inputBuilder.type === "checkbox" && (
                                 <Checkbox
+                                    tabIndex={0}
                                     disabled={disabled}
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
@@ -110,6 +114,7 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
 
                             {inputBuilder.type === "switch" && (
                                 <Switch
+                                    tabIndex={0}
                                     disabled={disabled}
                                     checked={field.value}
                                     onCheckedChange={field.onChange}

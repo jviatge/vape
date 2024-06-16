@@ -96,7 +96,10 @@ const ModalForm = ({
             /* onOpenChange={() => setModal((prev) => ({ ...prev, open: null }))} */
         >
             {/* sm:max-w-[80vw] max-h-[95vh] */}
-            <DialogContent className="sm:max-w-[80vw] w-full max-h-[95vh] modal-relation">
+            <DialogContent
+                tabIndex={undefined}
+                className="sm:max-w-[80vw] w-full max-h-[95vh] modal-relation"
+            >
                 <DialogHeader>
                     <DialogTitle className="pb-6">Ajouter</DialogTitle>
                     <div className={"overflow-y-scroll max-h-[70vh] px-4"}>
@@ -157,7 +160,10 @@ const ModalSelect = ({
             onOpenChange={() => setModal((prev) => ({ ...prev, open: null }))}
         >
             {/* sm:max-w-[80vw] max-h-[95vh] */}
-            <DialogContent className="sm:max-w-[80vw] w-full max-h-[95vh] overflow-scroll">
+            <DialogContent
+                tabIndex={undefined}
+                className="sm:max-w-[80vw] w-full max-h-[95vh] overflow-scroll"
+            >
                 <DialogHeader>
                     <DialogTitle className="pb-6">Sélectionner</DialogTitle>
                     <div className={"overflow-y-scroll max-h-[70vh] space-y-4"}>

@@ -1,12 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { Card } from "@vape/components/ui/card";
-import { SelectSearch } from "@vape/components/ui/select-search";
+
+import { useQuery } from "@tanstack/react-query";
+import { queryGetByModule } from "@vape/actions/queries";
+import SelectBox from "@vape/components/ui/select-box";
 import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
 import { TableBuilder } from "@vape/types/modules/table/table";
 import { Edit, Plus, Search, X } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UseFormReturn, useFormContext } from "react-hook-form";
 import { FormBuilder } from "../../../Form.module";
 import FormGeneralContext from "../../../context/FormGeneral.context";
@@ -36,7 +37,7 @@ export const ManyToOneInput = (props: ManyToOneInputProps) => {
     if (!props.display || props.display === "modal") {
         return <DisplayModal {...props} valueParent={valueParent} value={value} form={form} />;
     }
-    return <DisplaySelect {...props} valueParent={valueParent} value={value} />;
+    return <DisplaySelect {...props} valueParent={valueParent} value={value} form={form} />;
 };
 
 const DisplayModal = ({
@@ -44,7 +45,6 @@ const DisplayModal = ({
     tableBuilder,
     name,
     disabled,
-    display,
     value,
     valueParent,
     form,
@@ -165,50 +165,51 @@ const DisplayModal = ({
 };
 
 const DisplaySelect = ({
-    formBuilder,
-    tableBuilder,
+    form,
     name,
-    disabled,
-    value,
+    tableBuilder,
 }: ManyToOneInputProps & {
     value: Record<string, any>;
     valueParent: Record<string, any>;
 }) => {
-    const { data, isLoading } = useQuery<any, Error, Record<string, any>>({
-        queryKey: [formBuilder.model, value.id],
+    const [select, setSelect] = useState<string | undefined>(form.getValues(name)?.id);
+    const { data, isLoading } = useQuery<any, Error, any>({
+        enabled: true,
+        queryKey: [tableBuilder.model],
         queryFn: () =>
-            queryGetByModuleAndId({
-                model: formBuilder.model,
-                get: formBuilder.get as string,
-                id: value.id,
-            }),
+            queryGetByModule({
+                model: tableBuilder.model,
+                searchInputField: tableBuilder.searchInputField,
+                query: {
+                    get: tableBuilder.get,
+                },
+            }).then((res) => res.data),
     });
 
-    return (
-        <SelectSearch
-            options={[
-                {
-                    value: "next.js",
-                    label: "Next.js",
-                },
-                {
-                    value: "sveltekit",
-                    label: "SvelteKit",
-                },
-                {
-                    value: "nuxt.js",
-                    label: "Nuxt.js",
-                },
-                {
-                    value: "remix",
-                    label: "Remix",
-                },
-                {
-                    value: "astro",
-                    label: "Astro",
-                },
-            ]}
+    const options = data?.map((d: any) => {
+        return {
+            value: d.id,
+            label: tableBuilder.fields.map((f) => d[f.name]).join(" "),
+        };
+    });
+
+    return options && !isLoading ? (
+        <SelectBox
+            options={options}
+            value={select}
+            onChange={(value) => {
+                setSelect(value as string);
+                form.setValue(
+                    name,
+                    data.find((v: any) => v.id === value),
+                    {
+                        shouldDirty: true,
+                    }
+                );
+            }}
             placeholder={"Sélectionner..."}
+            inputPlaceholder="Rechercher..."
+            emptyPlaceholder="Aucun résultat trouvé."
         />
-    );
+    ) : null;
 };

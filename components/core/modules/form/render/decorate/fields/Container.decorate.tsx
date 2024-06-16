@@ -37,9 +37,9 @@ const ContainerDecorate = (props: DecorateContainerProps) => {
         );
 
     return (
-        <Card className="w-full p-3 bg-transparent space-y-4 grid">
+        <Card className="w-full p-2 bg-transparent space-y-3 grid">
             {props.label ? (
-                <CardHeader className={"mb-2 py-3"}>
+                <CardHeader>
                     <CardTitle>
                         <span className={"flex text-base"}>
                             {props.icon ? (

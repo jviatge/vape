@@ -1,5 +1,5 @@
 import { ModeToggle } from "@/components/ModeToggle";
-import { getLogo } from "@vape/actions/config";
+import { getLogo, getVapeConfig } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
 import { CommandBar } from "@vape/components/CommandBar";
@@ -56,6 +56,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
     const logo = await getLogo();
 
+    const config = await getVapeConfig();
+
     return (
         <div className="h-screen flex bg-background relative w-screen overflow-hidden">
             <SideBar
@@ -67,18 +69,23 @@ export default async function RootLayoutBo({ children }: { children: React.React
             <div className="w-full relative">
                 <header className="w-full h-14 border-b border-0 bg-primary-foreground md:pr-0 pr-[58px]">
                     <div className="flex justify-between items-center h-full px-3">
-                        <Image
-                            src={logo}
-                            alt="logo"
-                            height={100}
-                            width={100}
-                            style={{
-                                marginTop: "3px",
-                                marginBottom: "3px",
-                                width: "auto",
-                                height: "50px",
-                            }}
-                        />
+                        <div className="flex items-start">
+                            <Image
+                                src={logo}
+                                alt="logo"
+                                height={100}
+                                width={100}
+                                style={{
+                                    marginTop: "3px",
+                                    marginBottom: "3px",
+                                    width: "auto",
+                                    height: "50px",
+                                }}
+                            />
+                            <span className="text-xs text-muted ml-2 hidden md:block">
+                                Version {config.version}
+                            </span>
+                        </div>
                         <CommandBar links={links} />
 
                         <div className="flex items-center space-x-3">

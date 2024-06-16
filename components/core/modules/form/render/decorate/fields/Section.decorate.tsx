@@ -20,16 +20,6 @@ export interface DecorateSectionProps extends BaseDecorate {
 const SectionsDecorate = ({ tabs, col, gap, data, onlyRead }: DecorateSectionProps) => {
     const [tabActivated, setTabActivated] = useState<string>(tabs[0].name);
 
-    /* useEffect(() => {
-        const hash = window.location.hash;
-        if (hash) {
-            const tab = tabs.find((tab) => tab.name === hash.replace("#", ""));
-            if (tab) {
-                setTabActivated(tab.name);
-            }
-        }
-    }, [tabs]); */
-
     return (
         <Tabs value={tabActivated} className="w-full">
             <TabsList
