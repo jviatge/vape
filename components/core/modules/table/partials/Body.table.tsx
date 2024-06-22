@@ -37,6 +37,19 @@ export const BodyTable = ({
         }
     };
 
+    const resolveStringObject = (char: string, data: Record<string, any>) => {
+        if (char.includes(".")) {
+            const splits = char.split(".");
+            let value = data;
+            splits.forEach((split) => {
+                value = value[split];
+            });
+            return value;
+        } else {
+            return data[char];
+        }
+    };
+
     return (
         <TableBody className="bg-primary-foreground">
             {!getAll.isLoading && getAll.data && getAll.data ? (
@@ -88,7 +101,7 @@ export const BodyTable = ({
                                             <RenderCustom component={column.component} row={row} />
                                         ) : column.type === "boolean" ? (
                                             <BooleanView value={row[column.name] as boolean} />
-                                        ) : row[column.name] ? (
+                                        ) : resolveStringObject(column.name, row) ? (
                                             column.type === "date" ? (
                                                 <DateView value={row[column.name]} />
                                             ) : column.type === "time" ? (
@@ -102,11 +115,11 @@ export const BodyTable = ({
                                             ) : column.keys && column.keys.length > 0 ? (
                                                 column.keys.map((key, index) => (
                                                     <span key={key + index} className="mr-1">
-                                                        {row[column.name][key]}
+                                                        {resolveStringObject(key, row[column.name])}
                                                     </span>
                                                 ))
                                             ) : (
-                                                String(row[column.name])
+                                                resolveStringObject(column.name, row)
                                             )
                                         ) : (
                                             <Empty />
