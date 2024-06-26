@@ -10,7 +10,7 @@ export default async function PageNewRsc({
 }) {
     const rscData = await rscGetOne(resources);
 
-    if (!rscData) return notFound();
+    if (!rscData || rscData?.params.disabledCreate) return notFound();
 
     const session = await checkAccessRoute(rscData, ["read", "create"]);
 

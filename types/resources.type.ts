@@ -9,6 +9,8 @@ export type ResourceParams = {
     icon: IconProps["name"];
     separator?: boolean;
     order: number;
+    disabledCreate?: boolean;
+    disabledEdit?: boolean;
     permissons?: {
         create?: string[];
         read?: string[];
@@ -30,10 +32,6 @@ export type Module = {
 
 export type Resource = {
     params: ResourceParams;
-    header?: {
-        disabledCreate?: boolean;
-        disabledEdit?: boolean;
-    };
     index: {
         modules: Module[];
     };

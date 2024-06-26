@@ -18,8 +18,8 @@ export default async function RscLayout({
                 order: 0,
                 icon: "book-open",
                 label: "Documentation",
+                disabledCreate: true,
             }}
-            disabledCreate={true}
         >
             <div>
                 <div>

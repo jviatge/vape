@@ -1,4 +1,5 @@
 import { UseQueryResult } from "@tanstack/react-query";
+import BadgeView from "@vape/components/core/views/Badge.view";
 import Empty from "@vape/components/core/views/Empty";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { Loading } from "@vape/components/ui/loading";
@@ -6,7 +7,6 @@ import { TableBody, TableCell, TableRow } from "@vape/components/ui/table";
 import { cn } from "@vape/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
-import BadgeView from "../../../views/Badge.view";
 import BooleanView from "../../../views/Boolean.view";
 import DateView from "../../../views/Date.view";
 import HourView from "../../../views/Hour.view.";
@@ -97,7 +97,7 @@ export const BodyTable = ({
                                             ) : column.type === "badge" ? (
                                                 <BadgeView
                                                     minLabel={column.minLabel}
-                                                    value={row[column.name]}
+                                                    value={resolveStringObject(column.name, row)}
                                                     options={column.options}
                                                 />
                                             ) : column.keys && column.keys.length > 0 ? (

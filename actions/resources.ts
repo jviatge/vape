@@ -1,6 +1,6 @@
 "use server";
 
-import { Resource, RessourceParamsWithRoute } from "@/types/resources.type";
+import { Module, Resource, RessourceParamsWithRoute } from "@/types/resources.type";
 import { ls } from "@vape/lib/fs";
 import { logRsc } from "@vape/lib/logs";
 
@@ -24,12 +24,23 @@ export const rscGetOne = async (
     }
 };
 
+export const modulesGetOne = async (): Promise<Module[] | undefined> => {
+    logRsc(`[moduleGetOne] | resources:dashboard`);
+    try {
+        const module = await import("~/resources/index").then((module) => module.default);
+        return module;
+    } catch {
+        return undefined;
+    }
+};
+
 export const rscGetAllParams = async (): Promise<RessourceParamsWithRoute[]> => {
     logRsc(`[rscGetAllParams]`);
     try {
         const files = await ls("resources");
         const params = await Promise.all(
-            files.map(async (file): Promise<RessourceParamsWithRoute> => {
+            files.map(async (file): Promise<RessourceParamsWithRoute | undefined> => {
+                if (file === "index.ts") return;
                 const paramsRsc: Resource["params"] = await import(
                     "~/resources/" + file.split(".")[0]
                 ).then((module) => module.default.params);
@@ -39,7 +50,8 @@ export const rscGetAllParams = async (): Promise<RessourceParamsWithRoute[]> => 
                 };
             })
         );
-        return params.sort((a, b) => a.order - b.order);
+        const paramsFiltered = params.filter((e) => e !== undefined) as RessourceParamsWithRoute[];
+        return paramsFiltered.sort((a, b) => a.order - b.order);
     } catch {
         return [];
     }

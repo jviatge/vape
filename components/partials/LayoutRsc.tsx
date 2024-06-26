@@ -12,14 +12,12 @@ export const LayoutRsc = ({
     children,
     params,
     idRsc,
-    disabledCreate,
     isDashboard,
 }: {
     isDashboard?: boolean;
     children: React.ReactNode;
     params: ResourceParams;
     idRsc?: string;
-    disabledCreate?: boolean;
 }) => {
     const pathname = usePathname();
 
@@ -45,7 +43,7 @@ export const LayoutRsc = ({
                     {isDashboard ? null : (
                         <>
                             {/* INDEX */}
-                            {getLastPath(pathname) === idRsc ? (
+                            {getLastPath(pathname) === idRsc && !params.disabledCreate ? (
                                 <Link href={`${pathname}/+`}>
                                     <Button>
                                         <Plus size={24} strokeWidth={1.6} />

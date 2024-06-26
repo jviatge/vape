@@ -13,8 +13,8 @@ export default async function RscLayout({
                 order: 0,
                 icon: "home",
                 label: "Dashboard",
+                disabledCreate: true,
             }}
-            disabledCreate={true}
         >
             {children}
         </LayoutRsc>
