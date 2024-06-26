@@ -93,7 +93,7 @@ export const Actions = ({ className }: { className?: string }) => {
                             action.multiple ? (
                                 <DropdownMenuItem
                                     onClick={() => {
-                                        setSelected(action.component);
+                                        action.component && setSelected(action.component);
                                     }}
                                     key={index}
                                 >
