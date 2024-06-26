@@ -27,9 +27,10 @@ export type ActionProps = {
     description?: string;
     icon: keyof typeof dynamicIconImports;
     multiple: boolean;
-    component: string;
+    component?: string;
     single: boolean;
     permissons?: string[];
+    linkTo?: string;
     props?: Record<string, any>;
 };
 

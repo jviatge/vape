@@ -10,6 +10,7 @@ import BadgeView from "../../../views/Badge.view";
 import BooleanView from "../../../views/Boolean.view";
 import DateView from "../../../views/Date.view";
 import HourView from "../../../views/Hour.view.";
+import { resolveStringObject } from "../../lib/getData";
 import { Action } from "../Action";
 import TablesContext from "../context/Table.context";
 import { RenderCustom } from "../render/custom/Custom.render";
@@ -34,19 +35,6 @@ export const BodyTable = ({
             TC.setSelectRowsDatas(TC.selectRowsDatas.filter((item: any) => item.id !== row.id));
         } else {
             TC.setSelectRowsDatas([...TC.selectRowsDatas, row]);
-        }
-    };
-
-    const resolveStringObject = (char: string, data: Record<string, any>) => {
-        if (char.includes(".")) {
-            const splits = char.split(".");
-            let value = data;
-            splits.forEach((split) => {
-                value = value[split];
-            });
-            return value;
-        } else {
-            return data[char];
         }
     };
 
@@ -114,12 +102,17 @@ export const BodyTable = ({
                                                 />
                                             ) : column.keys && column.keys.length > 0 ? (
                                                 column.keys.map((key, index) => (
-                                                    <span key={key + index} className="mr-1">
+                                                    <span
+                                                        key={key + index}
+                                                        className="mr-1 text-nowrap"
+                                                    >
                                                         {resolveStringObject(key, row[column.name])}
                                                     </span>
                                                 ))
                                             ) : (
-                                                resolveStringObject(column.name, row)
+                                                <span className="mr-1 text-nowrap">
+                                                    {resolveStringObject(column.name, row)}
+                                                </span>
                                             )
                                         ) : (
                                             <Empty />
@@ -129,7 +122,16 @@ export const BodyTable = ({
                             )}
                             {/* // TODO: Permissions filter by token user */}
                             {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
-                                <TableCell className="p-0 pointer-events-none bg-card border-l">
+                                <TableCell
+                                    className="p-0 pointer-events-none bg-card border-l"
+                                    style={
+                                        TC.tableBuilder.actions.some(
+                                            (action) => action.single && action.linkTo
+                                        )
+                                            ? { width: "50px" }
+                                            : { width: "40px" }
+                                    }
+                                >
                                     <div className="flex justify-center items-center w-full h-full">
                                         {TC.tableBuilder.actions.map((action, index) =>
                                             action.single ? (

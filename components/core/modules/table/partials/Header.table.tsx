@@ -72,9 +72,9 @@ export const HeaderTable = ({
                         />
                     ) : null}
                 </TableHead>
-                {TC.tableBuilder.fields.map((column) =>
+                {TC.tableBuilder.fields.map((column, index) =>
                     TC.hideColumns.includes(column.name) ? null : (
-                        <TableHead key={column.name} className="px-1.5">
+                        <TableHead key={column.name + index} className="px-1.5">
                             <button
                                 disabled={TC.loading}
                                 className={cn(

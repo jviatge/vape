@@ -43,6 +43,17 @@ const getDefaultValueByKey = (
             values[name] = data && data[name] ? data[name] : defaultValues ? defaultValues : false;
             break;
 
+        case "date":
+            values[name] =
+                data && data[name]
+                    ? data[name]
+                    : defaultValues
+                    ? defaultValues === "now"
+                        ? new Date()
+                        : new Date(defaultValues)
+                    : undefined;
+            break;
+
         case "manyToOne":
             values[name] = data && data[name] ? data[name] : defaultValues ? defaultValues : {};
             break;

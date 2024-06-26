@@ -37,19 +37,17 @@ export const Columns = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                {options.map((option) => {
-                    return (
-                        <DropdownMenuCheckboxItem
-                            onSelect={(event) => event.preventDefault()}
-                            key={option.name}
-                            className="capitalize cursor-pointer"
-                            checked={!TC.hideColumns.includes(option.name)}
-                            onCheckedChange={(value) => handleHideColumns(value, option.name)}
-                        >
-                            {option.label ?? option.name}
-                        </DropdownMenuCheckboxItem>
-                    );
-                })}
+                {options.map((option, index) => (
+                    <DropdownMenuCheckboxItem
+                        onSelect={(event) => event.preventDefault()}
+                        key={option.name + index}
+                        className="capitalize cursor-pointer"
+                        checked={!TC.hideColumns.includes(option.name)}
+                        onCheckedChange={(value) => handleHideColumns(value, option.name)}
+                    >
+                        {option.label ?? option.name}
+                    </DropdownMenuCheckboxItem>
+                ))}
             </DropdownMenuContent>
         </DropdownMenu>
     );

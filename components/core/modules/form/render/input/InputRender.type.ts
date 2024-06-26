@@ -23,7 +23,7 @@ export interface BaseInput extends baseField {
     };
     defaultValue?: any;
     nullable?: boolean;
-    minDate?: Date;
+    minDate?: "now" | string;
 }
 
 export type InputBuilder =
