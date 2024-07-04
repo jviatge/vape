@@ -49,7 +49,7 @@ export const HeaderTable = ({
                                 if (TC.selectRowsDatas.length === getAll.data.paginateData.length) {
                                     TC.setSelectRowsDatas([]);
                                 } else {
-                                    TC.setSelectRowsDatas(getAll.data);
+                                    TC.setSelectRowsDatas(getAll.data.paginateData);
                                 }
                             }
                         }
@@ -63,7 +63,7 @@ export const HeaderTable = ({
                         <Checkbox
                             disabled={TC.loading}
                             checked={
-                                getAll.data?.paginateData && getAll.data?.paginateData.length === 0
+                                getAll.data?.paginateData.length === 0
                                     ? false
                                     : getAll.data?.paginateData &&
                                       TC.selectRowsDatas.length === getAll.data.paginateData.length

@@ -27,28 +27,17 @@ const paginateAndFilter = async (
     callbackCount: (filter: any) => Promise<number>,
     callbackGet: (limit: number, startIndex: number, filter: any) => Promise<any>
 ) => {
-    const filter = makeFilter(filterModel.query, filterModel.searchInputField);
+    const filter = Filter(filterModel.query, filterModel.searchInputField);
     const query = filterModel.query;
 
     try {
-        return await makePaginate(query, callbackCount, callbackGet, filter);
+        return await Paginate(query, callbackCount, callbackGet, filter);
     } catch (error: any) {
         throw { status: 500, message: error?.message || error };
     }
 };
 
-const filter = (filterModel: FilterModel, callbackGet: (filter: any) => Promise<any>) => {
-    const filter = makeFilter(filterModel.query, filterModel.searchInputField);
-    const query = filterModel.query;
-
-    try {
-        return callbackGet(filter);
-    } catch (error: any) {
-        throw { status: 500, message: error?.message || error };
-    }
-};
-
-const makeFilter = (query: Query, searchInputField: FilterModel["searchInputField"]) => {
+const Filter = (query: Query, searchInputField: FilterModel["searchInputField"]) => {
     let orderBy = [{ id: "desc" }] as Array<Record<string, string>>;
     let where = {} as Record<string, any>;
 
@@ -129,7 +118,7 @@ const makeFilter = (query: Query, searchInputField: FilterModel["searchInputFiel
     };
 };
 
-const makePaginate = async (
+const Paginate = async (
     query: Query,
     callbackCount: (filter: any) => Promise<number>,
     callbackGet: (limit: number, startIndex: number, filter: any) => Promise<any>,
@@ -219,4 +208,4 @@ const makePaginate = async (
     }
 };
 
-export { filter, paginateAndFilter };
+export { paginateAndFilter };
