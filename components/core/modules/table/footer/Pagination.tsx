@@ -5,7 +5,9 @@ import { useContext, useState } from "react";
 import TableContext, { TableContext as TypeTableContext } from "../context/Table.context";
 
 export const PaginationTable = ({ query }: { query: { getAll: UseQueryResult<any, Error> } }) => {
-    return query.getAll.data ? <ContentPagination query={query} /> : null;
+    return query.getAll.data && query.getAll.data?.paginateData ? (
+        <ContentPagination query={query} />
+    ) : null;
 };
 
 const ContentPagination = ({ query }: { query: { getAll: UseQueryResult<any, Error> } }) => {
