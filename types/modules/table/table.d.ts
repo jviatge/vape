@@ -60,6 +60,7 @@ export type TableBuilder = {
         | {
               label: string;
               get: string;
+              default?: boolean;
           }[];
     fields: FieldTable[];
 };

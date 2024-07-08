@@ -43,14 +43,16 @@ const TablesProvider = ({
 
     const resolveDefaultQuery = useCallback<
         (defaultQuery: Query, tableBuilder: TableBuilder) => Query
-    >(
-        (defaultQuery: Query, tableBuilder: TableBuilder) => ({
-            get:
-                defaultQuery.get ??
-                (Array.isArray(tableBuilder.get)
-                    ? // @ts-ignore
-                      tableBuilder.get[0].get
-                    : tableBuilder.get),
+    >((defaultQuery: Query, tableBuilder: TableBuilder) => {
+        const get =
+            tableBuilder.get && Array.isArray(tableBuilder.get)
+                ? tableBuilder.get.filter((v) => v?.default)[0]?.get
+                    ? tableBuilder.get.filter((v) => v?.default)[0].get
+                    : tableBuilder.get[0].get
+                : tableBuilder.get;
+
+        return {
+            get,
             search: defaultQuery.search ?? null,
             sort: defaultQuery.sort ?? {},
             select: defaultQuery.select ?? {},
@@ -59,9 +61,8 @@ const TablesProvider = ({
             datesRange: defaultQuery.datesRange ?? {},
             equals: defaultQuery.equals ?? {},
             page: defaultQuery.page ?? null,
-        }),
-        []
-    );
+        };
+    }, []);
 
     const [query, setQuery] = useState<Query>(
         resolveDefaultQuery(value.defaultQuery, value.tableBuilder)

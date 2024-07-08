@@ -10,9 +10,16 @@ export const TabsFilter = ({ className }: { className?: string }) => {
         TC.setQueryValue("get", "add", undefined, value);
     };
 
+    const defaultValue =
+        TC.tableBuilder.get && Array.isArray(TC.tableBuilder.get)
+            ? TC.tableBuilder.get.filter((v) => v?.default)[0]?.get
+                ? TC.tableBuilder.get.filter((v) => v?.default)[0].get
+                : TC.tableBuilder.get[0].get
+            : TC.query.get ?? undefined;
+
     return Array.isArray(TC.tableBuilder.get) ? (
         <Tabs
-            defaultValue={TC.query.get ?? TC.tableBuilder.get[0].get}
+            defaultValue={defaultValue}
             className={cn(className)}
             onValueChange={hanldeOnValueChange}
         >
