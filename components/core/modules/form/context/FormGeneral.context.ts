@@ -18,6 +18,7 @@ export type FormGeneralContext = {
     mode: "create" | "edit";
     authUser?: Record<string, any>;
     extraData?: Record<string, any>;
+    data?: Record<string, any>;
 };
 
 export default createContext<FormGeneralContext>({} as FormGeneralContext);

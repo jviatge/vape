@@ -42,7 +42,7 @@ export const RenderCustom = (customBuilder: CustomBuilder) => {
     });
 
     return (
-        <div className={`flex flex-col relative ${resolveSpanClass(customBuilder.span)}`}>
+        <div className={`space-y-2 flex flex-col relative ${resolveSpanClass(customBuilder.span)}`}>
             <DynamicComponent
                 /* @ts-ignore  */
                 props={{

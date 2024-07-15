@@ -23,6 +23,7 @@ export const FormGeneralProvider = ({
         extraData?: Record<string, any>;
         mode: "create" | "edit";
         authUser?: Record<string, any>;
+        data?: Record<string, any>;
     };
 }) => {
     const [modal, setModal] = useState<ModalProps>({
@@ -36,6 +37,7 @@ export const FormGeneralProvider = ({
                 mode: value.mode,
                 authUser: value.authUser,
                 extraData: value.extraData,
+                data: value.data,
                 modal,
                 setModal,
             }}
