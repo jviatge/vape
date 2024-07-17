@@ -8,7 +8,8 @@
         "start": "next start",
         "lint": "next lint",
         "add:user": "tsx ./commands/createUser.ts",
-        "seed": "cp ./../.env ./.env && cp ./../prisma/seed.ts ./seed.ts && npx prisma db seed"
+        "seed": "cp ./../.env ./.env && cp ./../prisma/seed.ts ./seed.ts && npx prisma db seed",
+        "cypress:open": "cypress open"
     },
     "prisma": {
         "schema": "../prisma/schema.prisma",
@@ -72,6 +73,8 @@
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "autoprefixer": "^10.4.19",
+        "cypress": "^13.13.1",
+        "cypress-fs": "^0.2.5",
         "eslint": "^8.57.0",
         "eslint-config-next": "14.0.4",
         "postcss": "^8.4.39",

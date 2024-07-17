@@ -48,8 +48,8 @@ export default function LoginForm({ logo }: { logo: StaticImageData }) {
             });
         } else {
             toast({
-                title: "Success",
-                description: "You have been logged in",
+                title: "Succès",
+                description: "Vous êtes connecté avec succès.",
             });
             router.refresh();
             router.push("/dashboard");
@@ -86,6 +86,7 @@ export default function LoginForm({ logo }: { logo: StaticImageData }) {
                                                         />
                                                     </div>
                                                     <Input
+                                                        id="email"
                                                         disabled={loading}
                                                         {...field}
                                                         placeholder="Identifiant"
@@ -113,6 +114,7 @@ export default function LoginForm({ logo }: { logo: StaticImageData }) {
                                                         />
                                                     </div>
                                                     <Input
+                                                        id="password"
                                                         disabled={loading}
                                                         {...field}
                                                         type="password"

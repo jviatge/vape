@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["es5", "dom"],
+        "types": ["cypress", "node"],
+        "paths": {
+            "@schemas/*": ["../.vape/generated/schemas/objects/*"],
+            "@actions/*": ["../actions/*"],
+            "@modules/*": ["../modules/*"],
+            "@database/*": ["../database/*"],
+            "@resources/*": ["../resources/*"],
+            "@api/*": ["../api/*"],
+            "@vape/*": ["../.vape/*"],
+            "@/*": ["../.vape/*"],
+            "~/*": [".././*"]
+        }
+    },
+    "include": ["**/*.ts"]
+}
