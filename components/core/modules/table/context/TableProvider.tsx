@@ -5,6 +5,7 @@ import { Permissions } from "@vape/lib/permissions";
 import { CompActionProps, TableBuilder } from "@vape/types/modules/table/table";
 import { Dispatch, ReactNode, SetStateAction, useCallback, useMemo, useState } from "react";
 import useParamsTable from "../hook/useParamsTable";
+import { makeFilter } from "./makeFilter";
 import TablesContext, {
     ActionDialog as ActionDialogType,
     Query,
@@ -51,12 +52,31 @@ const TablesProvider = ({
                     : tableBuilder.get[0].get
                 : tableBuilder.get;
 
+        const resovleContains = (obj: Record<string, any>) => {
+            Object.keys(obj).forEach((value) => {
+                if (value.includes("|") && value.includes(".")) {
+                    const key = value.split(".")[0];
+                    const subKeys = value.split(".")[1].split("|");
+                    obj[key] = {
+                        OR: subKeys.map((subKey) => {
+                            return {
+                                [subKey]: { contains: obj[value] },
+                            };
+                        }),
+                    };
+                    delete obj[value];
+                }
+            });
+
+            return obj;
+        };
+
         return {
             get,
             search: defaultQuery.search ?? null,
             sort: defaultQuery.sort ?? {},
             select: defaultQuery.select ?? {},
-            contains: defaultQuery.contains ?? {},
+            contains: resovleContains(defaultQuery.contains) ?? {},
             boolean: defaultQuery.boolean ?? {},
             datesRange: defaultQuery.datesRange ?? {},
             equals: defaultQuery.equals ?? {},
@@ -72,80 +92,10 @@ const TablesProvider = ({
         (key, action, field, value) => {
             // clear page if page is not in the query
             const page = get("page", "number");
-            if (key !== "page" && page) {
-                setQuery((prev) => {
-                    return {
-                        ...prev,
-                        page: {
-                            ...prev.page,
-                            number: undefined,
-                        },
-                    };
-                });
-            }
+            if (key !== "page" && page) setQuery((prev) => makeFilter.page(prev));
 
             value = String(value);
-            if (field !== undefined) {
-                // ADD //
-                if (action === "add") {
-                    set(String(value), key, field);
-                    if (
-                        key === "sort" ||
-                        key === "select" ||
-                        key === "contains" ||
-                        key === "equals" ||
-                        key === "datesRange" ||
-                        key === "page"
-                    ) {
-                        return setQuery((prev) => ({
-                            ...prev,
-                            [key]: {
-                                ...prev[key],
-                                [field]: String(value),
-                            },
-                        }));
-                    }
-                    if (key === "boolean") {
-                        return setQuery((prev) => ({
-                            ...prev,
-                            [key]: {
-                                ...prev[key],
-                                [field]: true,
-                            },
-                        }));
-                    }
-                    if (key === "search") {
-                        return setQuery((prev) => ({
-                            ...prev,
-                            search: value as string,
-                        }));
-                    }
-                }
-                // DELETE //
-                set(null, key, field);
-                if (
-                    key === "sort" ||
-                    key === "select" ||
-                    key === "contains" ||
-                    key === "equals" ||
-                    key === "boolean" ||
-                    key === "datesRange"
-                ) {
-                    return setQuery((prev) => {
-                        const { [field]: _, ...rest } = prev[key];
-                        return {
-                            ...prev,
-                            [key]: rest,
-                        };
-                    });
-                }
-                if (key === "search" || key === "get") {
-                    return setQuery((prev) => ({
-                        ...prev,
-                        [key]: null,
-                    }));
-                }
-            } else {
+            if (!field) {
                 if (action === "add") {
                     if (key === "get" || key === "search") {
                         set(String(value), key);
@@ -158,13 +108,33 @@ const TablesProvider = ({
                     }
                 } else {
                     set(null, key);
-                    return setQuery((prev) => {
-                        return {
-                            ...prev,
-                            [key]: null,
-                        };
-                    });
+                    return setQuery((prev) => makeFilter.clearKey(prev, key));
                 }
+            }
+
+            // set params query in url
+            if (action === "add") set(String(value), key, field);
+            if (action === "delete") set(null, key, field);
+
+            switch (key) {
+                case "search":
+                    return setQuery((prev) => makeFilter.search(prev, value));
+                case "sort":
+                    return setQuery((prev) => makeFilter.sort(prev, field, value, action));
+                case "select":
+                case "contains":
+                case "equals":
+                case "datesRange":
+                case "page":
+                    return setQuery((prev) => {
+                        return makeFilter.where(prev, key, field, value, action);
+                    });
+                case "boolean":
+                    return setQuery((prev) => makeFilter.where(prev, key, field, true, action));
+                default:
+                    return setQuery((prev) => ({
+                        ...prev,
+                    }));
             }
         },
         [set, setQuery, get]
@@ -177,7 +147,7 @@ const TablesProvider = ({
             if (key !== "page" && key !== "get") {
                 if (typeof value === "string") {
                     if (value) {
-                        console.log("value", key, value);
+                        /* console.log("value", key, value); */
                         return acc + 1;
                     }
                 }
@@ -191,9 +161,9 @@ const TablesProvider = ({
     }, [query]);
 
     const deleteAllQuery = useCallback(() => {
-        console.log("deleteAllQuery", resolveDefaultQuery(value.defaultQuery, value.tableBuilder));
-        setQuery(resolveDefaultQuery(value.defaultQuery, value.tableBuilder));
+        /* console.log("deleteAllQuery", resolveDefaultQuery(value.defaultQuery, value.tableBuilder)); */
         clearAll();
+        /* setQuery(resolveDefaultQuery(value.defaultQuery, value.tableBuilder)); */
     }, [setQuery, clearAll, resolveDefaultQuery, value]);
 
     const setHideColumnsValue = useCallback(

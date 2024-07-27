@@ -3,7 +3,8 @@ import { Calendar } from "@vape/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@vape/components/ui/popover";
 import { FieldTable } from "@vape/types/modules/table/table";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { fr } from "date-fns/locale";
+import { Calendar as CalendarIcon, X } from "lucide-react";
 import { SetQueryValue } from "../../../context/Table.context";
 
 type Props = {
@@ -16,23 +17,23 @@ type Props = {
 const DatesRangeFilter = ({ field, valuesFields, setQueryValue, disabled }: Props) => {
     const resolveDate = (date: string | undefined): any => {
         if (!date) return {};
-
         const [from, to] = date.split("[to]");
-        const fromResolved = new Date(from.replace("[dateRange][from]", ""));
-
-        if (date.includes("[dateRange][from]undefined") || date.includes("[to]undefined"))
+        const fromResolved = new Date(from.replace("[from]", ""));
+        if (date.includes("[from]undefined") || date.includes("[to]undefined"))
             return { from: fromResolved };
-
         return { from: fromResolved, to: new Date(to) };
     };
 
+    const handleDelete = () => {
+        setQueryValue("datesRange", "delete", field.name);
+    };
     return (
         <Popover>
             <PopoverTrigger asChild>
                 <Button
                     disabled={disabled}
                     variant={"outline"}
-                    className={"w-full justify-start text-left font-normal"}
+                    className={"w-full justify-start text-left font-normal px-2"}
                 >
                     <CalendarIcon className="mr-2 h-4 w-4 text-muted-foreground" />
                     {resolveDate(valuesFields[field.name]).from ? (
@@ -50,10 +51,26 @@ const DatesRangeFilter = ({ field, valuesFields, setQueryValue, disabled }: Prop
                     ) : (
                         <span className={"text-muted-foreground"}>Date</span>
                     )}
+                    {valuesFields[field.name] ? (
+                        <button
+                            disabled={disabled}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleDelete();
+                            }}
+                            type={"button"}
+                            className={
+                                "hover:text-white absolute right-0 cursor-pointer rounded-full top-1/2 -translate-y-2 -translate-x-2 hover:bg-destructive/80"
+                            }
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+                    ) : null}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align={"end"}>
                 <Calendar
+                    locale={fr}
                     disabled={disabled}
                     onSelect={(dateRage) => {
                         if (dateRage) {

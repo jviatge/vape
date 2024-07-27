@@ -7,7 +7,7 @@ export type Query = {
     search: string | null;
     sort: Record<string, "asc" | "desc">;
     select: Record<string, string>;
-    contains: Record<string, string>;
+    contains: Record<string, any>;
     boolean: Record<string, boolean>;
     datesRange: Record<string, string>;
     equals: Record<string, string>;

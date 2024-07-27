@@ -3,7 +3,7 @@ import { Checkbox } from "@vape/components/ui/checkbox";
 import { TableHead, TableHeader, TableRow } from "@vape/components/ui/table";
 import { cn } from "@vape/lib/utils";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import TablesContext from "../context/Table.context";
 
 export const HeaderTable = ({
@@ -14,18 +14,6 @@ export const HeaderTable = ({
     };
 }) => {
     const TC = useContext(TablesContext);
-
-    const handleSort = (columnName: string, keys?: string[]) => {
-        if (TC.query.sort[columnName] === "desc") {
-            TC.setQueryValue("sort", "delete", columnName);
-            return;
-        }
-        if (TC.query.sort[columnName] === "asc") {
-            TC.setQueryValue("sort", "add", columnName, "desc");
-        } else {
-            TC.setQueryValue("sort", "add", columnName, "asc");
-        }
-    };
 
     useEffect(() => {
         !TC.mounted &&
@@ -38,22 +26,73 @@ export const HeaderTable = ({
         TC.setMounted(true);
     }, [TC]);
 
+    const getValue = useCallback(
+        (key: string) => {
+            let value: null | any = null;
+            if (key) {
+                if (key.includes(".")) {
+                    const fields = key.split(".");
+                    fields.map((field) => {
+                        if (TC.query.sort[field] && !value) {
+                            value = TC.query.sort[field];
+                        }
+                        if (value && value[field]) {
+                            value = value[field];
+                        }
+                    });
+                } else {
+                    value = TC.query.sort[key];
+                }
+            }
+            return value;
+        },
+        [TC.query.sort]
+    );
+
+    const handleSort = (key: string) => {
+        if (key) {
+            const value = getValue(key);
+            if (value === "desc") {
+                TC.setQueryValue("sort", "delete", key);
+                return;
+            }
+            if (value === "asc") {
+                TC.setQueryValue("sort", "add", key, "desc");
+            } else {
+                TC.setQueryValue("sort", "add", key, "asc");
+            }
+        }
+    };
+
+    const defaultChecked = useCallback((): boolean => {
+        const data = getAll.data?.paginateData ? getAll.data.paginateData : getAll.data;
+        return data && data.length > 0 && data.length === TC.selectRowsDatas.length;
+    }, [getAll.data, TC.selectRowsDatas]);
+
+    const handleSelectAll = (e: any) => {
+        if (TC.modeSelect !== "single") {
+            e.stopPropagation();
+            if (getAll.data.paginateData) {
+                if (TC.selectRowsDatas.length === getAll.data.paginateData.length) {
+                    TC.setSelectRowsDatas([]);
+                } else {
+                    TC.setSelectRowsDatas(getAll.data.paginateData);
+                }
+            } else {
+                if (TC.selectRowsDatas.length === getAll.data.length) {
+                    TC.setSelectRowsDatas([]);
+                } else {
+                    TC.setSelectRowsDatas(getAll.data);
+                }
+            }
+        }
+    };
+
     return (
         <TableHeader className="bg-card">
             <TableRow>
                 <TableHead
-                    onClick={(e) => {
-                        if (TC.modeSelect !== "single") {
-                            e.stopPropagation();
-                            if (getAll.data.paginateData) {
-                                if (TC.selectRowsDatas.length === getAll.data.paginateData.length) {
-                                    TC.setSelectRowsDatas([]);
-                                } else {
-                                    TC.setSelectRowsDatas(getAll.data);
-                                }
-                            }
-                        }
-                    }}
+                    onClick={handleSelectAll}
                     className={cn(
                         "w-10 bg-card border-r flex justify-center items-center px-0 py-4",
                         TC.modeSelect !== "single" && "cursor-pointer"
@@ -62,12 +101,8 @@ export const HeaderTable = ({
                     {TC.modeSelect !== "single" ? (
                         <Checkbox
                             disabled={TC.loading}
-                            checked={
-                                getAll.data?.paginateData && getAll.data?.paginateData.length === 0
-                                    ? false
-                                    : getAll.data?.paginateData &&
-                                      TC.selectRowsDatas.length === getAll.data.paginateData.length
-                            }
+                            checked={defaultChecked()}
+                            defaultChecked={false}
                             className="mt-1"
                         />
                     ) : null}
@@ -82,20 +117,20 @@ export const HeaderTable = ({
                                     !TC.loading && "hover:text-card-foreground hover:bg-card"
                                 )}
                                 type="button"
-                                onClick={() => !column.keys && handleSort(column.name, column.keys)}
+                                onClick={() => !column.keys && handleSort(column.name)}
                             >
                                 <span>{column.label ?? column.name}</span>
 
                                 {column.keys ? null : (
                                     <>
-                                        {TC.query.sort[column.name] !== "desc" &&
-                                            TC.query.sort[column.name] !== "asc" && (
+                                        {getValue(column.name) !== "desc" &&
+                                            getValue(column.name) !== "asc" && (
                                                 <ArrowUpDown className="ml-2 h-4 w-4" />
                                             )}
-                                        {TC.query.sort[column.name] === "asc" && (
+                                        {getValue(column.name) === "asc" && (
                                             <ArrowDown className="ml-2 h-4 w-4 text-primary" />
                                         )}
-                                        {TC.query.sort[column.name] === "desc" && (
+                                        {getValue(column.name) === "desc" && (
                                             <ArrowUp className="ml-2 h-4 w-4 text-primary" />
                                         )}
                                     </>

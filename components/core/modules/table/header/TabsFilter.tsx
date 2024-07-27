@@ -7,6 +7,7 @@ export const TabsFilter = ({ className }: { className?: string }) => {
     const TC = useContext(TableContext);
 
     const hanldeOnValueChange = (value: string) => {
+        TC.setSelectRowsDatas([]);
         TC.setQueryValue("get", "add", undefined, value);
     };
 

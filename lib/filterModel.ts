@@ -1,5 +1,6 @@
 import { Query } from "@vape/components/core/modules/table/context/Table.context";
 import { FilterModel } from "@vape/types/model.type";
+import { isValid } from "date-fns";
 
 type Pagination = {
     totalCount?: number;
@@ -39,7 +40,7 @@ const paginateAndFilter = async (
 
 const filter = (filterModel: FilterModel, callbackGet: (filter: any) => Promise<any>) => {
     const filter = makeFilter(filterModel.query, filterModel.searchInputField);
-    const query = filterModel.query;
+    /* const query = filterModel.query; */
 
     try {
         return callbackGet(filter);
@@ -77,9 +78,17 @@ const makeFilter = (query: Query, searchInputField: FilterModel["searchInputFiel
     if (typeof query.contains === "object") {
         const containsQuery = query.contains as any;
         for (const key in containsQuery) {
-            where[key] = {
-                contains: containsQuery[key],
-            };
+            if (containsQuery[key].OR) {
+                where[key] = {
+                    OR: containsQuery[key].OR.map((value: string) => {
+                        return value;
+                    }),
+                };
+            } else {
+                where[key] = {
+                    contains: containsQuery[key],
+                };
+            }
         }
     }
 
@@ -114,11 +123,16 @@ const makeFilter = (query: Query, searchInputField: FilterModel["searchInputFiel
         const datesRangeQuery = query.datesRange as any;
         for (const key in datesRangeQuery) {
             const splitDate = datesRangeQuery[key].split("[to]");
-            const from = String(splitDate[0]).replace("[from]", "");
-            const to = String(splitDate[1]).replace("[to]", "");
+            const from = new Date(String(splitDate[0]).replace("[from]", ""));
+            const to = isValid(new Date(splitDate[1]))
+                ? new Date(
+                      new Date(String(splitDate[1]).replace("[to]", "")).setHours(23, 59, 59, 999)
+                  )
+                : new Date(new Date(from).setHours(23, 59, 59, 999));
+
             where[key] = {
-                gte: new Date(from),
-                ...(to && { lte: new Date(to) }),
+                gte: from,
+                ...(to && { lte: to }),
             };
         }
     }

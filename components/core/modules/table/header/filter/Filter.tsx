@@ -35,6 +35,7 @@ export const Filter = () => {
         }));
     }, []);
  */
+    console.log(TC.query.contains);
 
     return filters.length > 0 ? (
         <Popover>
