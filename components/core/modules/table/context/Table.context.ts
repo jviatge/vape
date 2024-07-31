@@ -40,6 +40,10 @@ export type TableContext = {
     deleteAllQuery: () => void;
     queryCount: () => number;
     modeSelect?: "single" | "multiple";
+    modeTrash: boolean;
+    setModeTrash: Dispatch<SetStateAction<boolean>>;
+    tabValue: string | undefined;
+    setTabValue: Dispatch<SetStateAction<string | undefined>>;
     // Notification search
     notification: number;
     setNotification: Dispatch<SetStateAction<number>>;

@@ -25,7 +25,7 @@ type Pagination = {
 
 const paginateAndFilter = async (
     filterModel: FilterModel,
-    callbackCount: (filter: any) => Promise<number>,
+    callbackCount: (filter: any) => Promise<number | {}>,
     callbackGet: (limit: number, startIndex: number, filter: any) => Promise<any>
 ) => {
     const filter = makeFilter(filterModel.query, filterModel.searchInputField);
@@ -145,7 +145,7 @@ const makeFilter = (query: Query, searchInputField: FilterModel["searchInputFiel
 
 const makePaginate = async (
     query: Query,
-    callbackCount: (filter: any) => Promise<number>,
+    callbackCount: (filter: any) => Promise<number | {}>,
     callbackGet: (limit: number, startIndex: number, filter: any) => Promise<any>,
     filter: any
 ) => {
@@ -157,7 +157,8 @@ const makePaginate = async (
     const endIndex = page * limit;
     const result: Pagination = {};
 
-    const totalCount = await callbackCount(filter);
+    const getCount = await callbackCount(filter);
+    const totalCount = typeof getCount !== "object" ? Number(getCount) : 0;
 
     const totalPage = Math.ceil(totalCount / limit);
     const currentPage = page || 0;

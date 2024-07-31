@@ -9,7 +9,7 @@ import { RenderCustom } from "../render/custom/Custom.render";
 
 export const RenderFields = ({ column, row }: { column: FieldTable; row: Record<string, any> }) => {
     return (
-        <>
+        <div className="px-1">
             {column.type === "custom" && column.component ? (
                 <RenderCustom component={column.component} row={row} />
             ) : column.type === "boolean" ? (
@@ -39,6 +39,6 @@ export const RenderFields = ({ column, row }: { column: FieldTable; row: Record<
             ) : (
                 <Empty />
             )}
-        </>
+        </div>
     );
 };

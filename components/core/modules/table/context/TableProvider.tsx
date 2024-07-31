@@ -1,9 +1,7 @@
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import useLazy from "@vape/hooks/useLazy";
 import useLocalStorage from "@vape/hooks/useLocalStorage";
 import { Permissions } from "@vape/lib/permissions";
 import { CompActionProps, TableBuilder } from "@vape/types/modules/table/table";
-import { Dispatch, ReactNode, SetStateAction, useCallback, useMemo, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useCallback, useState } from "react";
 import useParamsTable from "../hook/useParamsTable";
 import { makeFilter } from "./makeFilter";
 import TablesContext, {
@@ -25,8 +23,10 @@ const TablesProvider = ({
         defaultQuery: Query;
     };
 }) => {
+    const [tabValue, setTabValue] = useState<string | undefined>();
     const [mounted, setMounted] = useState(false);
     const { set, get, clearAll } = useParamsTable(modeSelect ? true : false);
+    const [modeTrash, setModeTrash] = useState<boolean>(false);
     const [hideColumns, setUnselectColumnStorage] = useLocalStorage(
         "unselect-column-" + value.tableBuilder.model,
         value.tableBuilder.fields.filter((field) => field.hidden).map((field) => field.name)
@@ -42,9 +42,7 @@ const TablesProvider = ({
     const [selectRowsDatas, setSelectRowsDatas] = useState<Record<string, any>[]>([]);
     const [selectRowData, setSelectRowData] = useState<Record<string, any> | null>(null);
 
-    const resolveDefaultQuery = useCallback<
-        (defaultQuery: Query, tableBuilder: TableBuilder) => Query
-    >((defaultQuery: Query, tableBuilder: TableBuilder) => {
+    const getDefaultQuery = (defaultQuery: Query, tableBuilder: TableBuilder) => {
         const get =
             tableBuilder.get && Array.isArray(tableBuilder.get)
                 ? tableBuilder.get.filter((v) => v?.default)[0]?.get
@@ -82,6 +80,12 @@ const TablesProvider = ({
             equals: defaultQuery.equals ?? {},
             page: defaultQuery.page ?? null,
         };
+    };
+
+    const resolveDefaultQuery = useCallback<
+        (defaultQuery: Query, tableBuilder: TableBuilder) => Query
+    >((defaultQuery: Query, tableBuilder: TableBuilder) => {
+        return getDefaultQuery(defaultQuery, tableBuilder);
     }, []);
 
     const [query, setQuery] = useState<Query>(
@@ -161,9 +165,19 @@ const TablesProvider = ({
     }, [query]);
 
     const deleteAllQuery = useCallback(() => {
-        /* console.log("deleteAllQuery", resolveDefaultQuery(value.defaultQuery, value.tableBuilder)); */
+        /* getDefaultQuery(value.defaultQuery, value.tableBuilder) */
+        setQuery({
+            get: query.get,
+            search: null,
+            sort: {},
+            select: {},
+            contains: {},
+            boolean: {},
+            datesRange: {},
+            equals: {},
+            page: null,
+        });
         clearAll();
-        /* setQuery(resolveDefaultQuery(value.defaultQuery, value.tableBuilder)); */
     }, [setQuery, clearAll, resolveDefaultQuery, value]);
 
     const setHideColumnsValue = useCallback(
@@ -177,6 +191,10 @@ const TablesProvider = ({
                 query,
                 modeSelect,
                 setQueryValue,
+                modeTrash,
+                setModeTrash,
+                tabValue,
+                setTabValue,
                 queryCount,
                 deleteAllQuery,
                 hideColumns,
@@ -199,7 +217,7 @@ const TablesProvider = ({
         >
             {children}
 
-            <ActionDialog
+            {/* <ActionDialog
                 shouldImport={actionDialog.open}
                 setShouldImport={setActionDialog}
                 component={actionDialog.component}
@@ -215,7 +233,7 @@ const TablesProvider = ({
                     isSingle: actionDialog.isSingle,
                     isMultiple: actionDialog.isMultiple,
                 }}
-            />
+            /> */}
         </TablesContext.Provider>
     );
 };
@@ -231,7 +249,8 @@ const ActionDialog = ({
     component: string | null;
     componentProps?: CompActionProps;
 }) => {
-    const { isLoading, result } = useLazy(
+    return null;
+    /* const { isLoading, result } = useLazy(
         useMemo(
             () => (component ? [() => import(`../../../../../../actions/${component}`)] : []),
             [component]
@@ -254,6 +273,6 @@ const ActionDialog = ({
                 </DialogHeader>
             </DialogContent>
         </Dialog>
-    );
+    ); */
 };
 export default TablesProvider;

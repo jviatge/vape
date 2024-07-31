@@ -6,6 +6,7 @@ import { Card } from "@vape/components/ui/card";
 import { Table } from "@vape/components/ui/table";
 import useIsSSR from "@vape/hooks/useIsSSR";
 import { Permissions } from "@vape/lib/permissions";
+import { cn } from "@vape/tools";
 import { Data, TableBuilder } from "@vape/types/modules/table/table";
 import React, { useContext, useEffect } from "react";
 import TableContext from "./context/Table.context";
@@ -84,7 +85,7 @@ const ContentModuleTable = ({ onChangeSelect }: { onChangeSelect?: (data: any) =
                 }}
             />
 
-            <Card className="overflow-hidden relative">
+            <Card className={cn("overflow-hidden relative", TC.modeTrash && "border-destructive")}>
                 <LoadingTable
                     query={{
                         getAll: dataGetAll,

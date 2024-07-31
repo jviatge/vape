@@ -3,6 +3,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import Icon from "@vape/components/Icon";
 import { Button } from "@vape/components/ui/button";
+import { cn } from "@vape/tools";
 import { ActionProps } from "@vape/types/modules/table/table";
 import Link from "next/link";
 import { useContext } from "react";
@@ -19,13 +20,13 @@ export const Action = ({
     const TC = useContext(TableContext);
 
     return action.single && dataRow ? (
-        <div className="mx-1">
+        <div className="mx-2">
             {action.linkTo ? (
                 <Link
-                    className={
-                        buttonVariants({ variant: "outline", size: "icon" }) +
-                        " pointer-events-auto border h-9 w-9"
-                    }
+                    className={cn(
+                        buttonVariants({ variant: "outline", size: "icon" }),
+                        "pointer-events-auto h-7 w-7 borde border-white"
+                    )}
                     href={resolveVarStringObject(action.linkTo, dataRow)}
                 >
                     <Icon name={action.icon} className="h-3.5 w-3.5" />
@@ -54,7 +55,7 @@ export const Action = ({
                         }
                     }}
                     variant={"outline"}
-                    className="pointer-events-auto border h-9 w-9"
+                    className="pointer-events-auto h-7 w-7 border"
                 >
                     <Icon name={action.icon} className="h-3.5 w-3.5" />
                 </Button>

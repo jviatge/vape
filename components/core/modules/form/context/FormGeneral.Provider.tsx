@@ -93,11 +93,7 @@ const ModalForm = ({
     };
 
     return modal.formBuilder ? (
-        <Dialog
-            open={modal.open === "create" || modal.open === "edit"}
-            /* onOpenChange={() => setModal((prev) => ({ ...prev, open: null }))} */
-        >
-            {/* sm:max-w-[80vw] max-h-[95vh] */}
+        <Dialog open={modal.open === "create" || modal.open === "edit"}>
             <DialogContent
                 tabIndex={undefined}
                 className="sm:max-w-[80vw] w-full max-h-[95vh] modal-relation"
@@ -174,6 +170,7 @@ const ModalSelect = ({
                             modeSelect={"single"}
                             tableBuilder={modal.tableBuilder}
                             permissions={{
+                                delete: false,
                                 read: true,
                                 create: false,
                                 update: false,

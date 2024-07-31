@@ -1,9 +1,13 @@
 export const resolveStringObject = (char: string, data: Record<string, any>) => {
     if (char.includes(".")) {
         const splits = char.split(".");
-        let value = data;
+        let value: any = data;
         splits.forEach((split) => {
-            value = value[split];
+            if (value[split]) {
+                value = value[split];
+            } else {
+                value = "-";
+            }
         });
         return value;
     } else {

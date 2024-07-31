@@ -1,11 +1,14 @@
 import { UseQueryResult } from "@tanstack/react-query";
+import { Button } from "@vape/components/ui/button";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { Loading } from "@vape/components/ui/loading";
 import { TableBody, TableCell, TableRow } from "@vape/components/ui/table";
 import { cn } from "@vape/lib/utils";
+import { Trash } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Action } from "../Action";
+import { DeleteAction } from "../actions/Delete";
 import TablesContext from "../context/Table.context";
 import { RenderFields } from "../render/RenderFields";
 
@@ -46,7 +49,7 @@ export const BodyTable = ({
                         e.stopPropagation();
                         handleSelectRow(row);
                     }}
-                    className="flex w-10 bg-card border-r justify-center items-center px-0 py-3"
+                    className="flex justify-center items-center w-10 bg-card border-r px-0 py-3"
                 >
                     <Checkbox
                         className={cn("mt-1", TC.modeSelect === "single" && "rounded-full")}
@@ -71,22 +74,31 @@ export const BodyTable = ({
                         </TableCell>
                     )
                 )}
-                {/* // TODO: Permissions filter by token user */}
-                {TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0 ? (
-                    <TableCell
-                        className="p-0 pointer-events-none bg-card border-l"
-                        style={
-                            TC.tableBuilder.actions.some((action) => action.single && action.linkTo)
-                                ? { width: "50px" }
-                                : { width: "40px" }
-                        }
-                    >
-                        <div className="flex justify-center items-center w-full h-full">
-                            {TC.tableBuilder.actions.map((action, index) =>
-                                action.single ? (
-                                    <Action key={index} action={action} dataRow={row} />
-                                ) : null
-                            )}
+                {(TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0) ||
+                (TC.permissions && TC.permissions.delete) ? (
+                    <TableCell className="p-0 pointer-events-none border-l" align="right">
+                        <div className="flex w-full items-center justify-center">
+                            {TC.tableBuilder.actions &&
+                            TC.tableBuilder.actions.length > 0 &&
+                            !TC.modeTrash
+                                ? TC.tableBuilder.actions.map((action, index) =>
+                                      action.single ? (
+                                          <Action key={index} action={action} dataRow={row} />
+                                      ) : null
+                                  )
+                                : null}
+                            {TC.permissions && TC.permissions.delete ? (
+                                <DeleteAction data={row}>
+                                    <Button
+                                        size="icon"
+                                        type="button"
+                                        variant={"destructive"}
+                                        className="pointer-events-auto border h-7 w-7"
+                                    >
+                                        <Trash className="h-3.5 w-3.5" />
+                                    </Button>
+                                </DeleteAction>
+                            ) : null}
                         </div>
                     </TableCell>
                 ) : null}

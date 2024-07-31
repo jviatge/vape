@@ -1,8 +1,10 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useContext, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { InfosHover } from "@/components/ui/infos-hover";
+import { Trash } from "lucide-react";
+import React, { useContext } from "react";
 import TableContext from "../context/Table.context";
 
-export const TabsFilter = ({ className }: { className?: string }) => {
+export const TrashMode = () => {
     const TC = useContext(TableContext);
 
     const getValueDefault = () => {
@@ -13,18 +15,7 @@ export const TabsFilter = ({ className }: { className?: string }) => {
             : TC.tableBuilder.get ?? TC.query.get ?? "undefined";
     };
 
-    useEffect(() => {
-        TC.setTabValue(getValueDefault());
-    }, []);
-
     const isTabs = Array.isArray(TC.tableBuilder.get);
-
-    const hanldeOnValueChange = (value: string) => {
-        TC.setSelectRowsDatas([]);
-        TC.setModeTrash(false);
-        TC.setTabValue(value);
-        TC.setQueryValue("get", "add", undefined, value);
-    };
 
     const handleTrash = () => {
         TC.setSelectRowsDatas([]);
@@ -45,18 +36,16 @@ export const TabsFilter = ({ className }: { className?: string }) => {
         }
     };
 
-    return Array.isArray(TC.tableBuilder.get) ? (
-        <Tabs value={TC.tabValue} className={"w-full md:w-1/4"} onValueChange={hanldeOnValueChange}>
-            <TabsList className="border w-full">
-                <TabsTrigger className="hidden" key={"undefined"} value={"undefined"} />
-                {TC.tableBuilder.get.map((tab) => {
-                    return (
-                        <TabsTrigger className="w-full" key={tab.get} value={tab.get}>
-                            {tab.label}
-                        </TabsTrigger>
-                    );
-                })}
-            </TabsList>
-        </Tabs>
+    return TC.permissions?.delete ? (
+        <InfosHover message={"Corbeilles"}>
+            <Button
+                variant={TC.modeTrash ? "destructive" : "secondary"}
+                className="border"
+                type="button"
+                onClick={handleTrash}
+            >
+                <Trash className="pointer-events-none" size={18} />
+            </Button>
+        </InfosHover>
     ) : null;
 };

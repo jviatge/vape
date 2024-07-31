@@ -7,6 +7,7 @@ export type Permissions = {
     read: boolean;
     create: boolean;
     update: boolean;
+    delete: boolean;
 };
 
 export const checkAccessRoute = async (

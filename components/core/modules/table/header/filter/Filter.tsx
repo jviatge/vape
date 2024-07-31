@@ -27,16 +27,6 @@ export const Filter = () => {
         return TC.tableBuilder.fields.filter((column) => column.filter) ?? null;
     }, [TC.tableBuilder.fields]);
 
-    /* useEffect(() => {
-        const filterParams = getAll("filter", true);
-        TC.setFilter((v: Record<string, string>) => ({
-            ...v,
-            ...filterParams,
-        }));
-    }, []);
- */
-    console.log(TC.query.contains);
-
     return filters.length > 0 ? (
         <Popover>
             <PopoverTrigger asChild>
