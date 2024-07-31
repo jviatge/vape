@@ -1,6 +1,7 @@
 import { Button } from "@vape/components/ui/button";
 import { Calendar } from "@vape/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@vape/components/ui/popover";
+import { gmtResolve } from "@vape/lib/formatDate";
 import { FieldTable } from "@vape/types/modules/table/table";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -74,13 +75,17 @@ const DatesRangeFilter = ({ field, valuesFields, setQueryValue, disabled }: Prop
                     disabled={disabled}
                     onSelect={(dateRage) => {
                         if (dateRage) {
+                            let from = undefined;
+                            let to = undefined;
+                            if (dateRage.from)
+                                from = new Date(gmtResolve(dateRage.from)).toISOString();
+                            if (dateRage.to) to = new Date(gmtResolve(dateRage.to)).toISOString();
+
                             setQueryValue(
                                 "datesRange",
                                 "add",
                                 field.name,
-                                `[from]${String(dateRage?.from?.toISOString())}[to]${String(
-                                    dateRage?.to?.toISOString()
-                                )}`
+                                `[from]${String(from)}[to]${String(to)}`
                             );
                         } else {
                             setQueryValue("datesRange", "delete", field.name);

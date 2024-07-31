@@ -48,7 +48,7 @@ export const DeleteAction = ({
         return data?.id ? [data.id] : [];
     };
 
-    const ids: string[] = resolveIDs(data);
+    const ids: number[] = resolveIDs(data);
 
     const mutationDeleteMulitple = useMutation<any, Error, any, any>({
         mutationFn: (ids) =>

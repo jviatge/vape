@@ -101,7 +101,7 @@ export const queryDeleteByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         remove: z.string(),
-        id: z.string(),
+        id: z.number(),
     }),
     async ({ model, remove, id }) => {
         const session = await getServerSession(authOptions);
@@ -125,7 +125,7 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         remove: z.string(),
-        ids: z.array(z.string()),
+        ids: z.array(z.number()),
     }),
     async ({ model, remove, ids }) => {
         const session = await getServerSession(authOptions);
