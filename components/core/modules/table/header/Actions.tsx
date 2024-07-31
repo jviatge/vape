@@ -39,10 +39,11 @@ export const Actions = ({ className }: { className?: string }) => {
         <div className={cn("flex flex-col w-40", className)}>
             <DeleteAction
                 data={TC.selectRowsDatas.length > 1 ? TC.selectRowsDatas : TC.selectRowsDatas[0]}
-                children={undefined}
                 openDialog={runActionDelete}
                 closeDialog={() => setRunActionDelete(false)}
-            />
+            >
+                <></>
+            </DeleteAction>
             <div className="flex items-center relative justify-center" ref={ref}>
                 <button
                     onClick={() => {
@@ -92,10 +93,10 @@ export const Actions = ({ className }: { className?: string }) => {
                                 )}
                             >
                                 {selectedAction ? (
-                                    <div className="flex">
+                                    <>
                                         <Icon name={selectedAction.icon} className="mr-2 h-4 w-4" />
                                         {selectedAction.label}
-                                    </div>
+                                    </>
                                 ) : (
                                     "Action"
                                 )}
