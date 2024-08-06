@@ -79,8 +79,25 @@ export class makeFilter {
         if (action === "add") {
             if (field.includes(".")) {
                 const fields = field.split(".");
-                if (field.includes("|")) {
-                    const keys = fields[1].split("|");
+                if (fields[fields.length - 1].includes("|")) {
+                    const keys = fields[fields.length - 1].split("|");
+                    if (fields.length === 3) {
+                        return {
+                            ...prev,
+                            [key]: {
+                                [fields[0] + "." + fields[1]]: {
+                                    OR: [
+                                        {
+                                            [keys[0]]: { [key]: value },
+                                        },
+                                        {
+                                            [keys[1]]: { [key]: value },
+                                        },
+                                    ],
+                                },
+                            },
+                        };
+                    }
                     return {
                         ...prev,
                         [key]: {

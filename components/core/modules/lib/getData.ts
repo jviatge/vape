@@ -9,6 +9,15 @@ export const resolveStringObject = (char: string, data: Record<string, any>) => 
                 value = "-";
             }
         });
+        /* if (keys) {
+            keys.map((key) => {
+                if (value[key]) {
+                    value += value[key];
+                } else {
+                    value = "-";
+                }
+            });
+        } */
         return value;
     } else {
         return data[char];

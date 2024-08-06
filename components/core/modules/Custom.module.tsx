@@ -23,12 +23,7 @@ export const CustomModule = (props: CustomBuilder) => {
 
     const query = useQuery<any>({
         enabled: props.model !== undefined && props.modelMethod !== undefined,
-        queryKey: [
-            props.model,
-            {
-                custom: true,
-            },
-        ],
+        queryKey: [props.model, props.modelMethod],
         staleTime: 0,
         queryFn: () =>
             queryGetByModule({

@@ -28,7 +28,12 @@ export const RenderFields = ({ column, row }: { column: FieldTable; row: Record<
                 ) : column.keys && column.keys.length > 0 ? (
                     column.keys.map((key, index) => (
                         <span key={key + index} className="mr-1 text-nowrap">
-                            {resolveStringObject(key, row[column.name])}
+                            {column.name.includes(".")
+                                ? resolveStringObject(
+                                      key,
+                                      row[column.name.split(".")[0]][column.name.split(".")[1]]
+                                  )
+                                : resolveStringObject(key, row[column.name])}
                         </span>
                     ))
                 ) : (

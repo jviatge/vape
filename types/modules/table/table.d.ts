@@ -1,3 +1,4 @@
+import { FormBuilder } from "@vape/components/core/modules/form/Form.module";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import { Filter } from "./filterTable";
 
@@ -25,6 +26,7 @@ export type ActionProps = {
     label: string;
     title?: string;
     description?: string;
+    form: FormBuilder;
     icon: keyof typeof dynamicIconImports;
     multiple: boolean;
     component?: string;

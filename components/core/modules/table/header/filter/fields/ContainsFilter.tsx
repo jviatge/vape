@@ -52,7 +52,7 @@ const ContainsFilter = ({
         }
         return value
             ? setQueryValue(typeFilter, "add", field.name, value as string)
-            : setQueryValue(typeFilter, "delete", "client.last_name|first_name");
+            : setQueryValue(typeFilter, "delete", field.name);
     };
 
     return (

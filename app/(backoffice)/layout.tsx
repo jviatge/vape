@@ -89,6 +89,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
                         <CommandBar links={links} />
 
                         <div className="flex items-center space-x-3">
+                            {/* <BugAction /> */}
                             <ModeToggle />
                         </div>
                     </div>
