@@ -11,7 +11,7 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useMutation } from "@tanstack/react-query";
-import { queryDeleteMulitpleByModule } from "@vape/actions/queries";
+import { queryPutMulitpleByModule } from "@vape/actions/queries";
 import { queryClient } from "@vape/tools";
 import { AlertTriangleIcon } from "lucide-react";
 import { ReactNode, useContext, useMemo, useState } from "react";
@@ -52,10 +52,11 @@ export const RestoreAction = ({
 
     const mutationDeleteMulitple = useMutation<any, Error, any, any>({
         mutationFn: (ids) =>
-            queryDeleteMulitpleByModule({
+            queryPutMulitpleByModule({
+                data: {},
                 model: model,
-                remove: "Many",
-                ids: ids,
+                put: "restoreMany",
+                ids,
             }).then((res) => res.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [model] });
@@ -91,18 +92,18 @@ export const RestoreAction = ({
                         <AlertDialogTitle className="flex items-center">
                             <AlertTriangleIcon size={24} className="text-red-500 mr-2" />
                             <span>
-                                {ids.length > 1 ? "Supprimer les éléments" : "Supprimer l'élément"}
+                                {ids.length > 1 ? "restaurer les éléments" : "restaurer l'élément"}
                             </span>
                         </AlertDialogTitle>
                         <AlertDialogDescription className="pt-2">
                             {ids.length > 1
-                                ? `Êtes-vous sûr de vouloir supprimer ces ${ids.length} éléments ?`
-                                : "Êtes-vous sûr de vouloir supprimer cet élément ?"}
+                                ? `Êtes-vous sûr de vouloir restaurer ces ${ids.length} éléments ?`
+                                : "Êtes-vous sûr de vouloir restaurer cet élément ?"}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Annuler</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete}>Supprimer</AlertDialogAction>
+                        <AlertDialogAction onClick={handleDelete}>Restaurer</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

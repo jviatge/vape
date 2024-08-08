@@ -2,7 +2,11 @@
 
 import { Form } from "@/components/ui/form";
 import { DevTool } from "@hookform/devtools";
-import { queryPostByModule, queryPutByModule } from "@vape/actions/queries";
+import {
+    queryPostByModule,
+    queryPutByModule,
+    queryPutMulitpleByModule,
+} from "@vape/actions/queries";
 import { CancelButtonRsc } from "@vape/components/ui/CancelButtonRsc";
 import { Button } from "@vape/components/ui/button";
 import { LoadingButton } from "@vape/components/ui/loading";
@@ -37,10 +41,12 @@ interface FormModuleProps {
     data: Record<string, any>;
     extraData?: Record<string, any>;
     id?: string;
+    ids?: string[];
     submitButtonOutID?: string;
     onSuccesSubmit?: (data: Record<string, any>) => void;
     authUser?: Record<string, any>;
     disabledLeaveConfirmation?: boolean;
+    cancelCallback?: () => void;
 }
 
 const FormModule: React.FC<FormModuleProps> = ({
@@ -48,15 +54,17 @@ const FormModule: React.FC<FormModuleProps> = ({
     data,
     extraData,
     id,
+    ids,
     submitButtonOutID,
     onSuccesSubmit,
     authUser,
     disabledLeaveConfirmation,
+    cancelCallback,
 }) => {
     const { toast } = useToast();
     const router = useRouter();
     const [isLoading, setLoading] = useState(false);
-    const mode: "create" | "edit" = id ? "edit" : "create";
+    const mode: "create" | "edit" = id || ids ? "edit" : "create";
 
     const form = useForm<any>({
         resolver: validationSchema(formBuilder.fields),
@@ -70,7 +78,15 @@ const FormModule: React.FC<FormModuleProps> = ({
         setLoading(true);
         try {
             let response = null;
-            if (id && formBuilder.put) {
+            if (ids && ids.length > 0 && formBuilder.put) {
+                response = await queryPutMulitpleByModule({
+                    data,
+                    model: formBuilder.model,
+                    put: formBuilder.put,
+                    ids,
+                });
+                queryClient.invalidateQueries({ queryKey: [formBuilder.model] });
+            } else if (id && formBuilder.put) {
                 response = await queryPutByModule({
                     data,
                     model: formBuilder.model,
@@ -91,16 +107,13 @@ const FormModule: React.FC<FormModuleProps> = ({
                 }
             }
 
-            if (!response.data.id) throw new Error("No id in response");
+            if (!response.data) throw new Error("No id in response");
 
             setLoading(false);
 
             toast({
                 title: "Succès",
-                description:
-                    button === "save" || button === "createAndCreateAnother"
-                        ? "Ressource créée avec succès !"
-                        : "Enregistrée",
+                description: mode === "create" ? "Ressource créée avec succès !" : "Enregistrée",
             });
 
             if (onSuccesSubmit) return onSuccesSubmit(response.data);
@@ -112,11 +125,12 @@ const FormModule: React.FC<FormModuleProps> = ({
                 form.reset();
             }
         } catch (error) {
+            console.error(error);
             setLoading(false);
             toast({
                 variant: "destructive",
-                title: "Error",
-                description: "An error occured!",
+                title: "Erreur",
+                description: "Une erreur est survenue.",
             });
         }
     };
@@ -187,7 +201,7 @@ const FormModule: React.FC<FormModuleProps> = ({
                                     </Button>
                                 </>
                             )}
-                            <CancelButtonRsc type={"button"} />
+                            <CancelButtonRsc type={"button"} cancelCallback={cancelCallback} />
                         </div>
                     ) : null}
                 </Form>

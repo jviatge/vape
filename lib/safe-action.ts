@@ -13,6 +13,10 @@ export const authAndPermModelAction = createSafeActionClient({
         }
         const user = session.user;
 
+        if (!user.active) {
+            throw new Error("Unauthorized");
+        }
+
         if (parsedInput.model) {
             const resource = await rscGetOne(parsedInput.model);
             if (!resource) {

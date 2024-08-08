@@ -23,6 +23,7 @@ export type FieldTable = {
 };
 
 export type ActionProps = {
+    name: string;
     label: string;
     title?: string;
     description?: string;

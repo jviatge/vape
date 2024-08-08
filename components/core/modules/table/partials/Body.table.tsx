@@ -4,11 +4,12 @@ import { Checkbox } from "@vape/components/ui/checkbox";
 import { Loading } from "@vape/components/ui/loading";
 import { TableBody, TableCell, TableRow } from "@vape/components/ui/table";
 import { cn } from "@vape/lib/utils";
-import { Trash } from "lucide-react";
+import { ArchiveRestore, Trash } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Action } from "../Action";
 import { DeleteAction } from "../actions/Delete";
+import { RestoreAction } from "../actions/Restore";
 import TablesContext from "../context/Table.context";
 import { RenderFields } from "../render/RenderFields";
 
@@ -88,16 +89,29 @@ export const BodyTable = ({
                                   )
                                 : null}
                             {TC.permissions && TC.permissions.delete ? (
-                                <DeleteAction data={row}>
-                                    <Button
-                                        size="icon"
-                                        type="button"
-                                        variant={"destructive"}
-                                        className="pointer-events-auto border h-7 w-7"
-                                    >
-                                        <Trash className="h-3.5 w-3.5" />
-                                    </Button>
-                                </DeleteAction>
+                                <>
+                                    {TC.modeTrash ? (
+                                        <RestoreAction data={row}>
+                                            <Button
+                                                size="icon"
+                                                type="button"
+                                                className="pointer-events-auto border h-7 w-7 bg-green-500 text-white"
+                                            >
+                                                <ArchiveRestore className="h-3.5 w-3.5" />
+                                            </Button>
+                                        </RestoreAction>
+                                    ) : null}
+                                    <DeleteAction data={row}>
+                                        <Button
+                                            size="icon"
+                                            type="button"
+                                            variant={"destructive"}
+                                            className="pointer-events-auto border h-7 w-7"
+                                        >
+                                            <Trash className="h-3.5 w-3.5" />
+                                        </Button>
+                                    </DeleteAction>
+                                </>
                             ) : null}
                         </div>
                     </TableCell>

@@ -74,6 +74,33 @@ export const queryPutByModule = authAndPermModelAction(
     }
 );
 
+export const queryPutMulitpleByModule = authAndPermModelAction(
+    z.object({
+        model: z.string(),
+        put: z.string(),
+        data: z.record(z.unknown()),
+        ids: z.array(z.number()),
+    }),
+    async ({ model, put, data, ids }) => {
+        const session = await getServerSession(authOptions);
+        const user = session?.user;
+
+        logQuery(
+            `[queryGetByModuleAndId] | user: ${user?.name} | model:${model} | ids:${JSON.stringify(
+                ids
+            )} | put:${put}`
+        );
+        let res: Record<string, any> = {};
+
+        if (put && model) {
+            const classModel = await getModel(model);
+            revalidatePath("/" + model);
+            return await classModel[put](ids, data, user);
+        }
+        return res;
+    }
+);
+
 export const queryPostByModule = authAndPermModelAction(
     z.object({
         model: z.string(),

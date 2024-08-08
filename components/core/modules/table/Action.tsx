@@ -4,19 +4,18 @@ import { buttonVariants } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import Icon from "@vape/components/Icon";
 import { Button } from "@vape/components/ui/button";
 import { cn } from "@vape/tools";
 import { ActionProps } from "@vape/types/modules/table/table";
 import Link from "next/link";
-import { useContext } from "react";
+import { useState } from "react";
 import FormModule from "../form/Form.module";
 import { resolveVarStringObject } from "../lib/getData";
-import TableContext from "./context/Table.context";
 
 export const Action = ({
     action,
@@ -25,7 +24,7 @@ export const Action = ({
     action: ActionProps;
     dataRow?: Record<string, any>;
 }) => {
-    const TC = useContext(TableContext);
+    const [open, setOpen] = useState(false);
 
     return action.single && dataRow ? (
         <div className="mx-2">
@@ -40,32 +39,35 @@ export const Action = ({
                     <Icon name={action.icon} className="h-3.5 w-3.5" />
                 </Link>
             ) : (
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button
-                            size="icon"
-                            type="button"
-                            variant={"outline"}
-                            className="pointer-events-auto h-7 w-7 border"
-                        >
-                            <Icon name={action.icon} className="h-3.5 w-3.5" />
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>{action.title}</DialogTitle>
-                            {/*  <DialogDescription>
-                                Make changes to your profile here. Click save when you're done.
-                            </DialogDescription> */}
-                        </DialogHeader>
-                        {action.form && dataRow ? (
-                            <FormModule id={dataRow.id} formBuilder={action.form} data={dataRow} />
-                        ) : null}
-                        {/* <DialogFooter>
-                            <Button type="submit">Save changes</Button>
-                        </DialogFooter> */}
-                    </DialogContent>
-                </Dialog>
+                <>
+                    <Button
+                        size="icon"
+                        type="button"
+                        variant={"outline"}
+                        onClick={() => setOpen(true)}
+                        className="pointer-events-auto h-7 w-7 border"
+                    >
+                        <Icon name={action.icon} className="h-3.5 w-3.5" />
+                    </Button>
+                    <Dialog onOpenChange={setOpen} open={open}>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>{action.title}</DialogTitle>
+                                {action.description ? (
+                                    <DialogDescription>{action.description}</DialogDescription>
+                                ) : null}
+                            </DialogHeader>
+                            {action.form && dataRow ? (
+                                <FormModule
+                                    ids={[dataRow.id]}
+                                    formBuilder={action.form}
+                                    data={dataRow}
+                                    cancelCallback={() => setOpen(false)}
+                                />
+                            ) : null}
+                        </DialogContent>
+                    </Dialog>
+                </>
             )}
         </div>
     ) : null;

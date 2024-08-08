@@ -1,4 +1,11 @@
 import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
@@ -7,15 +14,21 @@ import {
 import Icon from "@vape/components/Icon";
 import { Button } from "@vape/components/ui/button";
 import { cn } from "@vape/lib/utils";
-import { ChevronDown, Play, Trash } from "lucide-react";
-import { useContext, useRef, useState } from "react";
+import { ActionProps } from "@vape/types/modules/table/table";
+import { ArchiveRestore, ChevronDown, Play, Trash } from "lucide-react";
+import { useContext, useEffect, useRef, useState } from "react";
+import FormModule from "../../form/Form.module";
 import { DeleteAction } from "../actions/Delete";
+import { RestoreAction } from "../actions/Restore";
 import TableContext from "../context/Table.context";
 
 export const Actions = ({ className }: { className?: string }) => {
     const TC = useContext(TableContext);
     const [Selected, setSelected] = useState<null | string>(null);
     const [runActionDelete, setRunActionDelete] = useState<boolean>(false);
+    const [runActionRestore, setRunActionRestore] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [action, setAcion] = useState<ActionProps>();
 
     const ref = useRef<HTMLDivElement>(null);
 
@@ -26,7 +39,15 @@ export const Actions = ({ className }: { className?: string }) => {
                   icon: "trash",
                   single: true,
               }
-            : TC.tableBuilder?.actions?.find((action) => action.component === Selected);
+            : Selected === "Restore"
+            ? {
+                  label: "Restaurer",
+                  icon: "archive-restore",
+                  single: true,
+              }
+            : TC.tableBuilder?.actions?.find((action) => {
+                  return action.name === Selected;
+              });
 
     const isActionCustom =
         TC.tableBuilder.actions &&
@@ -35,33 +56,90 @@ export const Actions = ({ className }: { className?: string }) => {
 
     const isGrantedDelete = TC.permissions && TC.permissions.delete;
 
+    useEffect(() => {
+        if (TC.tableBuilder.actions) {
+            const action = TC.tableBuilder.actions.find((action) => action.name === Selected);
+            setAcion(action);
+        }
+        return () => {};
+    }, [Selected]);
+
+    /*  useEffect(() => {
+        setAcion(undefined);
+        return () => {};
+    }, [TC.modeTrash]); */
+
+    const getIds = () => {
+        const resolveIDs = (data: Record<string, any> | Record<string, any>[]) => {
+            if (Array.isArray(data)) {
+                return data.map((item) => item.id);
+            }
+            return data?.id ? [data.id] : [];
+        };
+        return resolveIDs(
+            TC.selectRowsDatas.length > 1 ? TC.selectRowsDatas : TC.selectRowsDatas[0]
+        );
+    };
+
     return isActionCustom || isGrantedDelete ? (
         <div className={cn("flex flex-col w-40", className)}>
-            <DeleteAction
-                data={TC.selectRowsDatas.length > 1 ? TC.selectRowsDatas : TC.selectRowsDatas[0]}
-                openDialog={runActionDelete}
-                closeDialog={() => setRunActionDelete(false)}
-            >
-                <></>
-            </DeleteAction>
+            {isGrantedDelete ? (
+                <>
+                    <DeleteAction
+                        data={
+                            TC.selectRowsDatas.length > 1
+                                ? TC.selectRowsDatas
+                                : TC.selectRowsDatas[0]
+                        }
+                        openDialog={runActionDelete}
+                        closeDialog={() => setRunActionDelete(false)}
+                    >
+                        <></>
+                    </DeleteAction>
+                    <RestoreAction
+                        data={
+                            TC.selectRowsDatas.length > 1
+                                ? TC.selectRowsDatas
+                                : TC.selectRowsDatas[0]
+                        }
+                        openDialog={runActionRestore}
+                        closeDialog={() => setRunActionRestore(false)}
+                    >
+                        <></>
+                    </RestoreAction>
+                </>
+            ) : null}
+
+            <Dialog onOpenChange={setOpen} open={open}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>{action?.title}</DialogTitle>
+                        {action?.description ? (
+                            <DialogDescription>{action.description}</DialogDescription>
+                        ) : null}
+                    </DialogHeader>
+                    {action?.form ? (
+                        <FormModule
+                            ids={getIds()}
+                            formBuilder={action.form}
+                            data={{}}
+                            cancelCallback={() => setOpen(false)}
+                        />
+                    ) : null}
+                </DialogContent>
+            </Dialog>
+
             <div className="flex items-center relative justify-center" ref={ref}>
                 <button
                     onClick={() => {
                         if (Selected) {
                             if (Selected === "Delete") {
                                 setRunActionDelete(true);
+                            } else if (Selected === "Restore") {
+                                setRunActionRestore(true);
+                            } else {
+                                setOpen(true);
                             }
-                            /* TC.setActionDialog({
-                                    props: TC.tableBuilder.actions
-                                        ? TC.tableBuilder.actions.find(
-                                              (action) => action.component === Selected
-                                          )?.props
-                                        : {},
-                                    open: true,
-                                    component: Selected,
-                                    isMultiple: true,
-                                    isSingle: false,
-                                }); */
                         }
                     }}
                     disabled={
@@ -92,7 +170,7 @@ export const Actions = ({ className }: { className?: string }) => {
                                     "flex items-center justify-between overflow-hidden"
                                 )}
                             >
-                                {selectedAction ? (
+                                {Selected ? (
                                     <>
                                         <Icon name={selectedAction.icon} className="mr-2 h-4 w-4" />
                                         {selectedAction.label}
@@ -114,9 +192,7 @@ export const Actions = ({ className }: { className?: string }) => {
                         {TC.tableBuilder.actions.map((action, index) =>
                             action.multiple ? (
                                 <DropdownMenuItem
-                                    onClick={() => {
-                                        action.component && setSelected(action.component);
-                                    }}
+                                    onClick={() => setSelected(action.name)}
                                     key={index}
                                 >
                                     <Icon name={action.icon} size={15} />
@@ -124,14 +200,28 @@ export const Actions = ({ className }: { className?: string }) => {
                                 </DropdownMenuItem>
                             ) : null
                         )}
-                        <DropdownMenuItem
-                            onClick={() => {
-                                setSelected("Delete");
-                            }}
-                        >
-                            <Trash size={15} />
-                            <span className="ml-2">Supprimer</span>
-                        </DropdownMenuItem>
+                        {isGrantedDelete ? (
+                            <>
+                                <DropdownMenuItem
+                                    onClick={() => {
+                                        setSelected("Delete");
+                                    }}
+                                >
+                                    <Trash size={15} />
+                                    <span className="ml-2">Supprimer</span>
+                                </DropdownMenuItem>
+                                {TC.modeTrash ? (
+                                    <DropdownMenuItem
+                                        onClick={() => {
+                                            setSelected("Restore");
+                                        }}
+                                    >
+                                        <ArchiveRestore size={15} />
+                                        <span className="ml-2">Restaurer</span>
+                                    </DropdownMenuItem>
+                                ) : null}
+                            </>
+                        ) : null}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
