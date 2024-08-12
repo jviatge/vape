@@ -18,7 +18,17 @@ import { QueryCache, QueryObserver, useMutation, useQueries } from "@tanstack/re
 import { cn } from "@vape/lib/utils";
 import { RefreshCcw, TrendingUp } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis, YAxis } from "recharts";
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Label,
+    LabelList,
+    Pie,
+    PieChart,
+    XAxis,
+    YAxis,
+} from "recharts";
 import { queryDeleteByModule, queryDeleteMulitpleByModule } from "./actions/queries";
 import Icon from "./components/Icon";
 import { useFormGeneral } from "./components/core/modules/form/hook/useFormGeneral";
@@ -59,6 +69,7 @@ export {
     Controller,
     Icon,
     Label,
+    LabelList,
     Loading,
     LR,
     Pie,
