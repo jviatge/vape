@@ -1,6 +1,7 @@
 import RootProvider from "@vape/components/core/providers/Root.provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Head from "next/head";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import "./globals.css";
@@ -15,6 +16,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="fr">
+            <Head>
+                <link rel="icon" href="../../favicon.ico" sizes="any" />
+            </Head>
             <body className={inter.className} suppressHydrationWarning={true}>
                 <NextTopLoader color="#73CA16" showSpinner={false} />
                 <RootProvider>{children}</RootProvider>

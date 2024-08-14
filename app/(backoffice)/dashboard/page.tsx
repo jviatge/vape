@@ -1,8 +1,17 @@
+import { getVapeConfig } from "@vape/actions/config";
 import { modulesGetOne } from "@vape/actions/resources";
 import { ResolveModules } from "@vape/components/core/server/ResolveModules";
 import { authOptions } from "@vape/lib/auth";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata(): Promise<Metadata> {
+    const config = await getVapeConfig();
+    return {
+        title: `Dashborad | ${config.title}`,
+    };
+}
 
 export default async function PageDashboard({
     params: { resources },

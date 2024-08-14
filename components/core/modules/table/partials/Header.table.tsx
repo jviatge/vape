@@ -117,23 +117,20 @@ export const HeaderTable = ({
                                     !TC.loading && "hover:text-card-foreground hover:bg-card"
                                 )}
                                 type="button"
-                                onClick={() => !column.keys && handleSort(column.name)}
+                                onClick={() => handleSort(column.name)}
                             >
-                                <span>{column.label ?? column.name}</span>
-
-                                {column.keys ? null : (
-                                    <>
-                                        {getValue(column.name) !== "desc" &&
-                                            getValue(column.name) !== "asc" && (
-                                                <ArrowUpDown className="ml-2 h-4 w-4" />
-                                            )}
-                                        {getValue(column.name) === "asc" && (
-                                            <ArrowDown className="ml-2 h-4 w-4 text-primary" />
-                                        )}
-                                        {getValue(column.name) === "desc" && (
-                                            <ArrowUp className="ml-2 h-4 w-4 text-primary" />
-                                        )}
-                                    </>
+                                <span>
+                                    {column.label ?? column.name} {column.name}
+                                </span>
+                                {getValue(column.name) !== "desc" &&
+                                    getValue(column.name) !== "asc" && (
+                                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                                    )}
+                                {getValue(column.name) === "asc" && (
+                                    <ArrowDown className="ml-2 h-4 w-4 text-primary" />
+                                )}
+                                {getValue(column.name) === "desc" && (
+                                    <ArrowUp className="ml-2 h-4 w-4 text-primary" />
                                 )}
                             </button>
                         </TableHead>

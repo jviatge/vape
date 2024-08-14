@@ -1,13 +1,26 @@
+import { getVapeConfig } from "@vape/actions/config";
 import { rscGetOne } from "@vape/actions/resources";
 import { ResolveModules } from "@vape/components/core/server/ResolveModules";
 import { checkAccessRoute } from "@vape/lib/permissions";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-export default async function PageOneRsc({
-    params: { resources, id },
-}: {
-    params: { resources: string; id: string };
-}) {
+type Props = {
+    params: {
+        resources: string;
+        id: string;
+    };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const config = await getVapeConfig();
+    const rscData = await rscGetOne(params.resources);
+    return {
+        title: `Édition - ${rscData?.params.label} | ${config.title}`,
+    };
+}
+
+export default async function PageOneRsc({ params: { resources, id } }: Props) {
     const rscData = await rscGetOne(resources);
 
     if (!rscData || !rscData._id) return notFound();
