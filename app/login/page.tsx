@@ -1,4 +1,4 @@
-import { getLogo, getVapeConfig } from "@vape/actions/config";
+import { getBgLogin, getLogo, getVapeConfig } from "@vape/actions/config";
 import LoginForm from "@vape/components/core/auth/LoginForm";
 import { authOptions } from "@vape/lib/auth";
 import { Metadata } from "next";
@@ -22,8 +22,9 @@ const LoginPage = async () => {
     }
 
     const logo = await getLogo();
+    const bgLogin = await getBgLogin();
 
-    return <LoginForm logo={logo} />;
+    return <LoginForm logo={logo} bgLogin={bgLogin} />;
 };
 
 export default LoginPage;

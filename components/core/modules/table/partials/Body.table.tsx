@@ -59,7 +59,7 @@ export const BodyTable = ({
                 </TableCell>
 
                 {TC.tableBuilder.fields.map((column, index) =>
-                    TC.hideColumns.includes(column.name) ? null : (
+                    TC.hideColumns.includes(column.name) || column.type === "hidden" ? null : (
                         <TableCell
                             onClick={() => {
                                 if (TC.modeSelect === "single" || TC.modeSelect === "multiple") {

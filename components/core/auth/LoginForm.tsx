@@ -18,7 +18,13 @@ const formSchema = z.object({
     password: z.string().min(1, "Password is required").max(50),
 });
 
-export default function LoginForm({ logo }: { logo: StaticImageData }) {
+export default function LoginForm({
+    logo,
+    bgLogin,
+}: {
+    logo: StaticImageData;
+    bgLogin: StaticImageData;
+}) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { toast } = useToast();
@@ -135,7 +141,11 @@ export default function LoginForm({ logo }: { logo: StaticImageData }) {
                         </form>
                     </Form>
                 </div>
-                <div className="bg-[url('/pontdugard.jpg')] bg-cover bg-center" />
+                {/* bg-[url('/pontdugard.jpg')]  */}
+                <div
+                    style={{ backgroundImage: `url('${bgLogin.src}')` }}
+                    className="bg-cover bg-center"
+                />
             </div>
         </div>
     );

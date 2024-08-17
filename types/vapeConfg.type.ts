@@ -4,6 +4,7 @@ export type VapeConfig = {
     version: string;
     title: string;
     logo?: StaticImageData;
+    bgLogin?: StaticImageData;
     auth: {
         model: string;
         get: string;

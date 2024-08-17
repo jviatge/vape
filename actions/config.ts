@@ -27,3 +27,18 @@ export const getLogo = async (): Promise<StaticImageData> => {
         throw new Error("Error getting logo");
     }
 };
+
+export const getBgLogin = async (): Promise<StaticImageData> => {
+    try {
+        const config = await getVapeConfig();
+
+        if (config.bgLogin) {
+            return config.bgLogin;
+        } else {
+            return logo;
+        }
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error getting bgLogin");
+    }
+};

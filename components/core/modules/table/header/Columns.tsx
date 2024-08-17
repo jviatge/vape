@@ -15,13 +15,15 @@ export const Columns = () => {
 
     const disabled = false;
 
-    const options = TC.tableBuilder.fields.map((field) => {
-        return {
-            name: field.name,
-            label: field.label,
-            hidden: field?.hidden ?? false,
-        };
-    });
+    const options = TC.tableBuilder.fields
+        .filter((field) => field.type !== "hidden")
+        .map((field) => {
+            return {
+                name: field.name,
+                label: field.label,
+                hidden: field?.hidden ?? false,
+            };
+        });
 
     const handleHideColumns = (value: boolean, name: string) => {
         TC.setHideColumns(

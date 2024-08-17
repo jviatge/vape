@@ -108,7 +108,7 @@ export const HeaderTable = ({
                     ) : null}
                 </TableHead>
                 {TC.tableBuilder.fields.map((column, index) =>
-                    TC.hideColumns.includes(column.name) ? null : (
+                    TC.hideColumns.includes(column.name) || column.type === "hidden" ? null : (
                         <TableHead key={column.name + index} className="px-1.5">
                             <button
                                 disabled={TC.loading}
@@ -119,9 +119,7 @@ export const HeaderTable = ({
                                 type="button"
                                 onClick={() => handleSort(column.name)}
                             >
-                                <span>
-                                    {column.label ?? column.name} {column.name}
-                                </span>
+                                <span>{column.label ?? column.name}</span>
                                 {getValue(column.name) !== "desc" &&
                                     getValue(column.name) !== "asc" && (
                                         <ArrowUpDown className="ml-2 h-4 w-4" />
