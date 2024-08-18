@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { queryGetByModule } from "@vape/actions/queries";
+import { TransitionProvider } from "@vape/components/providers/TransitionProvider";
 import { Card } from "@vape/components/ui/card";
 import { Loading } from "@vape/components/ui/loading";
 import dynamic from "next/dynamic";
@@ -36,19 +37,21 @@ export const CustomModule = (props: CustomBuilder) => {
     });
 
     return (
-        <Card className="relative w-full flex justify-center items-center overflow-hidden">
-            {query.isLoading ? (
-                <Loading />
-            ) : (
-                <DynamicComponent
-                    /* @ts-ignore  */
-                    props={{
-                        authUser: props.authUser,
-                        query,
-                        type: "module",
-                    }}
-                />
-            )}
-        </Card>
+        <TransitionProvider>
+            <Card className="relative w-full flex justify-center items-center overflow-hidden">
+                {query.isLoading ? (
+                    <Loading />
+                ) : (
+                    <DynamicComponent
+                        /* @ts-ignore  */
+                        props={{
+                            authUser: props.authUser,
+                            query,
+                            type: "module",
+                        }}
+                    />
+                )}
+            </Card>
+        </TransitionProvider>
     );
 };

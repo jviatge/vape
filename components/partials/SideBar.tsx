@@ -16,12 +16,16 @@ export const SideBar = ({
     firstName,
     lastName,
     role,
+    version,
+    listThemes,
 }: {
     links: TypeLink[];
     firstName: string;
     lastName: string;
     role: string;
     open?: boolean;
+    version: string;
+    listThemes: string[];
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -35,6 +39,8 @@ export const SideBar = ({
                     mobile={false}
                     firstName={firstName}
                     lastName={lastName}
+                    version={version}
+                    listThemes={listThemes}
                     role={role}
                 />
             </aside>
@@ -47,6 +53,8 @@ export const SideBar = ({
                     mobile={true}
                     firstName={firstName}
                     lastName={lastName}
+                    version={version}
+                    listThemes={listThemes}
                     role={role}
                 />
             </div>
@@ -61,7 +69,9 @@ const Nav = ({
     mobile,
     firstName,
     lastName,
+    version,
     role,
+    listThemes,
 }: {
     links: TypeLink[];
     open: boolean;
@@ -69,7 +79,9 @@ const Nav = ({
     mobile: boolean;
     firstName: string;
     lastName: string;
+    version: string;
     role: string;
+    listThemes: string[];
 }) => {
     const width = {
         open: "max-w-[239px]",
@@ -95,6 +107,8 @@ const Nav = ({
                     <div className={cn(mobile ? "pt-14" : "w-full")}>
                         {!mobile ? (
                             <CardUser
+                                listThemes={listThemes}
+                                version={version}
                                 open={open}
                                 firstName={firstName}
                                 lastName={lastName}
@@ -111,10 +125,12 @@ const Nav = ({
                                 >
                                     {mobile ? (
                                         <CardUser
+                                            listThemes={listThemes}
                                             open={open}
                                             firstName={firstName}
                                             lastName={lastName}
                                             role={role}
+                                            version={version}
                                         />
                                     ) : null}
                                     <div

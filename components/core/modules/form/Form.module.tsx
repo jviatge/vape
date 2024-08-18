@@ -7,6 +7,7 @@ import {
     queryPutByModule,
     queryPutMulitpleByModule,
 } from "@vape/actions/queries";
+import { TransitionProvider } from "@vape/components/providers/TransitionProvider";
 import { CancelButtonRsc } from "@vape/components/ui/CancelButtonRsc";
 import { Button } from "@vape/components/ui/button";
 import { LoadingButton } from "@vape/components/ui/loading";
@@ -141,73 +142,80 @@ const FormModule: React.FC<FormModuleProps> = ({
     );
 
     return (
-        <FormGeneralProvider
-            value={{
-                extraData,
-                mode,
-                authUser,
-                data,
-            }}
-        >
-            {confirmationDialog}
-            <FormProvider {...form}>
-                <Form {...form}>
-                    <form
-                        id={submitButtonOutID}
-                        onSubmit={form.handleSubmit((data) => handleSubmit(data, "create"))}
-                        className={cn(
-                            resolveColumnsClass(formBuilder.col ?? 4, formBuilder.gap ?? 5),
-                            /* (typeof containerPage === "undefined" || containerPage) && "container-page", */
-                            formBuilder.className && formBuilder.className
-                        )}
-                    >
-                        <RenderFields fields={formBuilder.fields} />
-                    </form>
-                    {!submitButtonOutID ? (
-                        <div className="space-y-3 md:space-y-0 space-x-0 md:space-x-3 pt-3 flex flex-col md:flex-row">
-                            {mode === "edit" ? (
-                                <Button
-                                    disabled={isLoading || !form.formState.isDirty}
-                                    onClick={form.handleSubmit((data) =>
-                                        handleSubmit(data, "save")
-                                    )}
-                                >
-                                    {/* Save changes */}
-                                    <LoadingButton isLoading={isLoading}>
-                                        Enregistrer les modifications
-                                    </LoadingButton>
-                                </Button>
-                            ) : (
-                                <>
+        <TransitionProvider type="left-right">
+            <FormGeneralProvider
+                value={{
+                    extraData,
+                    mode,
+                    authUser,
+                    data,
+                }}
+            >
+                {confirmationDialog}
+                <FormProvider {...form}>
+                    <Form {...form}>
+                        <form
+                            id={submitButtonOutID}
+                            onSubmit={form.handleSubmit((data) => handleSubmit(data, "create"))}
+                            className={cn(
+                                resolveColumnsClass(formBuilder.col ?? 4, formBuilder.gap ?? 5),
+                                /* (typeof containerPage === "undefined" || containerPage) && "container-page", */
+                                formBuilder.className && formBuilder.className
+                            )}
+                        >
+                            <RenderFields fields={formBuilder.fields} />
+                        </form>
+                        {!submitButtonOutID ? (
+                            <div className="space-y-3 md:space-y-0 space-x-0 md:space-x-3 pt-3 flex flex-col md:flex-row">
+                                {mode === "edit" ? (
                                     <Button
                                         disabled={isLoading || !form.formState.isDirty}
                                         onClick={form.handleSubmit((data) =>
-                                            handleSubmit(data, "create")
+                                            handleSubmit(data, "save")
                                         )}
                                     >
-                                        {/* Create */}
-                                        <LoadingButton isLoading={isLoading}>Créer</LoadingButton>
-                                    </Button>
-                                    <Button
-                                        disabled={isLoading || !form.formState.isDirty}
-                                        variant={"secondary"}
-                                        onClick={form.handleSubmit((data) =>
-                                            handleSubmit(data, "createAndCreateAnother")
-                                        )}
-                                    >
-                                        <LoadingButton isLoading={isLoading} variant={"secondary"}>
-                                            Enregistrer et créer un autre
+                                        {/* Save changes */}
+                                        <LoadingButton isLoading={isLoading}>
+                                            Enregistrer les modifications
                                         </LoadingButton>
                                     </Button>
-                                </>
-                            )}
-                            <CancelButtonRsc type={"button"} cancelCallback={cancelCallback} />
-                        </div>
-                    ) : null}
-                </Form>
-                <DevTool control={form.control} />
-            </FormProvider>
-        </FormGeneralProvider>
+                                ) : (
+                                    <>
+                                        <Button
+                                            disabled={isLoading || !form.formState.isDirty}
+                                            onClick={form.handleSubmit((data) =>
+                                                handleSubmit(data, "create")
+                                            )}
+                                        >
+                                            {/* Create */}
+                                            <LoadingButton isLoading={isLoading}>
+                                                Créer
+                                            </LoadingButton>
+                                        </Button>
+                                        <Button
+                                            disabled={isLoading || !form.formState.isDirty}
+                                            variant={"secondary"}
+                                            onClick={form.handleSubmit((data) =>
+                                                handleSubmit(data, "createAndCreateAnother")
+                                            )}
+                                        >
+                                            <LoadingButton
+                                                isLoading={isLoading}
+                                                variant={"secondary"}
+                                            >
+                                                Enregistrer et créer un autre
+                                            </LoadingButton>
+                                        </Button>
+                                    </>
+                                )}
+                                <CancelButtonRsc type={"button"} cancelCallback={cancelCallback} />
+                            </div>
+                        ) : null}
+                    </Form>
+                    <DevTool control={form.control} />
+                </FormProvider>
+            </FormGeneralProvider>
+        </TransitionProvider>
     );
 };
 

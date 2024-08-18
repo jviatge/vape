@@ -1,3 +1,5 @@
+import { getThemes } from "@vape/actions/config";
+
 import RootProvider from "@vape/components/core/providers/Root.provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -15,7 +17,8 @@ export const metadata: Metadata = {
     icons: [{ rel: "icon", url: Favicon.src }],
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+    const configThemes = await getThemes();
     return (
         <html lang="fr">
             <Head>
@@ -23,7 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </Head>
             <body className={inter.className} suppressHydrationWarning={true}>
                 <NextTopLoader color="#73CA16" showSpinner={false} />
-                <RootProvider>{children}</RootProvider>
+                <RootProvider configThemes={configThemes}>{children}</RootProvider>
             </body>
         </html>
     );

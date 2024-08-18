@@ -23,7 +23,7 @@ export const RenderCustom = (customBuilder: CustomBuilder) => {
     );
 
     const query = useQuery<any>({
-        enabled: customBuilder.model !== undefined && customBuilder.modelMethod !== undefined,
+        enabled: customBuilder.model && customBuilder.modelMethod ? true : false,
         queryKey: [
             customBuilder.model,
             {

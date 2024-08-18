@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { queryGetByModule } from "@vape/actions/queries";
+import { TransitionProvider } from "@vape/components/providers/TransitionProvider";
 import { Card } from "@vape/components/ui/card";
 import { Table } from "@vape/components/ui/table";
 import useIsSSR from "@vape/hooks/useIsSSR";
@@ -73,7 +74,7 @@ const ContentModuleTable = ({ onChangeSelect }: { onChangeSelect?: (data: any) =
     }, [TC, dataGetAll.isLoading, TC.setLoading]);
 
     return (
-        <>
+        <TransitionProvider>
             <Header
                 query={{
                     getAll: dataGetAll,
@@ -106,7 +107,7 @@ const ContentModuleTable = ({ onChangeSelect }: { onChangeSelect?: (data: any) =
                     getAll: dataGetAll,
                 }}
             />
-        </>
+        </TransitionProvider>
     );
 };
 

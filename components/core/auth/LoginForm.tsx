@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TransitionProvider } from "@vape/components/providers/TransitionProvider";
 import { Button } from "@vape/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@vape/components/ui/form";
 import { Input } from "@vape/components/ui/input";
@@ -64,7 +65,7 @@ export default function LoginForm({
 
     return (
         <div className="shadow-2xl bg-secondary">
-            <div className="grid-cols-2 md:grid">
+            <TransitionProvider type="left-right" className="grid-cols-2 md:grid">
                 <div className="flex flex-col items-center justify-center h-screen shadow-2xl">
                     <Image
                         src={logo.src}
@@ -146,7 +147,7 @@ export default function LoginForm({
                     style={{ backgroundImage: `url('${bgLogin.src}')` }}
                     className="bg-cover bg-center"
                 />
-            </div>
+            </TransitionProvider>
         </div>
     );
 }

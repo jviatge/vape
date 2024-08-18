@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "../Icon";
+import { TransitionProvider } from "../providers/TransitionProvider";
 import { CancelButtonRsc } from "../ui/CancelButtonRsc";
 import { Button } from "../ui/button";
 
@@ -26,8 +27,6 @@ export const LayoutRsc = ({
         return paths[paths.length - 1];
     };
 
-    /* console.log("LayoutRsc", idRsc, params); */
-
     return (
         <div
             className="overflow-y-auto overflow-x-hidden relative md:translate-x-0 -translate-x-[58px] w-screen md:w-full"
@@ -35,10 +34,17 @@ export const LayoutRsc = ({
         >
             <div className="md:p-8 p-4">
                 <div className="flex items-center mb-5 justify-between">
-                    <div className="flex items-center">
-                        <Icon name={params.icon} size={28} strokeWidth={1.6} className="mr-3" />
+                    <TransitionProvider className="flex items-center" type="left-right">
+                        <div className="relative h-10 w-12">
+                            <Icon
+                                name={params.icon}
+                                size={28}
+                                strokeWidth={1.6}
+                                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                            />
+                        </div>
                         <h1 className="font-semibold text-3xl">{params.label}</h1>
-                    </div>
+                    </TransitionProvider>
 
                     {isDashboard ? null : (
                         <>
