@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { queryGetByModuleAndId } from "@vape/actions/queries";
 import TableModule from "@vape/components/core/modules/table/Table.module";
 import { Button } from "@vape/components/ui/button";
 import {
@@ -9,9 +7,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@vape/components/ui/dialog";
-import { Loading } from "@vape/tools";
 import { Dispatch, SetStateAction, useState } from "react";
-import FormModule, { FormBuilder } from "../Form.module";
+import FormModule from "../Form.module";
 import FormGeneralContext, { ModalProps } from "./FormGeneral.context";
 
 export const FormGeneralProvider = ({
@@ -56,42 +53,6 @@ const ModalForm = ({
     modal: ModalProps;
     setModal: Dispatch<SetStateAction<ModalProps>>;
 }) => {
-    const GetData = ({ formBuilder, id }: { formBuilder: FormBuilder; id: string }) => {
-        const { data, isLoading } = useQuery<any, Error, Record<string, any>>({
-            queryKey: [formBuilder.model, id],
-            queryFn: () =>
-                queryGetByModuleAndId({
-                    model: formBuilder.model,
-                    get: formBuilder.get as string,
-                    id: id,
-                }),
-        });
-
-        return isLoading ? (
-            <div className="w-full flex justify-center py-10">
-                <Loading />
-            </div>
-        ) : data ? (
-            <FormModule
-                data={data.data}
-                id={id}
-                extraData={modal.valueParent}
-                formBuilder={formBuilder}
-                submitButtonOutID={"edit-" + formBuilder.model}
-                disabledLeaveConfirmation={true}
-                onSuccesSubmit={(data: any) =>
-                    setModal((prev) => ({
-                        ...prev,
-                        open: null,
-                        data: {
-                            [modal.name]: data,
-                        },
-                    }))
-                }
-            />
-        ) : null;
-    };
-
     return modal.formBuilder ? (
         <Dialog open={modal.open === "create" || modal.open === "edit"}>
             <DialogContent
@@ -101,26 +62,24 @@ const ModalForm = ({
                 <DialogHeader>
                     <DialogTitle className="pb-6">Ajouter</DialogTitle>
                     <div className={"overflow-y-scroll max-h-[70vh] px-4"}>
-                        {modal.formBuilder && modal.id ? (
-                            <GetData formBuilder={modal.formBuilder} id={modal.id} />
-                        ) : (
-                            <FormModule
-                                data={{}}
-                                extraData={modal.valueParent}
-                                formBuilder={modal.formBuilder}
-                                submitButtonOutID={"create-" + modal.formBuilder.model}
-                                disabledLeaveConfirmation={true}
-                                onSuccesSubmit={(data: any) =>
-                                    setModal((prev) => ({
-                                        ...prev,
-                                        open: null,
-                                        data: {
-                                            [modal.name]: data,
-                                        },
-                                    }))
-                                }
-                            />
-                        )}
+                        <FormModule
+                            id={modal.id}
+                            extraData={modal.valueParent}
+                            formBuilder={modal.formBuilder}
+                            submitButtonOutID={
+                                (modal.id ? "edit-" : "create-") + modal.formBuilder.model
+                            }
+                            disabledLeaveConfirmation={true}
+                            onSuccesSubmit={(data: any) => {
+                                setModal((prev) => ({
+                                    ...prev,
+                                    open: null,
+                                    data: {
+                                        [modal.name]: data,
+                                    },
+                                }));
+                            }}
+                        />
                     </div>
                 </DialogHeader>
                 <DialogFooter>

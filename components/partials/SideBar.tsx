@@ -44,7 +44,7 @@ export const SideBar = ({
                     role={role}
                 />
             </aside>
-            <div className="h-14 border-b w-[58px] border-0 bg-primary-foreground md:hidden flex justify-center items-center relative border-r p-2">
+            <div className="h-14 border-b w-[58px] border-0 bg-background md:hidden flex justify-center items-center relative border-r p-2">
                 <BurgerIcon onClick={() => setOpen(!open)} isOpen={open} />
                 <Nav
                     links={links}
@@ -94,7 +94,7 @@ const Nav = ({
             <BackgroundVeil onClick={() => setOpen(false)} open={open} mobile={mobile} />
             <nav
                 className={cn(
-                    "flex shadow-xl z-40 bg-primary-foreground",
+                    "flex shadow-xl z-40 bg-background",
                     mobile && "fixed h-full top-0 left-0"
                 )}
             >

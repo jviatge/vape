@@ -1,8 +1,9 @@
 "use client";
 
 import { Form } from "@/components/ui/form";
-import { DevTool } from "@hookform/devtools";
+import { useQuery } from "@tanstack/react-query";
 import {
+    queryGetByModuleAndId,
     queryPostByModule,
     queryPutByModule,
     queryPutMulitpleByModule,
@@ -10,7 +11,7 @@ import {
 import { TransitionProvider } from "@vape/components/providers/TransitionProvider";
 import { CancelButtonRsc } from "@vape/components/ui/CancelButtonRsc";
 import { Button } from "@vape/components/ui/button";
-import { LoadingButton } from "@vape/components/ui/loading";
+import { Loading, LoadingButton } from "@vape/components/ui/loading";
 import { useToast } from "@vape/components/ui/use-toast";
 import { queryClient } from "@vape/lib/queryClient";
 import { Col, Gap, resolveColumnsClass } from "@vape/lib/resolveGrid";
@@ -39,7 +40,6 @@ export type FormBuilder = {
 
 interface FormModuleProps {
     formBuilder: FormBuilder;
-    data: Record<string, any>;
     extraData?: Record<string, any>;
     id?: string;
     ids?: string[];
@@ -50,7 +50,54 @@ interface FormModuleProps {
     cancelCallback?: () => void;
 }
 
-const FormModule: React.FC<FormModuleProps> = ({
+const FormModule: React.FC<
+    FormModuleProps & {
+        data?: Record<string, any>;
+    }
+> = (props) => {
+    return props.formBuilder && props.id ? (
+        <GetData {...props} />
+    ) : (
+        <Content
+            formBuilder={props.formBuilder}
+            data={props.data ?? {}}
+            extraData={props.extraData}
+            id={props.id}
+            ids={props.ids}
+            submitButtonOutID={props.submitButtonOutID}
+            onSuccesSubmit={props.onSuccesSubmit}
+            authUser={props.authUser}
+            disabledLeaveConfirmation={props.disabledLeaveConfirmation}
+            cancelCallback={props.cancelCallback}
+        />
+    );
+};
+
+const GetData = (props: FormModuleProps) => {
+    const { data, isLoading } = useQuery<any, Error, Record<string, any>>({
+        queryKey: [props.formBuilder.model, props.id],
+        queryFn: () =>
+            queryGetByModuleAndId({
+                model: props.formBuilder.model,
+                get: props.formBuilder.get as string,
+                id: props.id,
+            }),
+    });
+
+    return isLoading ? (
+        <div className="w-full flex justify-center py-10">
+            <Loading />
+        </div>
+    ) : data ? (
+        <Content data={data.data} {...props} />
+    ) : null;
+};
+
+const Content: React.FC<
+    FormModuleProps & {
+        data: Record<string, any>;
+    }
+> = ({
     formBuilder,
     data,
     extraData,
@@ -212,7 +259,7 @@ const FormModule: React.FC<FormModuleProps> = ({
                             </div>
                         ) : null}
                     </Form>
-                    <DevTool control={form.control} />
+                    {/* <DevTool control={form.control} /> */}
                 </FormProvider>
             </FormGeneralProvider>
         </TransitionProvider>

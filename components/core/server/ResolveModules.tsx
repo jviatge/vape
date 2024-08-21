@@ -1,6 +1,5 @@
 "use server";
 
-import { queryGetByModuleAndId } from "@vape/actions/queries";
 import { getPermissions } from "@vape/lib/permissions";
 import { resolveColumnsClass, resolveSpanClass } from "@vape/lib/resolveGrid";
 import { Resource } from "@vape/types/resources.type";
@@ -52,21 +51,14 @@ export const ResolveModules = async ({
                         );
                         break;
                     case "form":
-                        response = await queryGetByModuleAndId({
-                            model: module.model,
-                            get: String(module.get),
-                            id: String(id),
-                        });
-                        if (response)
-                            moduleCache = (
-                                <FormModule
-                                    key={i}
-                                    formBuilder={module}
-                                    authUser={session?.user}
-                                    data={response.data}
-                                    id={id}
-                                />
-                            );
+                        moduleCache = (
+                            <FormModule
+                                key={i}
+                                formBuilder={module}
+                                authUser={session?.user}
+                                id={id}
+                            />
+                        );
                         break;
                     case "make-form":
                         /*  model Form {

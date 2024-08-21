@@ -60,7 +60,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
     const listThemes = await getListThemes();
 
     return (
-        <div className="h-screen flex bg-background relative w-screen overflow-hidden">
+        <div className="h-screen flex relative w-screen overflow-hidden">
             <SideBar
                 listThemes={listThemes}
                 links={links}
@@ -69,8 +69,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 role={labelRole}
                 version={config.version}
             />
-            <div className="w-full relative">
-                <header className="w-full h-14 border-b border-0 bg-primary-foreground md:pr-0 pr-[58px]">
+            <div className="w-full relative h-full">
+                <header className="w-full h-14 border-b border-0 bg-background md:pr-0 pr-[58px]">
                     <div className="flex justify-between items-center h-full px-3">
                         {/* <div className="flex items-start">
                             <Image

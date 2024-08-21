@@ -1,15 +1,12 @@
 import { getThemes } from "@vape/actions/config";
-
 import RootProvider from "@vape/components/core/providers/Root.provider";
+import { ThemeProvider } from "@vape/components/providers/ThemeProvider";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Head from "next/head";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import Favicon from "../../assets/favicon.ico";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -24,9 +21,17 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <Head>
                 <link rel="icon" href="../../favicon.ico" sizes="any" />
             </Head>
-            <body className={inter.className} suppressHydrationWarning={true}>
+            <body suppressHydrationWarning={true}>
                 <NextTopLoader color="#73CA16" showSpinner={false} />
-                <RootProvider configThemes={configThemes}>{children}</RootProvider>
+                <ThemeProvider
+                    configThemes={configThemes}
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <RootProvider configThemes={configThemes}>{children}</RootProvider>
+                </ThemeProvider>
             </body>
         </html>
     );

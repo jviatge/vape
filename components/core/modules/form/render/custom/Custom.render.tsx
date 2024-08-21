@@ -14,7 +14,7 @@ export const RenderCustom = (customBuilder: CustomBuilder) => {
             dynamic(() => import(`../../../../../../../modules/${customBuilder.component}`), {
                 ssr: false,
                 loading: () => (
-                    <div className="flex justify-center items-center w-full h-full">
+                    <div className="flex justify-center items-center w-full">
                         <Loading />
                     </div>
                 ),
@@ -24,12 +24,7 @@ export const RenderCustom = (customBuilder: CustomBuilder) => {
 
     const query = useQuery<any>({
         enabled: customBuilder.model && customBuilder.modelMethod ? true : false,
-        queryKey: [
-            customBuilder.model,
-            {
-                custom: true,
-            },
-        ],
+        queryKey: [customBuilder.model, customBuilder.modelMethod, "field"],
         staleTime: 0,
         queryFn: () =>
             queryGetByModule({

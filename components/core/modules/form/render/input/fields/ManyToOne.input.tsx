@@ -5,6 +5,7 @@ import { queryGetByModule } from "@vape/actions/queries";
 import SelectBox from "@vape/components/ui/select-box";
 import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
+import { Button } from "@vape/tools";
 import { TableBuilder } from "@vape/types/modules/table/table";
 import { Edit, Plus, Search, X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
@@ -77,7 +78,7 @@ const DisplayModal = ({
     return !isNotObjectEmpty(value) ? (
         <div className="flex justify-between items-center gap-4">
             {!disabled?.select ? (
-                <button
+                <Button
                     onClick={() =>
                         setModal({
                             open: "select",
@@ -86,18 +87,15 @@ const DisplayModal = ({
                         })
                     }
                     type="button"
-                    className={cn(
-                        "h-10 w-full flex justify-center items-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90",
-                        classNameBtn
-                    )}
+                    className={cn("w-full", classNameBtn)}
                 >
                     <Search size={20} />
                     <span className="ml-2">Sélectionner</span>
-                </button>
+                </Button>
             ) : null}
 
             {!disabled?.create ? (
-                <button
+                <Button
                     onClick={() =>
                         setModal({
                             open: "create",
@@ -107,14 +105,11 @@ const DisplayModal = ({
                         })
                     }
                     type="button"
-                    className={cn(
-                        "h-10 w-full flex justify-center items-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90",
-                        classNameBtn
-                    )}
+                    className={cn("w-full", classNameBtn)}
                 >
                     <Plus size={20} />
                     <span className="ml-2">Ajouter</span>
-                </button>
+                </Button>
             ) : null}
         </div>
     ) : (
@@ -132,7 +127,7 @@ const DisplayModal = ({
                         }}
                         type="button"
                         className={cn(
-                            "h-10 flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/90",
+                            "h-10 flex items-center bg-secondary text-secondary-foreground",
                             classNameBtn
                         )}
                     >
@@ -143,7 +138,7 @@ const DisplayModal = ({
                     onClick={() => form.setValue(name, {}, { shouldDirty: true })}
                     type="button"
                     className={cn(
-                        "h-10 flex items-center bg-destructive text-destructive-foreground hover:bg-destructive/90",
+                        "h-10 flex items-center bg-destructive text-destructive-foreground",
                         classNameBtn
                     )}
                 >

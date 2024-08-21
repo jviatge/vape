@@ -147,7 +147,7 @@ export const Actions = ({ className }: { className?: string }) => {
                     }
                     type="submit"
                     className={cn(
-                        "h-10 flex items-center text-muted-foreground bg-primary-foreground rounded-l-md border-l border-y",
+                        "h-10 flex items-center text-muted-foreground bg-background rounded-l-md border-l border-y",
                         !TC.loading &&
                             Selected &&
                             TC.selectRowsDatas.length > 0 &&
@@ -166,7 +166,7 @@ export const Actions = ({ className }: { className?: string }) => {
                         >
                             <div
                                 className={cn(
-                                    !selectedAction && "text-muted-foreground",
+                                    /* !selectedAction && "text-accent", */
                                     "flex items-center justify-between overflow-hidden"
                                 )}
                             >

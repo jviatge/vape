@@ -1,6 +1,5 @@
 "use client";
 
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { TransitionProvider } from "@/components/providers/TransitionProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -19,22 +18,14 @@ interface Props {
 const RootProvider = ({ children, configThemes }: Props) => {
     return (
         <QueryClientProvider client={queryClient}>
-            <SessionProvider>
-                <RouteChangesProvider>
-                    <TransitionProvider>
-                        <ThemeProvider
-                            configThemes={configThemes}
-                            attribute="class"
-                            defaultTheme="system"
-                            enableSystem
-                            disableTransitionOnChange
-                        >
-                            {children}
-                        </ThemeProvider>
-                    </TransitionProvider>
-                </RouteChangesProvider>
-            </SessionProvider>
-            <Toaster />
+            <TransitionProvider>
+                <SessionProvider>
+                    <RouteChangesProvider>
+                        {children}
+                        <Toaster />
+                    </RouteChangesProvider>
+                </SessionProvider>
+            </TransitionProvider>
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );

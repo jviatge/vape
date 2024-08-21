@@ -5,7 +5,6 @@ import { logQuery } from "@vape/lib/logs";
 import { authAndPermModelAction } from "@vape/lib/safe-action";
 import { FilterModel } from "@vape/types/model.type";
 import { getServerSession } from "next-auth";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getModel } from "./resources";
 
@@ -66,8 +65,8 @@ export const queryPutByModule = authAndPermModelAction(
 
         if (put && model) {
             const classModel = await getModel(model);
-            revalidatePath("/" + model);
-            revalidatePath("/" + model + "/" + id);
+            /* revalidatePath("/" + model); */
+            /* revalidatePath("/" + model + "/" + id); */
             return await classModel[put](id, data, user);
         }
         return res;
@@ -94,7 +93,7 @@ export const queryPutMulitpleByModule = authAndPermModelAction(
 
         if (put && model) {
             const classModel = await getModel(model);
-            revalidatePath("/" + model);
+            /* revalidatePath("/" + model); */
             return await classModel[put](ids, data, user);
         }
         return res;
@@ -116,7 +115,7 @@ export const queryPostByModule = authAndPermModelAction(
 
         if (post && model) {
             const classModel = await getModel(model);
-            revalidatePath("/" + model);
+            /* revalidatePath("/" + model); */
             return await classModel[post](data, user);
         }
 
@@ -141,7 +140,7 @@ export const queryDeleteByModule = authAndPermModelAction(
 
         if (remove && model) {
             const classModel = await getModel(model);
-            revalidatePath("/" + model);
+            /* revalidatePath("/" + model); */
             return await classModel[remove](id, user);
         }
         return res;
@@ -167,7 +166,7 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
 
         if (remove && model) {
             const classModel = await getModel(model);
-            revalidatePath("/" + model);
+            /* revalidatePath("/" + model); */
             return await classModel[remove](ids, user);
         }
         return res;

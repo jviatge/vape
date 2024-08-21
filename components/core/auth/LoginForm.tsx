@@ -86,7 +86,7 @@ export default function LoginForm({
                                         <FormItem className="flex flex-col">
                                             <FormControl>
                                                 <div className="flex items-center">
-                                                    <div className="h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y">
+                                                    <div className="h-10 flex items-center bg-background rounded-l-md border-l border-y">
                                                         <User
                                                             className="pointer-events-none mx-3"
                                                             size={18}
@@ -114,7 +114,7 @@ export default function LoginForm({
                                         <FormItem className="flex flex-col">
                                             <FormControl>
                                                 <div className="flex items-center">
-                                                    <div className="h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y">
+                                                    <div className="h-10 flex items-center bg-background rounded-l-md border-l border-y">
                                                         <KeyRound
                                                             className="pointer-events-none mx-3"
                                                             size={18}

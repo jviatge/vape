@@ -42,7 +42,8 @@ export const BodyTable = ({
                 key={index}
                 className={cn(
                     "cursor-pointer pointer-events-auto",
-                    TC.selectRowsDatas.some((item: any) => item.id === row.id) && "bg-muted/50"
+                    TC.selectRowsDatas.some((item: any) => item.id === row.id) &&
+                        "bg-accent hover:bg-accent"
                 )}
             >
                 <TableCell
@@ -50,7 +51,11 @@ export const BodyTable = ({
                         e.stopPropagation();
                         handleSelectRow(row);
                     }}
-                    className="flex justify-center items-center w-10 bg-card border-r px-0 py-3"
+                    className={cn(
+                        "flex justify-center items-center w-10 bg-card border-r px-0 py-3",
+                        TC.selectRowsDatas.some((item: any) => item.id === row.id) &&
+                            "bg-accent hover:bg-accent"
+                    )}
                 >
                     <Checkbox
                         className={cn("mt-1", TC.modeSelect === "single" && "rounded-full")}
@@ -120,7 +125,7 @@ export const BodyTable = ({
         ));
 
     return (
-        <TableBody className="bg-primary-foreground">
+        <TableBody className="bg-background">
             {!getAll.isLoading && getAll.data && getAll.data ? (
                 getAll.data.paginateData && getAll.data.paginateData.length > 0 ? (
                     <RowsData data={getAll.data.paginateData} />

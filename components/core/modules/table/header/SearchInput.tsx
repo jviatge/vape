@@ -39,7 +39,7 @@ export const SearchInput = ({ className }: { className?: string }) => {
                     disabled={!watchSearch || TC.loading}
                     type="submit"
                     className={cn(
-                        "h-10 flex items-center bg-primary-foreground rounded-l-md border-l border-y cursor-pointer",
+                        "h-10 flex items-center bg-background rounded-l-md border-l border-y cursor-pointer",
                         watchSearch && !TC.loading && "bg-primary text-primary-foreground"
                     )}
                 >
