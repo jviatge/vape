@@ -24,6 +24,7 @@ export type TypeCustomModule = {
     component: string;
     model: string;
     modelMethod: string;
+    noCard?: boolean;
 };
 
 export type Module = {

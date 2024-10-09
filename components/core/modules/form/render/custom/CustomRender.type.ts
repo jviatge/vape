@@ -13,6 +13,7 @@ export interface BaseCustom extends baseField {
     name?: string;
     returnTypes?: InputBuilder["type"];
     defaultValue?: any;
+    noCard?: boolean;
 }
 
 export type CustomBuilder = BaseCustom;

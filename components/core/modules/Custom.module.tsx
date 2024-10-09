@@ -38,20 +38,37 @@ export const CustomModule = (props: CustomBuilder) => {
 
     return (
         <TransitionProvider>
-            <Card className="relative w-full flex justify-center items-center overflow-hidden">
-                {query.isLoading ? (
-                    <Loading />
-                ) : (
-                    <DynamicComponent
-                        /* @ts-ignore  */
-                        props={{
-                            authUser: props.authUser,
-                            query,
-                            type: "module",
-                        }}
-                    />
-                )}
-            </Card>
+            {props.noCard ? (
+                <div className="relative w-full flex justify-center items-center overflow-hidden">
+                    {query.isLoading ? (
+                        <Loading />
+                    ) : (
+                        <DynamicComponent
+                            /* @ts-ignore  */
+                            props={{
+                                authUser: props.authUser,
+                                query,
+                                type: "module",
+                            }}
+                        />
+                    )}
+                </div>
+            ) : (
+                <Card className="relative w-full flex justify-center items-center overflow-hidden">
+                    {query.isLoading ? (
+                        <Loading />
+                    ) : (
+                        <DynamicComponent
+                            /* @ts-ignore  */
+                            props={{
+                                authUser: props.authUser,
+                                query,
+                                type: "module",
+                            }}
+                        />
+                    )}
+                </Card>
+            )}
         </TransitionProvider>
     );
 };
