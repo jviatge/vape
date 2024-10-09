@@ -31,6 +31,8 @@ export function CommandBar({ links }: { links: TypeLink[] }) {
         return () => document.removeEventListener("keydown", down);
     }, []);
 
+    console.log(JSON.stringify(links, null, 2));
+
     return (
         <div className={"w-full md:w-1/3 flex justify-center items-center mx-3"}>
             <CommandDialog open={open} onOpenChange={setOpen}>
@@ -55,7 +57,7 @@ export function CommandBar({ links }: { links: TypeLink[] }) {
                     <CommandSeparator />
                     <CommandGroup heading="Actions">
                         {links.map((link, index) =>
-                            link.href === "/dashboard" ? null : (
+                            link.href === "/dashboard" || link.disabledCreate ? null : (
                                 <CommandItem
                                     key={"+" + index}
                                     className="cursor-pointer"

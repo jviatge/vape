@@ -26,6 +26,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
         label: "Dashboard",
         icon: "home",
         separator: false,
+        disabledCreate: false,
+        disabledEdit: false,
     });
 
     rscAllParams.map((rsc, i) => {
@@ -39,6 +41,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
                     label: rsc.label,
                     icon: rsc.icon,
                     separator: separator,
+                    disabledCreate: rsc.disabledCreate ?? false,
+                    disabledEdit: rsc.disabledEdit ?? false,
                 });
             }
         } else {
@@ -47,6 +51,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 label: rsc.label,
                 icon: rsc.icon,
                 separator: separator,
+                disabledCreate: rsc.disabledCreate ?? false,
+                disabledEdit: rsc.disabledEdit ?? false,
             });
         }
     });

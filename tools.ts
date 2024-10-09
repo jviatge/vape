@@ -14,7 +14,22 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
-import { QueryCache, QueryObserver, useMutation, useQueries } from "@tanstack/react-query";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    QueryCache,
+    QueryObserver,
+    useMutation,
+    useQueries,
+    useQuery,
+} from "@tanstack/react-query";
 import { cn } from "@vape/lib/utils";
 import { RefreshCcw, TrendingUp } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -29,13 +44,16 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import { queryDeleteByModule, queryDeleteMulitpleByModule } from "./actions/queries";
+import {
+    queryDeleteByModule,
+    queryDeleteMulitpleByModule,
+    queryGetByModule,
+} from "./actions/queries";
 import Icon from "./components/Icon";
 import { useFormGeneral } from "./components/core/modules/form/hook/useFormGeneral";
 import { Button } from "./components/ui/button";
 import { Loading } from "./components/ui/loading";
 import { queryClient } from "./lib/queryClient";
-
 const queryCache = new QueryCache({
     onError: (error) => {
         console.log(error);
@@ -80,12 +98,21 @@ export {
     queryClient,
     queryDeleteByModule,
     queryDeleteMulitpleByModule,
+    queryGetByModule,
     QueryObserver,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
     TrendingUp,
     useFormContext,
     useFormGeneral,
     useMutation,
     useQueries,
+    useQuery,
     XAxis,
     YAxis,
 };

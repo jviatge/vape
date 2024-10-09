@@ -5,4 +5,6 @@ export type TypeLink = {
     label: string;
     icon: keyof typeof dynamicIconImports;
     separator?: boolean;
+    disabledCreate?: boolean;
+    disabledEdit?: boolean;
 };
