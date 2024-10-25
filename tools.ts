@@ -14,6 +14,7 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
     Select,
     SelectContent,
@@ -30,8 +31,11 @@ import {
     useQueries,
     useQuery,
 } from "@tanstack/react-query";
+import { Calendar } from "@vape/components/ui/calendar";
 import { cn } from "@vape/lib/utils";
-import { RefreshCcw, TrendingUp } from "lucide-react";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
+import { Calendar as CalendarIcon, RefreshCcw, TrendingUp } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
     Bar,
@@ -51,6 +55,7 @@ import {
 } from "./actions/queries";
 import Icon from "./components/Icon";
 import { useFormGeneral } from "./components/core/modules/form/hook/useFormGeneral";
+import { resolveDate } from "./components/core/modules/table/header/filter/fields/DatesRangeFilter";
 import { Button } from "./components/ui/button";
 import { Loading } from "./components/ui/loading";
 import { queryClient } from "./lib/queryClient";
@@ -72,6 +77,8 @@ export {
     Bar,
     BarChart,
     Button,
+    Calendar,
+    CalendarIcon,
     Card,
     CardContent,
     CardDescription,
@@ -87,6 +94,8 @@ export {
     ChartTooltipContent,
     cn,
     Controller,
+    format,
+    fr,
     Icon,
     Label,
     LabelList,
@@ -94,12 +103,16 @@ export {
     LR,
     Pie,
     PieChart,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
     queryCache,
     queryClient,
     queryDeleteByModule,
     queryDeleteMulitpleByModule,
     queryGetByModule,
     QueryObserver,
+    resolveDate,
     Select,
     SelectContent,
     SelectGroup,

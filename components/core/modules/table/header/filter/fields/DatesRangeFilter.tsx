@@ -15,16 +15,16 @@ type Props = {
     disabled?: boolean;
 };
 
-const DatesRangeFilter = ({ field, valuesFields, setQueryValue, disabled }: Props) => {
-    const resolveDate = (date: string | undefined): any => {
-        if (!date) return {};
-        const [from, to] = date.split("[to]");
-        const fromResolved = new Date(from.replace("[from]", ""));
-        if (date.includes("[from]undefined") || date.includes("[to]undefined"))
-            return { from: fromResolved };
-        return { from: fromResolved, to: new Date(to) };
-    };
+export const resolveDate = (date: string | undefined): any => {
+    if (!date) return {};
+    const [from, to] = date.split("[to]");
+    const fromResolved = new Date(from.replace("[from]", ""));
+    if (date.includes("[from]undefined") || date.includes("[to]undefined"))
+        return { from: fromResolved };
+    return { from: fromResolved, to: new Date(to) };
+};
 
+const DatesRangeFilter = ({ field, valuesFields, setQueryValue, disabled }: Props) => {
     const handleDelete = () => {
         setQueryValue("datesRange", "delete", field.name);
     };
