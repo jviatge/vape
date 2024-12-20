@@ -1,12 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import loadable from "@loadable/component";
 import { useMemo } from "react";
 
 export const RenderCustom = (props: { component: string; row: Record<string, any> }) => {
     const DynamicComponent = useMemo(
         () =>
-            dynamic(() => import(`../../../../../../../modules/${props.component}`), {
+            loadable(() => import(`../../../../../../../modules/${props.component}`), {
                 ssr: false,
             }),
         [props.component]

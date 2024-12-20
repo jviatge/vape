@@ -13,7 +13,7 @@ export type ConfigTheme = {
 
 export const getVapeConfig = async (): Promise<VapeConfig> => {
     try {
-        return await import("~/vape.config").then((module) => module.default);
+        return await import("~/configs/general").then((module) => module.default);
     } catch (error) {
         console.error(error);
         throw new Error("Error getting config");
