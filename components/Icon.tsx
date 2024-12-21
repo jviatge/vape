@@ -1,19 +1,35 @@
-import { LucideProps } from "lucide-react";
-import dynamicIconImports from "lucide-react/dynamicIconImports";
-import dynamic from "next/dynamic";
-import React from "react";
+import { type LucideProps, icons } from "lucide-react";
 
-export interface IconProps extends LucideProps {
-    name: keyof typeof dynamicIconImports;
+type IconComponentName = keyof typeof icons;
+
+interface IconProps extends LucideProps {
+    name: string; // because this is coming from the CMS
 }
 
-const _Icon = ({ name, ...props }: IconProps) => {
-    const LucideIcon = dynamic(dynamicIconImports[name]);
+// 👮‍♀️ guard
+function isValidIconComponent(componentName: string): componentName is IconComponentName {
+    return componentName in icons;
+}
 
-    return <LucideIcon {...props} />;
-};
+export default function Icon({ name, ...props }: IconProps) {
+    // we need to convert kebab-case to PascalCase because we formerly relied on
+    // lucide-react/dynamicIconImports and the icon names are what are stored in the CMS.
+    const kebabToPascal = (str: string) =>
+        str
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join("");
 
-// 🩹 Fix for unnecessary re-renders
-const Icon = React.memo(_Icon);
+    const componentName = kebabToPascal(name);
 
-export default Icon;
+    // ensure what is in the CMS is a valid icon component
+    if (!isValidIconComponent(componentName)) {
+        return null;
+    }
+
+    // lucide-react/dynamicIconImports makes makes NextJS development server very slow
+    // https://github.com/lucide-icons/lucide/issues/1576
+    const Icon = icons[componentName];
+
+    return <Icon {...props} />;
+}

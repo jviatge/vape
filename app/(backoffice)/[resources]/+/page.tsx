@@ -10,8 +10,9 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { resources } = await params;
     const config = await getVapeConfig();
-    const rscData = await rscGetOne(params.resources);
+    const rscData = await rscGetOne(resources);
     return {
         title: `Création - ${rscData?.params.label} | ${config.title}`,
     };

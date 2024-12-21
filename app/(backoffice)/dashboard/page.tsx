@@ -13,19 +13,12 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-export default async function PageDashboard({
-    params: { resources },
-}: {
-    params: { resources: string };
-}) {
+export default async function PageDashboard() {
     const moduleData = await modulesGetOne();
-
     if (!moduleData) return notFound();
-
     const session = await getServerSession(authOptions);
-
+    console.log(session);
     if (!session?.user) return notFound();
-
     return (
         <ResolveModules
             rscData={{

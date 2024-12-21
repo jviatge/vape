@@ -13,14 +13,16 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { resources } = await params;
     const config = await getVapeConfig();
-    const rscData = await rscGetOne(params.resources);
+    const rscData = await rscGetOne(resources);
     return {
         title: `Édition - ${rscData?.params.label} | ${config.title}`,
     };
 }
 
-export default async function PageOneRsc({ params: { resources, id } }: Props) {
+export default async function PageOneRsc({ params }: Props) {
+    const { resources, id } = await params;
     const rscData = await rscGetOne(resources);
 
     if (!rscData || !rscData._id) return notFound();

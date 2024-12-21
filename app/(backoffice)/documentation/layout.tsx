@@ -10,16 +10,14 @@ export default async function RscLayout({
 }) {
     const sections = await getRouteDocs();
 
-    const baseLink = "http://localhost:3000/documentation";
-
     return (
         <LayoutRsc
             params={{
                 order: 0,
                 icon: "book-open",
                 label: "Documentation",
-                disabledCreate: true,
             }}
+            isDocumentation={true}
         >
             <div>
                 <div>

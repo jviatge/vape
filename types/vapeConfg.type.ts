@@ -1,10 +1,8 @@
-import { StaticImageData } from "next/image";
-
 export type VapeConfig = {
     version: string;
     title: string;
-    logo?: StaticImageData;
-    bgLogin?: StaticImageData;
+    logo?: string;
+    bgLogin?: string;
     auth: {
         model: string;
         get: string;

@@ -118,5 +118,3 @@ export const ResolveModules = async ({
     }
     return <div className={resolveColumnsClass(4, 5)}>{modules.map((module, i) => module)}</div>;
 };
-
-const moduleCache = (module: any, data: any) => {};

@@ -6,9 +6,10 @@ import { Button } from "@vape/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@vape/components/ui/form";
 import { Input } from "@vape/components/ui/input";
 import { useToast } from "@vape/components/ui/use-toast";
+import { VapeConfig } from "@vape/types/vapeConfg.type";
 import { ArrowRight, KeyRound, User } from "lucide-react";
 import { signIn } from "next-auth/react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,13 +20,7 @@ const formSchema = z.object({
     password: z.string().min(1, "Password is required").max(50),
 });
 
-export default function LoginForm({
-    logo,
-    bgLogin,
-}: {
-    logo: StaticImageData;
-    bgLogin: StaticImageData;
-}) {
+export default function LoginForm({ config }: { config: VapeConfig }) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { toast } = useToast();
@@ -67,13 +62,15 @@ export default function LoginForm({
         <div className="shadow-2xl bg-secondary">
             <TransitionProvider type="left-right" className="grid-cols-2 md:grid">
                 <div className="flex flex-col items-center justify-center h-screen shadow-2xl">
-                    <Image
-                        src={logo.src}
-                        alt="logo"
-                        className="w-2/5 h-auto text-primary"
-                        height={100}
-                        width={100}
-                    />
+                    {config.logo ? (
+                        <Image
+                            src={config.logo}
+                            alt="logo"
+                            className="w-2/5 h-auto text-primary"
+                            height={100}
+                            width={100}
+                        />
+                    ) : null}
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(handleSubmitAuth)} className="p-8 w-2/3">
                             {/* <div className="text-xl text-center text-primary">Se connecter</div> */}
@@ -83,7 +80,7 @@ export default function LoginForm({
                                     control={form.control}
                                     name={"id"}
                                     render={({ field }) => (
-                                        <FormItem className="flex flex-col">
+                                        <FormItem className="flex flex-col my-3">
                                             <FormControl>
                                                 <div className="flex items-center">
                                                     <div className="h-10 flex items-center bg-background rounded-l-md border-l border-y">
@@ -97,7 +94,7 @@ export default function LoginForm({
                                                         disabled={loading}
                                                         {...field}
                                                         placeholder="Identifiant"
-                                                        className="w-full my-3 rounded-l-none rounded-r-md border border-border"
+                                                        className="w-full rounded-l-none rounded-r-md border border-border"
                                                     />
                                                 </div>
                                             </FormControl>
@@ -111,7 +108,7 @@ export default function LoginForm({
                                     control={form.control}
                                     name={"password"}
                                     render={({ field }) => (
-                                        <FormItem className="flex flex-col">
+                                        <FormItem className="flex flex-col my-3">
                                             <FormControl>
                                                 <div className="flex items-center">
                                                     <div className="h-10 flex items-center bg-background rounded-l-md border-l border-y">
@@ -126,7 +123,7 @@ export default function LoginForm({
                                                         {...field}
                                                         type="password"
                                                         placeholder="Mot de passe"
-                                                        className="w-full my-3 rounded-l-none rounded-r-md border-border"
+                                                        className="w-full rounded-l-none rounded-r-md border-border"
                                                     />
                                                 </div>
                                             </FormControl>
@@ -144,7 +141,7 @@ export default function LoginForm({
                 </div>
                 {/* bg-[url('/pontdugard.jpg')]  */}
                 <div
-                    style={{ backgroundImage: `url('${bgLogin.src}')` }}
+                    style={{ backgroundImage: `url('${config.bgLogin}')` }}
                     className="bg-cover bg-center"
                 />
             </TransitionProvider>

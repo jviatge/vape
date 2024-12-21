@@ -10,8 +10,9 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { resources } = await params;
     const config = await getVapeConfig();
-    const rscData = await rscGetOne(params.resources);
+    const rscData = await rscGetOne(resources);
     return {
         title: `${rscData?.params.label} | ${config.title}`,
     };
@@ -26,7 +27,8 @@ export async function generateStaticParams() {
     return resources.map((resource) => ({ resources: resource }));
 }
 
-export default async function PageRsc({ params: { resources } }: Props) {
+export default async function PageRsc({ params }: Props) {
+    const { resources } = await params;
     const rscData = await rscGetOne(resources);
 
     if (!rscData) return notFound();

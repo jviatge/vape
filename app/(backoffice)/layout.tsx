@@ -1,5 +1,5 @@
 import { ModeToggle } from "@/components/ModeToggle";
-import { getListThemes, getLogo, getVapeConfig } from "@vape/actions/config";
+import { getListThemes, getVapeConfig } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
 import { CommandBar } from "@vape/components/CommandBar";
@@ -26,8 +26,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
         label: "Dashboard",
         icon: "home",
         separator: false,
-        disabledCreate: false,
-        disabledEdit: false,
+        disabledCreate: true,
+        disabledEdit: true,
     });
 
     rscAllParams.map((rsc, i) => {
@@ -57,9 +57,16 @@ export default async function RootLayoutBo({ children }: { children: React.React
         }
     });
 
-    const labelRole = await resolveLabelRole(user?.role);
+    links.push({
+        href: "/documentation",
+        label: "Documentation",
+        icon: "book",
+        separator: true,
+        disabledCreate: true,
+        disabledEdit: true,
+    });
 
-    const logo = await getLogo();
+    const labelRole = await resolveLabelRole(user?.role);
 
     const config = await getVapeConfig();
 
@@ -78,24 +85,9 @@ export default async function RootLayoutBo({ children }: { children: React.React
             <div className="w-full relative h-full">
                 <header className="w-full h-14 border-b border-0 bg-background md:pr-0 pr-[58px]">
                     <div className="flex justify-between items-center h-full px-3">
-                        {/* <div className="flex items-start">
-                            <Image
-                                src={logo}
-                                alt="logo"
-                                height={100}
-                                width={100}
-                                style={{
-                                    marginTop: "3px",
-                                    marginBottom: "3px",
-                                    width: "auto",
-                                    height: "50px",
-                                }}
-                            />
-                        </div> */}
                         <CommandBar links={links} />
 
                         <div className="flex items-center space-x-3">
-                            {/* <BugAction /> */}
                             <ModeToggle />
                         </div>
                     </div>

@@ -14,11 +14,13 @@ export const LayoutRsc = ({
     params,
     idRsc,
     isDashboard,
+    isDocumentation,
 }: {
     isDashboard?: boolean;
     children: React.ReactNode;
     params: ResourceParams;
     idRsc?: string;
+    isDocumentation?: boolean;
 }) => {
     const pathname = usePathname();
 
@@ -46,7 +48,7 @@ export const LayoutRsc = ({
                         <h1 className="font-semibold text-3xl">{params.label}</h1>
                     </TransitionProvider>
 
-                    {isDashboard ? null : (
+                    {isDashboard || isDocumentation ? null : (
                         <>
                             {/* INDEX */}
                             {getLastPath(pathname) === idRsc && !params.disabledCreate ? (
