@@ -32,11 +32,8 @@ import { Magix } from 'm4gixjs'
 
 @TODO
 
--   update + turbo pack
 -   Typage ressource
 -   Docs...
 -   Install
 -   Link github on login
 -   Version Vape on config
--   Theme default
--   Loading top color primary

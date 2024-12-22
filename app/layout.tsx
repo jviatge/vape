@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 <link rel="icon" href="/assets/favicon.ico" sizes="any" />
             </head>
             <body suppressHydrationWarning={true}>
-                <NextTopLoader color="#73CA16" showSpinner={false} />
+                <NextTopLoader zIndex={1600} showSpinner={false} height={5} />
                 <ThemeProvider
                     configThemes={configThemes}
                     attribute="class"
