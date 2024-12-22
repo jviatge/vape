@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+    app:
+        container_name: app
+        image: node:21.6.2-slim
+        ports:
+            - "3000:3000"
+        restart: always
+        volumes:
+            - ./logs:/app/logs
+        build:
+            context: .
+            dockerfile: Dockerfile
+        networks:
+            - internal
+
+networks:
+    internal:
+        external: false

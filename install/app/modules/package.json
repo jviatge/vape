@@ -1,0 +1,12 @@
+{
+    "name": "@vape/modules",
+    "version": "1.0.0",
+    "devDependencies": {
+        "@types/react": "^18.2.66"
+    },
+    "dependencies": {
+        "chart.js": "^4.4.2",
+        "react-chartjs-2": "^5.2.0",
+        "react-to-print": "^2.15.1"
+    }
+}

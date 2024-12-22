@@ -1,0 +1,29 @@
+{
+    "name": "vape-project",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "pnpm run --parallel dev",
+        "build": "pnpm run --parallel build",
+        "start": "pnpm run --parallel start",
+        "prisma:generate": "pnpm -F=@vape/database generate",
+        "db:start:dev": "sh .vape/docker/dev/run.sh",
+        "db:seed": "pnpm -F=@vape/database seed",
+        "db:push": "pnpm -F=@vape/database db push",
+        "db:migrate": "pnpm -F=@vape/database migrate",
+        "db:migrate:dev": "pnpm -F=@vape/database migrate dev",
+        "seed": "tsx --tsconfig ./tsconfig.json ./prisma/seed.ts",
+        "test": "pnpm run --parallel cypress:open"
+    },
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "crypto-js": "^4.2.0",
+        "tsx": "^4.15.7"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.2",
+        "@types/node": "^20.14.9",
+        "typescript": "^5.5.2"
+    }
+}

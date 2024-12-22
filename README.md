@@ -6,9 +6,46 @@ Vape is the simplest and fastest way to build production-ready administration pa
 
 ## Install
 
+1 - clone vape
+
+```BASH
+git clone https://github.com/jviatge/vape.git && cd vape
+
+```
+
+2 - Run init
+
+```BASH
+pnpm init-project
+
+```
+
+3 - Install
+
+```BASH
+pnpm install
+
+```
+
+4 - Generate database
+
+```BASH
+pnpm prisma:generate
+```
+
+---
+
 ## Usage
 
-### Configs
+### Development
+
+```BASH
+pnpm dev
+```
+
+### Production
+
+## Configs
 
 ```JAVASCRIPT
 import { Magix } from 'm4gixjs'
@@ -16,9 +53,9 @@ import { Magix } from 'm4gixjs'
 
 ---
 
-### Resources
+## Resources
 
-#### Params
+### Params
 
 ---
 
@@ -34,6 +71,5 @@ import { Magix } from 'm4gixjs'
 
 -   Typage ressource
 -   Docs...
--   Install
 -   Link github on login
 -   Version Vape on config

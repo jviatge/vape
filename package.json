@@ -8,6 +8,7 @@
         }
     },
     "scripts": {
+        "init-project": "node ./install/install.js && cd ../",
         "dev": "next dev",
         "predev": "ts-node ./preBuild.ts",
         "build": "next build",
