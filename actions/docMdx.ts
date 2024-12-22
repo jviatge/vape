@@ -18,8 +18,8 @@ export const getOneDoc = async (sections: string[]): Promise<string | undefined>
     }
 };
 
-export const getRouteDocs = async (): Promise<string[]> => {
+/* export const getRouteDocs = async (): Promise<string[]> => {
     const exclude = [".DS_Store"];
     const files = fs.readdirSync("./docs/");
     return files.filter((file) => !exclude.includes(file));
-};
+}; */

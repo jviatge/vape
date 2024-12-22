@@ -45,7 +45,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
                     disabledEdit: rsc.disabledEdit ?? false,
                 });
             }
-        } else {
+        }
+        /*  else {
             links.push({
                 href: "/" + rsc.route,
                 label: rsc.label,
@@ -54,7 +55,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 disabledCreate: rsc.disabledCreate ?? false,
                 disabledEdit: rsc.disabledEdit ?? false,
             });
-        }
+        } */
     });
 
     links.push({

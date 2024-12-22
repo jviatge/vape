@@ -38,4 +38,4 @@ next-env.d.ts
 generated
 .env
 seed.ts
-/public
+/public/assets

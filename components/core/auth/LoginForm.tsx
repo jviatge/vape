@@ -64,7 +64,7 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
                 <div className="flex flex-col items-center justify-center h-screen shadow-2xl">
                     {config.logo ? (
                         <Image
-                            src={config.logo}
+                            src={"/assets/" + config.logo}
                             alt="logo"
                             className="w-2/5 h-auto text-primary"
                             height={100}
@@ -141,7 +141,7 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
                 </div>
                 {/* bg-[url('/pontdugard.jpg')]  */}
                 <div
-                    style={{ backgroundImage: `url('${config.bgLogin}')` }}
+                    style={{ backgroundImage: `url('/assets/${config.bgLogin}')` }}
                     className="bg-cover bg-center"
                 />
             </TransitionProvider>

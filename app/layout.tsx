@@ -17,6 +17,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     const configThemes = await getThemes();
     return (
         <html lang="fr">
+            <head>
+                <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+            </head>
             <body suppressHydrationWarning={true}>
                 <NextTopLoader color="#73CA16" showSpinner={false} />
                 <ThemeProvider

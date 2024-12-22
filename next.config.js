@@ -26,6 +26,14 @@ const nextConfig = {
     experimental: {
         turbo: {},
     },
+    async rewrites() {
+        return [
+            {
+                source: "/public/app/logo.svg",
+                destination: "/app/logo.svg",
+            },
+        ];
+    },
 };
 
 module.exports = withMDX(nextConfig);

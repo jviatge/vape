@@ -1,15 +1,6 @@
-import { getRouteDocs } from "@vape/actions/docMdx";
 import { LayoutRsc } from "@vape/components/partials/LayoutRsc";
-import Link from "next/link";
 
-export default async function RscLayout({
-    children,
-}: {
-    children: React.ReactNode;
-    params: { resources: string };
-}) {
-    const sections = await getRouteDocs();
-
+export default async function RscLayout({ children }: { children: React.ReactNode }) {
     return (
         <LayoutRsc
             params={{
@@ -19,16 +10,7 @@ export default async function RscLayout({
             }}
             isDocumentation={true}
         >
-            <div>
-                <div>
-                    {sections.map((section, i) => (
-                        <Link key={i} href={section}>
-                            {section}
-                        </Link>
-                    ))}
-                </div>
-                {children}
-            </div>
+            {children}
         </LayoutRsc>
     );
 }
