@@ -8,7 +8,7 @@
         }
     },
     "scripts": {
-        "init-project": "node ./install/install.js && cd ../",
+        "init-project": "node ./install/init.js",
         "dev": "next dev",
         "predev": "ts-node ./preBuild.ts",
         "build": "next build",
@@ -17,7 +17,8 @@
         "lint": "next lint",
         "add:user": "tsx ./commands/createUser.ts",
         "seed": "cp ./../.env ./.env && cp ./../prisma/seed.ts ./seed.ts && npx prisma db seed",
-        "cypress:open": "cypress open"
+        "cypress:open": "cypress open",
+        "testing": "mkdir testing"
     },
     "prisma": {
         "schema": "../prisma/schema.prisma",

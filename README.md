@@ -6,10 +6,25 @@ Vape is the simplest and fastest way to build production-ready administration pa
 
 ## Install
 
+### Auto
+
+```BASH
+wget -O - https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install.sh | bash
+```
+
+or
+
+```BASH
+curl -s https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install.sh >tmp.sh
+bash tmp.sh
+```
+
+### Manually
+
 1 - clone vape
 
 ```BASH
-git clone https://github.com/jviatge/vape.git && cd vape
+git clone https://github.com/jviatge/vape.git .vape && cd .vape
 
 ```
 
@@ -30,8 +45,19 @@ pnpm install
 4 - Generate database
 
 ```BASH
-pnpm prisma:generate
+pnpm generate
 ```
+
+5 - Migrate database
+
+```BASH
+pnpm migrate
+```
+
+6 - Seed database
+
+````BASH
+pnpm seed
 
 ---
 
@@ -41,7 +67,7 @@ pnpm prisma:generate
 
 ```BASH
 pnpm dev
-```
+````
 
 ### Production
 

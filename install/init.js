@@ -11,7 +11,7 @@ async function main() {
 
     // move all in app to nameProject
     console.log("=> Move all in app to project folder");
-    await fs.renameSync("./install/app", pathToProject);
+    await fs.cpSync("./install/app", pathToProject, { recursive: true });
 
     // cp .env.example to nameProject
     console.log("=> Create .env file (app)");
@@ -21,13 +21,11 @@ async function main() {
     console.log("=> Create .env file (db)");
     await fs.copyFileSync("./install/app/database/.env.example", pathToProject + "/database/.env");
 
-    // rename vape to .vape
-    console.log("=> Rename .vape folder");
-    await fs.renameSync("./../vape", "./../.vape");
-
     // move .vape to nameProject
     console.log("=> Move .vape to project folder");
     await fs.renameSync("./../.vape", pathToProject + "/.vape");
+
+    console.log("-- successfull --");
 }
 
 main();

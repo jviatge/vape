@@ -7,13 +7,11 @@
         "dev": "pnpm run --parallel dev",
         "build": "pnpm run --parallel build",
         "start": "pnpm run --parallel start",
-        "prisma:generate": "pnpm -F=@vape/database generate",
-        "db:start:dev": "sh .vape/docker/dev/run.sh",
-        "db:seed": "pnpm -F=@vape/database seed",
-        "db:push": "pnpm -F=@vape/database db push",
-        "db:migrate": "pnpm -F=@vape/database migrate",
-        "db:migrate:dev": "pnpm -F=@vape/database migrate dev",
-        "seed": "tsx --tsconfig ./tsconfig.json ./prisma/seed.ts",
+        "generate": "cd ./database && pnpm prisma generate",
+        "seed": "cd ./database && pnpm prisma db seed",
+        "push": "cd ./database && pnpm prisma db push",
+        "migrate": "cd ./database && pnpm prisma migrate dev",
+        "migrate:prod": "cd ./database && pnpm prisma migrate",
         "test": "pnpm run --parallel cypress:open"
     },
     "dependencies": {
