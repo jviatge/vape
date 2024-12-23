@@ -56,8 +56,9 @@ pnpm migrate
 
 6 - Seed database
 
-````BASH
+```BASH
 pnpm seed
+```
 
 ---
 
@@ -67,7 +68,7 @@ pnpm seed
 
 ```BASH
 pnpm dev
-````
+```
 
 ### Production
 
