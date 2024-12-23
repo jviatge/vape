@@ -7,19 +7,19 @@ config({ path: "../.env" });
 const db = new PrismaClient().$extends({
     model: {
         $allModels: {
-            async delete({ where }: { where: { id: number } }) {
+            async delete({ where }: { where: { id: string } }) {
                 console.log("delete", where);
                 const context = Prisma.getExtensionContext(this);
 
                 const data: Record<string, any> = await db.$queryRawUnsafe(
-                    `SELECT * FROM ${context.$name} WHERE id = ${where.id}`
+                    `SELECT * FROM ${context.$name} WHERE id = "${where.id}"`
                 );
                 console.log("datas", data);
 
                 if (data) {
                     if (data.deleted) {
                         return await db.$queryRawUnsafe(
-                            `DELETE FROM ${context.$name} WHERE id = ${where.id}`
+                            `DELETE FROM ${context.$name} WHERE id = "${where.id}"`
                         );
                     }
 
@@ -33,7 +33,7 @@ const db = new PrismaClient().$extends({
                     });
                 }
             },
-            async deleteMany({ where }: { where: { id: { in: number[] } } }) {
+            async deleteMany({ where }: { where: { id: { in: string[] } } }) {
                 console.log("deleteMany", where);
                 const context = Prisma.getExtensionContext(this);
 
@@ -43,8 +43,8 @@ const db = new PrismaClient().$extends({
                 console.log("datas", datas);
 
                 if (datas && Array.isArray(datas) && datas.length > 0) {
-                    const idsTrashHard: number[] = [];
-                    const idsTrashSoft: number[] = [];
+                    const idsTrashHard: string[] = [];
+                    const idsTrashSoft: string[] = [];
 
                     datas.map(async (data: any) => {
                         if (data.deleted) {

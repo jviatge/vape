@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import db from "../db";
 import { hash } from "../lib/bcrypt";
 
-const user = async (role: string, email: string): Promise<Prisma.usersCreateManyInput> => ({
+const user = async (role: string, email: string): Promise<Prisma.UsersCreateManyInput> => ({
     last_name: faker.person.lastName(),
     first_name: faker.person.firstName(),
     password: await hash("password"),
@@ -13,8 +13,8 @@ const user = async (role: string, email: string): Promise<Prisma.usersCreateMany
     active: true,
 });
 
-export const usersFactory = async (): Promise<number[]> => {
-    const usersIDs: number[] = [];
+export const usersFactory = async (): Promise<string[]> => {
+    const usersIDs: string[] = [];
     const password = await hash("password");
     const users = [
         {

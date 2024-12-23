@@ -23,10 +23,10 @@ export default class users {
         );
     };
 
-    public static findOne = async (id: number) => {
+    public static findOne = async (id: string) => {
         const user = await db.users.findUnique({
             where: {
-                id: Number(id),
+                id: id,
             },
         });
         return exclude(user, ["password"]);
@@ -61,7 +61,7 @@ export default class users {
         if (data.password) passwordHash = await hash(data.password);
         return await db.users.update({
             where: {
-                id: Number(id),
+                id: id,
             },
             data: {
                 ...(passwordHash ? { password: passwordHash } : {}),
@@ -79,7 +79,7 @@ export default class users {
         await db.users.updateMany({
             where: {
                 id: {
-                    in: ids.map((id) => Number(id)),
+                    in: ids,
                 },
             },
             data: {
@@ -90,7 +90,7 @@ export default class users {
         return await db.users.deleteMany({
             where: {
                 id: {
-                    in: ids.map((id) => Number(id)),
+                    in: ids,
                 },
             },
         });

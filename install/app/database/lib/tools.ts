@@ -10,10 +10,10 @@ export async function reapeatArrValue(func: Function, times: number) {
     return arr;
 }
 
-export const formatSQLin = (arrStr: number[]): string => {
+export const formatSQLin = (arrStr: string[]): string => {
     const acc: string[] = [];
-    arrStr.map((item: number) => {
-        acc.push(`${item}`);
+    arrStr.map((item: string) => {
+        acc.push(`"${item}"`);
     });
     return acc.join(",").toString();
 };

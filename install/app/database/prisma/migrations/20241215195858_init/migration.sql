@@ -1,6 +1,6 @@
 -- CreateTable
-CREATE TABLE "users" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE "Users" (
+    "id" TEXT NOT NULL PRIMARY KEY,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "last_name" TEXT NOT NULL,
     "first_name" TEXT NOT NULL,
@@ -13,4 +13,4 @@ CREATE TABLE "users" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "Users_email_key" ON "users"("email");
