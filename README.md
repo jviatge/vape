@@ -4,6 +4,11 @@
 
 Vape is the simplest and fastest way to build production-ready administration panels using nextjs
 
+## Requirement
+
+-   Node >= v21.7.3
+-   Pnpm >= 9.12.2
+
 ## Install
 
 ### Auto
