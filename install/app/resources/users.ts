@@ -1,7 +1,9 @@
-import { Resource } from "@vape/types/resources.type";
+import { FieldForm } from "@vape/types/modules/form/form";
+import { FieldTable } from "@vape/types/modules/table/table";
+import { FormModule, Resource, TableModule } from "@vape/types/resources.type";
 import vapeConfig from "~/configs/general";
 
-export const fieldsFormUser = [
+export const fieldsFormUser: FieldForm[] = [
     {
         label: "Role",
         name: "role",
@@ -40,7 +42,7 @@ export const fieldsFormUser = [
     },
 ];
 
-export const fieldsTableUser = [
+export const fieldsTableUser: FieldTable[] = [
     {
         label: "Role",
         name: "role",
@@ -57,17 +59,17 @@ export const fieldsTableUser = [
         type: "custom",
     },
     {
-        Label: "Email",
+        label: "Email",
         name: "email",
         type: "string",
     },
     {
-        Label: "Phone",
+        label: "Phone",
         name: "phone",
         type: "string",
     },
     {
-        Label: "Active",
+        label: "Active",
         name: "active",
         type: "boolean",
     },
@@ -82,13 +84,13 @@ const user: Resource = {
     params: {
         label: "Utilisateurs",
         icon: "user",
+        separator: true,
         order: 6,
         permissons: {
             read: ["super_admin", "admin"],
             create: ["super_admin", "admin"],
             update: ["super_admin", "admin"],
             delete: [],
-            /* delete: ["super_admin"], */
         },
     },
     index: {
@@ -100,7 +102,7 @@ const user: Resource = {
                 get: "findMany",
                 actions: [],
                 fields: fieldsTableUser,
-            },
+            } satisfies TableModule,
         ],
     },
     create: {
@@ -110,7 +112,7 @@ const user: Resource = {
                 model: "users",
                 post: "createOne",
                 fields: fieldsFormUser,
-            },
+            } satisfies FormModule,
         ],
     },
     _id: {
@@ -121,7 +123,7 @@ const user: Resource = {
                 get: "findOne",
                 put: "updateOne",
                 fields: fieldsFormUser,
-            },
+            } satisfies FormModule,
         ],
     },
 };

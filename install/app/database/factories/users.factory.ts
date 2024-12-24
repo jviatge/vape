@@ -25,8 +25,8 @@ export const usersFactory = async (): Promise<string[]> => {
             role: "super_admin",
         },
         await user("admin", "admin@test.com"),
-        await user("agent_boat", "agent_boat@test.com"),
-        await user("agent_home", "agent_home@test.com"),
+        await user("user", "user1@test.com"),
+        await user("user", "user2@test.com"),
     ];
 
     for (const user of users) {

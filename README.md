@@ -30,21 +30,18 @@ bash tmp.sh
 
 ```BASH
 git clone https://github.com/jviatge/vape.git .vape && cd .vape
-
 ```
 
 2 - Run init
 
 ```BASH
 pnpm init-project
-
 ```
 
 3 - Install
 
 ```BASH
 pnpm install
-
 ```
 
 4 - Generate database
@@ -77,12 +74,6 @@ pnpm dev
 
 ### Production
 
-## Configs
-
-```JAVASCRIPT
-import { Magix } from 'm4gixjs'
-```
-
 ---
 
 ## Resources
@@ -95,7 +86,35 @@ You can make a new resource (resource + model) with this command :
 pnpm make:resource <resource>
 ```
 
-### Params
+### Modules
+
+#### Table
+
+Init example :
+
+```JAVASCRIPT
+{
+    type: "table",
+    model: "categories",
+    remove: "deleteOne",
+    searchInputField: [],
+    get: "findMany",
+    actions: [],
+    fields: tableFieldsCategories,
+} satisfies TableModule,
+```
+
+Fields :
+
+-   String example
+
+```JAVASCRIPT
+{
+    label: "Prénom",
+    name: "first_name",
+    type: "string",
+}
+```
 
 ---
 
@@ -109,7 +128,6 @@ pnpm make:resource <resource>
 
 @TODO
 
--   Typage ressource
 -   Docs...
 -   Link github on login
 -   Version Vape on config

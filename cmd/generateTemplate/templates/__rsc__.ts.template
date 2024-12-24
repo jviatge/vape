@@ -1,25 +1,27 @@
-import { Resource } from "@vape/types/resources.type";
+import { FieldForm } from "@vape/types/modules/form/form";
+import { FieldTable } from "@vape/types/modules/table/table";
+import { FormModule, Resource, TableModule } from "@vape/types/resources.type";
 
-export const fieldsForm__rsc(capitalize)__ = [
+export const fieldsForm__rsc(capitalize)__: FieldForm[] = [
     {
         type: "container",
         col: 4,
         noBorder: true,
         fields: [
-           /* Fields form here... */
+            /* Fields form here... */
         ],
     },
 ];
 
-export const tableFields__rsc(capitalize)__ = [
+export const tableFields__rsc(capitalize)__: FieldTable[] = [
     /* Table fields here... */
 ];
 
-const __rsc__: Resource = {
+const __rsc__ = {
     params: {
         label: "__rsc(capitalize)__",
         icon: "star",
-        order: 3,
+        order: 1,
         permissons: {
             read: ["super_admin", "admin", "user"],
             create: ["super_admin", "admin", "user"],
@@ -37,7 +39,7 @@ const __rsc__: Resource = {
                 get: "findMany",
                 actions: [],
                 fields: tableFields__rsc(capitalize)__,
-            },
+            } satisfies TableModule,
         ],
     },
     create: {
@@ -47,7 +49,7 @@ const __rsc__: Resource = {
                 model: "__rsc__",
                 post: "createOne",
                 fields: fieldsForm__rsc(capitalize)__,
-            },
+            } satisfies FormModule,
         ],
     },
     _id: {
@@ -58,9 +60,9 @@ const __rsc__: Resource = {
                 get: "findOne",
                 put: "updateOne",
                 fields: fieldsForm__rsc(capitalize)__,
-            },
+            } satisfies FormModule,
         ],
     },
-};
+} satisfies Resource;
 
 export default __rsc__;

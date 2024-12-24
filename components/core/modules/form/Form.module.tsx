@@ -14,29 +14,17 @@ import { Button } from "@vape/components/ui/button";
 import { Loading, LoadingButton } from "@vape/components/ui/loading";
 import { useToast } from "@vape/components/ui/use-toast";
 import { queryClient } from "@vape/lib/queryClient";
-import { Col, Gap, resolveColumnsClass } from "@vape/lib/resolveGrid";
+import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
+import { FormBuilder } from "@vape/types/modules/form/form";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormGeneralProvider } from "./context/FormGeneral.Provider";
 import useLeaveConfirmation from "./hook/useLeaveConfirmation";
 import { RenderFields } from "./render/RenderFields";
-import { FieldBuilder } from "./render/renderFields.type";
 import { defaultValues } from "./resolver/defaultValue";
 import { validationSchema } from "./resolver/validationSchema";
-
-export type FormBuilder = {
-    type: "form";
-    model: string;
-    get?: string;
-    post?: string;
-    put?: string;
-    fields: FieldBuilder[];
-    className?: string;
-    col?: Col;
-    gap?: Gap;
-};
 
 interface FormModuleProps {
     formBuilder: FormBuilder;

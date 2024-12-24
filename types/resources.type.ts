@@ -1,6 +1,5 @@
-import { FormBuilder } from "@vape/components/core/modules/form/Form.module";
-import { MakeForm } from "@vape/components/core/modules/formBuilder/FormBuilder";
 import { Span } from "@vape/lib/resolveGrid";
+import { FormBuilder } from "./modules/form/form";
 import { TableBuilder } from "./modules/table/table";
 
 export type ResourceParams = {
@@ -21,14 +20,30 @@ export type ResourceParams = {
 export type TypeCustomModule = {
     type: "custom";
     component: string;
-    model: string;
-    modelMethod: string;
+    model?: string;
+    modelMethod?: string;
     noCard?: boolean;
 };
 
-export type Module = {
+/* export type Module = {
+    type: "table" | "form";
     span?: Span;
-} & (TableBuilder | FormBuilder | MakeForm | TypeCustomModule);
+} & (TableBuilder | FormBuilder | MakeForm | TypeCustomModule); */
+export type BaseModule = {
+    span?: Span;
+};
+
+export type TableModule = BaseModule & {
+    type: "table";
+} & TableBuilder;
+
+export type FormModule = BaseModule & {
+    type: "form";
+} & FormBuilder;
+
+export type CustomModule = BaseModule & TypeCustomModule;
+
+export type Module = FormModule | TableModule | CustomModule;
 
 export type Resource = {
     params: ResourceParams;
