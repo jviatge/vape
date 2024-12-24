@@ -1,0 +1,77 @@
+import { FilterModel } from "@/types/model.type";
+import { filter, paginateAndFilter } from "@vape/lib/filterModel";
+import db from "database/db";
+
+export default class __rsc__ {
+    public static findMany = async (filterModel: FilterModel) => {
+        return await paginateAndFilter(
+            filterModel,
+            async (filter) => await db.__rsc__.count({ ...filter }),
+            async (limit, startIndex, filter) => {
+                return await db.__rsc__.findMany({
+                    ...filter,
+                    take: limit,
+                    skip: startIndex,
+                });
+            }
+        );
+    };
+
+    public static findOne = async (id: string) => {
+        return await db.__rsc__.findUnique({
+            where: {
+                id,
+            },
+        });
+    };
+
+    public static createOne = async (data: any) => {
+        return await db.__rsc__.create({
+            data: data,
+        });
+    };
+
+    public static updateOne = async (id: string, data: any) => {
+        return await db.__rsc__.update({
+            where: {
+                id,
+            },
+            data: data,
+        });
+    };
+
+    public static deleteMany = async (ids: string[]) => {
+        return await db.__rsc__.deleteMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    };
+
+    public static restoreMany = async (ids: string[]) => {
+        console.log("ids", ids);
+        return await db.__rsc__.updateMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+            data: {
+                deleted: false,
+            },
+        });
+    };
+
+    public static trash = async (filterModel: any) => {
+        return filter(filterModel, async (filter) => {
+            return await db.__rsc__.findMany({
+                ...filter,
+                where: {
+                    deleted: true,
+                },
+            });
+        });
+    };
+}

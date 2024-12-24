@@ -1,0 +1,66 @@
+import { Resource } from "@vape/types/resources.type";
+
+export const fieldsForm__rsc(capitalize)__ = [
+    {
+        type: "container",
+        col: 4,
+        noBorder: true,
+        fields: [
+           /* Fields form here... */
+        ],
+    },
+];
+
+export const tableFields__rsc(capitalize)__ = [
+    /* Table fields here... */
+];
+
+const __rsc__: Resource = {
+    params: {
+        label: "__rsc(capitalize)__",
+        icon: "star",
+        order: 3,
+        permissons: {
+            read: ["super_admin", "admin", "user"],
+            create: ["super_admin", "admin", "user"],
+            update: ["super_admin", "admin", "user"],
+            delete: ["super_admin", "admin", "user"],
+        },
+    },
+    index: {
+        modules: [
+            {
+                type: "table",
+                model: "__rsc__",
+                remove: "deleteOne",
+                searchInputField: [],
+                get: "findMany",
+                actions: [],
+                fields: tableFields__rsc(capitalize)__,
+            },
+        ],
+    },
+    create: {
+        modules: [
+            {
+                type: "form",
+                model: "__rsc__",
+                post: "createOne",
+                fields: fieldsForm__rsc(capitalize)__,
+            },
+        ],
+    },
+    _id: {
+        modules: [
+            {
+                type: "form",
+                model: "__rsc__",
+                get: "findOne",
+                put: "updateOne",
+                fields: fieldsForm__rsc(capitalize)__,
+            },
+        ],
+    },
+};
+
+export default __rsc__;

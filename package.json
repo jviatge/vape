@@ -18,7 +18,8 @@
         "add:user": "tsx ./commands/createUser.ts",
         "seed": "cp ./../.env ./.env && cp ./../prisma/seed.ts ./seed.ts && npx prisma db seed",
         "cypress:open": "cypress open",
-        "testing": "mkdir testing"
+        "testing": "mkdir testing",
+        "make:resource": "tsx ./cmd/generateTemplate/makeResource.ts"
     },
     "prisma": {
         "schema": "../prisma/schema.prisma",

@@ -87,6 +87,14 @@ import { Magix } from 'm4gixjs'
 
 ## Resources
 
+### Commands
+
+You can make a new resource (resource + model) with this command :
+
+```BASH
+pnpm make:resource <resource>
+```
+
 ### Params
 
 ---
@@ -105,3 +113,7 @@ import { Magix } from 'm4gixjs'
 -   Docs...
 -   Link github on login
 -   Version Vape on config
+
+```
+
+```

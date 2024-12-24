@@ -1,4 +1,3 @@
-import { IconProps } from "@vape/components/Icon";
 import { FormBuilder } from "@vape/components/core/modules/form/Form.module";
 import { MakeForm } from "@vape/components/core/modules/formBuilder/FormBuilder";
 import { Span } from "@vape/lib/resolveGrid";
@@ -6,7 +5,7 @@ import { TableBuilder } from "./modules/table/table";
 
 export type ResourceParams = {
     label: string;
-    icon: IconProps["name"];
+    icon: string; // https://lucide.dev/icons/
     separator?: boolean;
     order: number;
     disabledCreate?: boolean;
