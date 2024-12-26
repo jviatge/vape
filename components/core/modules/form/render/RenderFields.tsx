@@ -1,7 +1,7 @@
+import { Fragment, ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 import { isNotDecorateBuilder } from "../../lib/condition";
 import { useFormGeneral } from "../hook/useFormGeneral";
-import { RenderMessage } from "./RenderMessage";
 import { RenderCustom } from "./custom/Custom.render";
 import { RenderDecorates } from "./decorate/Decorate.render";
 import { RenderInputs } from "./input/Input.render";
@@ -20,7 +20,9 @@ export const RenderFields = ({
     const { watch } = useFormContext();
     const { authUser } = useFormGeneral();
 
-    return fields.map((field, index) => {
+    const mapFields: ReactElement[] = [];
+
+    fields.map((field, index) => {
         let show = true;
         const messages: string[] = [];
         if (field.show) {
@@ -43,36 +45,40 @@ export const RenderFields = ({
             if (field.type === "custom") {
                 if (onlyRead && data) {
                     if (field.returnTypes) {
-                        return (
-                            <RenderViews
-                                key={index}
-                                {...field}
-                                type={field.returnTypes}
-                                data={data}
-                            />
+                        mapFields.push(
+                            <RenderViews {...field} type={field.returnTypes} data={data} />
                         );
                     }
                 } else {
-                    return <RenderCustom key={index} {...field} authUser={authUser} />;
+                    mapFields.push(<RenderCustom {...field} authUser={authUser} />);
                 }
             }
             if (isNotDecorateBuilder(field)) {
-                if (onlyRead && data) {
-                    return <RenderViews key={index} {...field} data={data} />;
+                /*  if (onlyRead && data) {
+                    mapFields.push(<RenderViews {...field} data={data} />);
                 } else {
-                    return <RenderInputs key={index} {...field} />;
-                }
+                    mapFields.push(<RenderInputs {...field} />);
+                } */
+                mapFields.push(<RenderInputs key={index} {...field} />);
             } else {
                 if (field.type !== "custom") {
-                    return <RenderDecorates key={index} data={data} onlyRead={true} {...field} />;
+                    mapFields.push(
+                        <RenderDecorates key={index} data={data} onlyRead={true} {...field} />
+                    );
                 }
             }
         } else {
             if (messages.length > 0) {
-                return <RenderMessage key={index} messages={messages} span={field.span} />;
-            } else {
-                return null;
+                /* mapFields.push(<RenderMessage messages={messages} span={field.span} />); */
             }
         }
     });
+
+    return (
+        <>
+            {mapFields.map((field, index) => (
+                <Fragment key={index}>{field}</Fragment>
+            ))}
+        </>
+    );
 };

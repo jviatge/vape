@@ -1,6 +1,13 @@
 "use client";
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Badge } from "@vape/components/ui/badge";
 import { Checkbox } from "@vape/components/ui/checkbox";
 import { DatePicker } from "@vape/components/ui/date-picker";
@@ -44,142 +51,152 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
                         <FormLabel>
                             {inputBuilder.label}
                             {inputBuilder?.rules?.required ? (
-                                <span className="text-xs">*</span>
+                                <span className="text-xs"> *</span>
                             ) : null}
                         </FormLabel>
                     ) : null}
-                    <FormControl>
-                        {/* {JSON.stringify(disabled)} */}
-                        <>
-                            {/* {JSON.stringify(field)} */}
-                            {inputBuilder.type === "text" && (
-                                <Input disabled={disabled} type="text" {...field} />
-                            )}
 
-                            {inputBuilder.type === "password" && (
-                                <Input
-                                    tabIndex={0}
-                                    disabled={disabled}
-                                    type="password"
-                                    id={inputBuilder.name}
-                                    {...field}
-                                />
-                            )}
+                    {inputBuilder.type === "text" ? (
+                        <FormControl>
+                            <Input disabled={disabled} type="text" {...field} />
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "textarea" && (
-                                <Textarea
-                                    tabIndex={0}
-                                    disabled={disabled}
-                                    id={inputBuilder.name}
-                                    rows={3}
-                                    {...field}
-                                />
-                            )}
+                    {inputBuilder.type === "password" ? (
+                        <FormControl>
+                            <Input
+                                tabIndex={0}
+                                disabled={disabled}
+                                type="password"
+                                id={inputBuilder.name}
+                                {...field}
+                            />
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "number" && (
-                                <Input
-                                    tabIndex={0}
-                                    disabled={disabled}
-                                    type="number"
-                                    id={inputBuilder.name}
-                                    {...field}
-                                />
-                            )}
+                    {inputBuilder.type === "textarea" ? (
+                        <FormControl>
+                            <Textarea
+                                tabIndex={0}
+                                disabled={disabled}
+                                id={inputBuilder.name}
+                                rows={3}
+                                {...field}
+                            />
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "date" && (
-                                <DatePicker
-                                    minDate={inputBuilder.minDate}
-                                    disabled={disabled}
-                                    field={field}
-                                />
-                            )}
+                    {inputBuilder.type === "number" ? (
+                        <FormControl>
+                            <Input
+                                tabIndex={0}
+                                disabled={disabled}
+                                type="number"
+                                id={inputBuilder.name}
+                                {...field}
+                            />
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "time" && (
-                                <TimePicker field={field} />
-                                /*  <TimePicker onChange={field.onChange} value={field.value}>
-                                 <TimePickerSegment segment={"hours"} />
-                                 <TimePickerSeparator>:</TimePickerSeparator>
-                                 <TimePickerSegment segment={"minutes"} />
-                             </TimePicker> */
-                            )}
+                    {inputBuilder.type === "date" ? (
+                        <FormControl>
+                            <DatePicker
+                                minDate={inputBuilder.minDate}
+                                disabled={disabled}
+                                field={field}
+                            />
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "checkbox" && (
-                                <Checkbox
-                                    tabIndex={0}
-                                    disabled={disabled}
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
-                            )}
+                    {inputBuilder.type === "time" ? (
+                        <FormControl>
+                            <TimePicker field={field} />
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "switch" && (
-                                <Switch
-                                    tabIndex={0}
-                                    disabled={disabled}
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
-                            )}
+                    {inputBuilder.type === "checkbox" ? (
+                        <FormControl>
+                            <Checkbox
+                                tabIndex={0}
+                                disabled={disabled}
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                            />
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "select" && (
-                                <Select
-                                    disabled={disabled}
-                                    onValueChange={(value) => {
-                                        value === "unassigned-select-control-value"
-                                            ? field.onChange(null)
-                                            : field.onChange(value);
-                                    }}
-                                    value={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {inputBuilder.nullable ? (
-                                            <SelectItem
-                                                value={"unassigned-select-control-value"}
-                                                className="italic"
-                                            >
-                                                vide
+                    {inputBuilder.type === "switch" ? (
+                        <FormControl>
+                            <Switch
+                                tabIndex={0}
+                                disabled={disabled}
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                            />
+                        </FormControl>
+                    ) : null}
+
+                    {inputBuilder.type === "select" ? (
+                        <FormControl>
+                            <Select
+                                disabled={disabled}
+                                onValueChange={(value) => {
+                                    value === "unassigned-select-control-value"
+                                        ? field.onChange(null)
+                                        : field.onChange(value);
+                                }}
+                                value={field.value}
+                            >
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {inputBuilder.nullable ? (
+                                        <SelectItem
+                                            value={"unassigned-select-control-value"}
+                                            className="italic"
+                                        >
+                                            vide
+                                        </SelectItem>
+                                    ) : null}
+                                    {inputBuilder.options?.map((option: any) => {
+                                        return (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.color ? (
+                                                    <Badge
+                                                        className="text-xs dark:text-white text-black text-nowrap overflow-hidden"
+                                                        variant={"default"}
+                                                        style={{
+                                                            backgroundColor: option.color,
+                                                        }}
+                                                    >
+                                                        {option.label}
+                                                    </Badge>
+                                                ) : (
+                                                    option.label
+                                                )}
                                             </SelectItem>
-                                        ) : null}
-                                        {inputBuilder.options?.map((option: any) => {
-                                            return (
-                                                <SelectItem key={option.value} value={option.value}>
-                                                    {option.color ? (
-                                                        <Badge
-                                                            className="text-xs dark:text-white text-black text-nowrap overflow-hidden"
-                                                            variant={"default"}
-                                                            style={{
-                                                                backgroundColor: option.color,
-                                                            }}
-                                                        >
-                                                            {option.label}
-                                                        </Badge>
-                                                    ) : (
-                                                        option.label
-                                                    )}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                            )}
+                                        );
+                                    })}
+                                </SelectContent>
+                            </Select>
+                        </FormControl>
+                    ) : null}
 
-                            {inputBuilder.type === "manyToOne" ? (
-                                <div
-                                    className={`flex flex-col relative ${resolveSpanClass(
-                                        inputBuilder.span
-                                    )}`}
-                                >
-                                    <ManyToOneInput {...inputBuilder} />
-                                </div>
-                            ) : null}
-                        </>
-                    </FormControl>
-                    {/* <FormDescription>This is your public display name.</FormDescription> */}
+                    {inputBuilder.type === "manyToOne" ? (
+                        <div
+                            className={`flex flex-col relative ${resolveSpanClass(
+                                inputBuilder.span
+                            )}`}
+                        >
+                            <ManyToOneInput {...inputBuilder} />
+                        </div>
+                    ) : null}
+                    {inputBuilder.description ? (
+                        <FormDescription>{inputBuilder.description}</FormDescription>
+                    ) : null}
                     <FormMessage />
                 </FormItem>
             )}

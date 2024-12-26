@@ -5,6 +5,7 @@ import { InputBuilder } from "./input/InputRender.type";
 
 export interface baseField {
     label?: string;
+    description?: string;
     span?: Span;
     show?: {
         watch: string;

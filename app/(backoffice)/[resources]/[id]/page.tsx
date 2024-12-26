@@ -6,10 +6,10 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 type Props = {
-    params: {
+    params: Promise<{
         resources: string;
         id: string;
-    };
+    }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
