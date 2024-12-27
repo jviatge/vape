@@ -1,9 +1,9 @@
-import { isNotDecorateBuilder } from "../../lib/condition";
-import { FieldBuilder } from "../render/renderFields.type";
+import { Field } from "@vape/types/modules/form/form";
+import { isInputBuilder, isInputCustom } from "../../lib/condition";
 
 export const defaultValues = (
     data: Record<string, any> | undefined,
-    fieldsBuilder: FieldBuilder[],
+    fieldsBuilder: Field[],
     entryValues?: Record<string, any>
 ) => {
     let values = entryValues ?? {};
@@ -23,8 +23,14 @@ export const defaultValues = (
                 field.defaultValue,
                 values
             );
-        } else if (isNotDecorateBuilder(field)) {
-            values = getDefaultValueByKey(data, field.name, field.type, field.defaultValue, values);
+        } else if (isInputBuilder(field) || (isInputCustom(field) && field.name)) {
+            values = getDefaultValueByKey(
+                data,
+                field.name as string,
+                field.type,
+                field.defaultValue,
+                values
+            );
         }
     });
     return values;
@@ -33,7 +39,7 @@ export const defaultValues = (
 const getDefaultValueByKey = (
     data: Record<string, any> | undefined,
     name: string,
-    type: FieldBuilder["type"],
+    type: Field["type"],
     defaultValues: any,
     values: Record<string, any>
 ) => {

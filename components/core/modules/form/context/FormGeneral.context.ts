@@ -1,6 +1,6 @@
+import { FormBuilder } from "@vape/types/modules/form/form";
 import { TableBuilder } from "@vape/types/modules/table/table";
 import { Dispatch, SetStateAction, createContext } from "react";
-import { FormBuilder } from "../Form.module";
 
 export type ModalProps = {
     open: "create" | "select" | "edit" | null;

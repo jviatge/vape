@@ -4,14 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { queryGetByModule } from "@vape/actions/queries";
 import { resolveSpanClass } from "@vape/lib/resolveGrid";
 import { Loading } from "@vape/tools";
+import { InputCustom } from "@vape/types/modules/form/form";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import { CustomBuilder } from "./CustomRender.type";
 
-export const RenderCustom = (customBuilder: CustomBuilder) => {
+export const RenderCustom = (props: InputCustom) => {
     const DynamicComponent = useMemo(
         () =>
-            dynamic(() => import(`../../../../../../../modules/${customBuilder.component}`), {
+            dynamic(() => import(`../../../../../../../modules/${props.component}`), {
                 ssr: false,
                 loading: () => (
                     <div className="flex justify-center items-center w-full">
@@ -19,31 +19,31 @@ export const RenderCustom = (customBuilder: CustomBuilder) => {
                     </div>
                 ),
             }),
-        [customBuilder.component]
+        [props.component]
     );
 
     const query = useQuery<any>({
-        enabled: customBuilder.model && customBuilder.modelMethod ? true : false,
-        queryKey: [customBuilder.model, customBuilder.modelMethod, "field"],
+        enabled: props.model && props.modelMethod ? true : false,
+        queryKey: [props.model, props.modelMethod, "field"],
         staleTime: 0,
         queryFn: () =>
             queryGetByModule({
-                model: customBuilder.model,
+                model: props.model,
                 searchInputField: [],
                 query: {
-                    get: customBuilder.modelMethod,
+                    get: props.modelMethod,
                 },
             }).then((res) => res.data),
     });
 
     return (
-        <div className={`space-y-2 flex flex-col relative ${resolveSpanClass(customBuilder.span)}`}>
+        <div className={`space-y-2 flex flex-col relative ${resolveSpanClass(props.span)}`}>
             <DynamicComponent
                 /* @ts-ignore  */
                 props={{
                     query,
-                    customBuilder,
-                    authUser: customBuilder.authUser,
+                    customBuilder: props,
+                    authUser: props.authUser,
                     type: "field",
                 }}
             />

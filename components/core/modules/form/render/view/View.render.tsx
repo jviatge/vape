@@ -5,7 +5,6 @@ import { Input } from "@vape/components/ui/input";
 import { Textarea } from "@vape/components/ui/textarea";
 import { Span, resolveSpanClass } from "@vape/lib/resolveGrid";
 import { Check, X } from "lucide-react";
-import { InputBuilder } from "../input/InputRender.type";
 
 export const RenderViews = ({
     label,

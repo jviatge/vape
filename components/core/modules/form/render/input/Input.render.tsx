@@ -23,10 +23,10 @@ import { Switch } from "@vape/components/ui/switch";
 import { Textarea } from "@vape/components/ui/textarea";
 import { TimePicker } from "@vape/components/ui/time-picker";
 import { resolveSpanClass } from "@vape/lib/resolveGrid";
+import { InputBuilder } from "@vape/types/modules/form/form";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
 import FormGeneralContext from "../../context/FormGeneral.context";
-import { InputBuilder } from "./InputRender.type";
 import { ManyToOneInput } from "./fields/ManyToOne.input";
 
 export const RenderInputs = (inputBuilder: InputBuilder) => {

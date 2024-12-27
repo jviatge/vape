@@ -1,5 +1,5 @@
 import { resolveSpanClass } from "@vape/lib/resolveGrid";
-import { DecorateBuilder } from "./DecorateRender.type";
+import { DecorateBuilder } from "@vape/types/modules/form/form";
 import { ContainerDecorate } from "./fields/Container.decorate";
 import { SectionsDecorate } from "./fields/Section.decorate";
 

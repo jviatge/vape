@@ -1,11 +1,11 @@
+import { DecorateBuilder, Field, InputBuilder } from "@vape/types/modules/form/form";
 import { Fragment, ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
-import { isNotDecorateBuilder } from "../../lib/condition";
+import { isDecorateBuilder, isInputBuilder, isInputCustom } from "../../lib/condition";
 import { useFormGeneral } from "../hook/useFormGeneral";
 import { RenderCustom } from "./custom/Custom.render";
 import { RenderDecorates } from "./decorate/Decorate.render";
 import { RenderInputs } from "./input/Input.render";
-import { FieldBuilder } from "./renderFields.type";
 import { RenderViews } from "./view/View.render";
 
 export const RenderFields = ({
@@ -13,7 +13,7 @@ export const RenderFields = ({
     onlyRead,
     data,
 }: {
-    fields: FieldBuilder[];
+    fields: Field[];
     data?: Record<string, any>;
     onlyRead?: boolean;
 }) => {
@@ -22,7 +22,7 @@ export const RenderFields = ({
 
     const mapFields: ReactElement[] = [];
 
-    fields.map((field, index) => {
+    fields.map((field: Field, index) => {
         let show = true;
         const messages: string[] = [];
         if (field.show) {
@@ -42,7 +42,7 @@ export const RenderFields = ({
             });
         }
         if (show) {
-            if (field.type === "custom") {
+            if (isInputCustom(field)) {
                 if (onlyRead && data) {
                     if (field.returnTypes) {
                         mapFields.push(
@@ -53,25 +53,26 @@ export const RenderFields = ({
                     mapFields.push(<RenderCustom {...field} authUser={authUser} />);
                 }
             }
-            if (isNotDecorateBuilder(field)) {
-                /*  if (onlyRead && data) {
-                    mapFields.push(<RenderViews {...field} data={data} />);
-                } else {
-                    mapFields.push(<RenderInputs {...field} />);
-                } */
-                mapFields.push(<RenderInputs key={index} {...field} />);
-            } else {
-                if (field.type !== "custom") {
-                    mapFields.push(
-                        <RenderDecorates key={index} data={data} onlyRead={true} {...field} />
-                    );
-                }
+            if (isInputBuilder(field)) {
+                mapFields.push(<RenderInputs key={index} {...(field as InputBuilder)} />);
             }
-        } else {
-            if (messages.length > 0) {
-                /* mapFields.push(<RenderMessage messages={messages} span={field.span} />); */
+
+            if (isDecorateBuilder(field)) {
+                mapFields.push(
+                    <RenderDecorates
+                        key={index}
+                        data={data}
+                        onlyRead={true}
+                        {...(field as DecorateBuilder)}
+                    />
+                );
             }
         }
+        /* else {
+            if (messages.length > 0) {
+                mapFields.push(<RenderMessage messages={messages} span={field.span} />);
+            }
+        } */
     });
 
     return (

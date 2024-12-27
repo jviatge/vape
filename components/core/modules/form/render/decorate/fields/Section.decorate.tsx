@@ -1,23 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Col, resolveColumnsClass } from "@/lib/resolveGrid";
+import { DecorateSections } from "@vape/types/modules/form/form";
 import { useState } from "react";
 import { RenderFields } from "../../RenderFields";
-import { FieldBuilder } from "../../renderFields.type";
-import { BaseDecorate } from "../DecorateRender.type";
 
-export interface DecorateSectionProps extends BaseDecorate {
-    type: "sections";
-    tabs: {
-        label: string;
-        name: string;
-        description?: string;
-        disabled?: boolean;
-        fields: FieldBuilder[];
-    }[];
-}
-
-const SectionsDecorate = ({ tabs, col, gap, data, onlyRead }: DecorateSectionProps) => {
+const SectionsDecorate = ({ tabs, col, gap, data, onlyRead }: DecorateSections) => {
     const [tabActivated, setTabActivated] = useState<string>(tabs[0].name);
 
     return (

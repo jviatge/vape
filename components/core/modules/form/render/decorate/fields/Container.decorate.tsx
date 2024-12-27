@@ -1,20 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Icon, { IconProps } from "@vape/components/Icon";
+import Icon from "@vape/components/Icon";
 import { resolveColumnsClass } from "@vape/lib/resolveGrid";
+import { DecorateContainer } from "@vape/types/modules/form/form";
 import { useFormContext } from "react-hook-form";
 import { RenderFields } from "../../RenderFields";
-import { FieldBuilder } from "../../renderFields.type";
-import { BaseDecorate } from "../DecorateRender.type";
 
-export interface DecorateContainerProps extends BaseDecorate {
-    type: "container";
-    description?: string;
-    icon?: IconProps["name"];
-    fields: FieldBuilder[];
-    noBorder?: boolean;
-}
-
-const ContainerDecorate = (props: DecorateContainerProps) => {
+const ContainerDecorate = (props: DecorateContainer) => {
     const form = useFormContext();
 
     let show = true;

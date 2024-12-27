@@ -6,30 +6,14 @@ import SelectBox from "@vape/components/ui/select-box";
 import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
 import { Button } from "@vape/tools";
-import { TableBuilder } from "@vape/types/modules/table/table";
+import { InputManyToOne } from "@vape/types/modules/form/form";
 import { Edit, Plus, Search, X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import { FormBuilder } from "../../../Form.module";
+import { useFormContext } from "react-hook-form";
 import FormGeneralContext from "../../../context/FormGeneral.context";
 import { RenderFields } from "../../RenderFields";
-import { BaseInput } from "../InputRender.type";
 
-export interface ManyToOneInputProps extends BaseInput {
-    type: "manyToOne";
-    formBuilder: FormBuilder;
-    tableBuilder: TableBuilder;
-    form: UseFormReturn<any, any, undefined>;
-    name: string;
-    display?: "select" | "modal";
-    disabled?: {
-        create?: boolean;
-        edit?: boolean;
-        select?: boolean;
-    };
-}
-
-export const ManyToOneInput = (props: ManyToOneInputProps) => {
+export const ManyToOneInput = (props: InputManyToOne) => {
     const form = useFormContext();
 
     const value = form.getValues(props.name);
@@ -49,7 +33,7 @@ const DisplayModal = ({
     value,
     valueParent,
     form,
-}: ManyToOneInputProps & {
+}: InputManyToOne & {
     value: Record<string, any>;
     valueParent: Record<string, any>;
 }) => {
@@ -163,7 +147,7 @@ const DisplaySelect = ({
     form,
     name,
     tableBuilder,
-}: ManyToOneInputProps & {
+}: InputManyToOne & {
     value: Record<string, any>;
     valueParent: Record<string, any>;
 }) => {
