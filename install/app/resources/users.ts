@@ -1,9 +1,9 @@
-import { FieldForm } from "@vape/types/modules/form/form";
+import { Field } from "@vape/types/modules/form/form";
 import { FieldTable } from "@vape/types/modules/table/table";
 import { FormModule, Resource, TableModule } from "@vape/types/resources.type";
 import vapeConfig from "~/configs/general";
 
-export const fieldsFormUser: FieldForm[] = [
+export const fieldsFormUser: Field[] = [
     {
         label: "Role",
         name: "role",
