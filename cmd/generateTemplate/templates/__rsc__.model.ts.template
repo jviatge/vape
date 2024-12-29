@@ -1,4 +1,4 @@
-import { FilterModel } from "@/types/model.type";
+import { FilterModel } from "@/types/models/filters";
 import { filter, paginateAndFilter } from "@vape/lib/filterModel";
 import db from "database/db";
 

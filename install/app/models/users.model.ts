@@ -1,6 +1,6 @@
+import { FilterModel } from "@/types/models/filters";
 import { hash } from "@database/lib/bcrypt";
 import { paginateAndFilter } from "@vape/lib/filterModel";
-import { FilterModel } from "@vape/types/model.type";
 import db from "database/db";
 
 function exclude(data: Record<string, any> | null, keys: string[]) {

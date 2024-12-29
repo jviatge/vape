@@ -1,9 +1,9 @@
 "use server";
 
+import { FilterModel } from "@/types/models/filters";
 import { authOptions } from "@vape/lib/auth";
 import { logQuery } from "@vape/lib/logs";
 import { authAndPermModelAction } from "@vape/lib/safe-action";
-import { FilterModel } from "@vape/types/model.type";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { getModel } from "./resources";
