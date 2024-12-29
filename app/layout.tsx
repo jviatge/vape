@@ -1,10 +1,9 @@
 import { getThemes } from "@vape/actions/config";
-import RootProvider from "@vape/components/core/providers/Root.provider";
-import { ThemeProvider } from "@vape/components/providers/ThemeProvider";
+import RootProvider from "@vape/components/providers/Root.provider";
+import { ThemeProvider } from "@vape/components/providers/Theme.provider";
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
-/* import Favicon from "../../assets/favicon.ico"; */
 import "./globals.css";
 
 export const metadata: Metadata = {

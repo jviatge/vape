@@ -1,6 +1,6 @@
 "use server";
 
-import { Module, Resource, RessourceParamsWithRoute } from "@/types/resources.type";
+import { Module, Resource, RessourceParamsWithRoute } from "@/types/resources";
 import { ls } from "@vape/lib/fs";
 import { logRsc } from "@vape/lib/logs";
 

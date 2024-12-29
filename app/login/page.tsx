@@ -1,5 +1,5 @@
 import { getVapeConfig } from "@vape/actions/config";
-import LoginForm from "@vape/components/core/auth/LoginForm";
+import LoginForm from "@vape/components/auth/LoginForm";
 import { authOptions } from "@vape/lib/auth";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";

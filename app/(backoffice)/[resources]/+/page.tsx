@@ -1,6 +1,6 @@
 import { getVapeConfig } from "@vape/actions/config";
 import { rscGetOne } from "@vape/actions/resources";
-import { ResolveModules } from "@vape/components/core/server/ResolveModules";
+import { ResolveModules } from "@vape/components/ResolveModules";
 import { checkAccessRoute } from "@vape/lib/permissions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";

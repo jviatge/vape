@@ -1,6 +1,6 @@
-import { FieldForm } from "@vape/types/modules/form/form";
-import { FieldTable } from "@vape/types/modules/table/table";
-import { FormModule, Resource, TableModule } from "@vape/types/resources.type";
+import { FieldForm } from "@vape/types/modules/form";
+import { FieldTable } from "@vape/types/modules/table";
+import { FormModule, Resource, TableModule } from "@vape/types/resources";
 
 export const fieldsForm__rsc(capitalize)__: FieldForm[] = [
     {

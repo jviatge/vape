@@ -1,6 +1,6 @@
-import { Field } from "@vape/types/modules/form/form";
-import { FieldTable } from "@vape/types/modules/table/table";
-import { FormModule, Resource, TableModule } from "@vape/types/resources.type";
+import { Field } from "@vape/types/modules/form";
+import { FieldTable } from "@vape/types/modules/table";
+import { FormModule, Resource, TableModule } from "@vape/types/resources";
 import vapeConfig from "~/configs/general";
 
 export const fieldsFormUser: Field[] = [

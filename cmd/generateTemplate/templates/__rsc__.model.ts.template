@@ -51,7 +51,6 @@ export default class __rsc__ {
     };
 
     public static restoreMany = async (ids: string[]) => {
-        console.log("ids", ids);
         return await db.__rsc__.updateMany({
             where: {
                 id: {

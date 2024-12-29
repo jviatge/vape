@@ -1,4 +1,4 @@
-import { Resource } from "@vape/types/resources.type";
+import { Resource } from "@vape/types/resources";
 import { Session, getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import { authOptions } from "./auth";

@@ -1,11 +1,11 @@
 "use client";
 
-import { ResourceParams } from "@vape/types/resources.type";
+import { ResourceParams } from "@vape/types/resources";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "../Icon";
-import { TransitionProvider } from "../providers/TransitionProvider";
+import { TransitionProvider } from "../providers/Transition.provider";
 import { CancelButtonRsc } from "../ui/CancelButtonRsc";
 import { Button } from "../ui/button";
 

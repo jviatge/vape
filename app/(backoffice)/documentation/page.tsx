@@ -1,5 +1,5 @@
 import { getInitDoc } from "@vape/actions/docMdx";
-import { ConfigMdx } from "@vape/components/ConfigMdx";
+import { ConfigMdx } from "@vape/components/mdx/ConfigMdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 

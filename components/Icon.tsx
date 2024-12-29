@@ -1,9 +1,10 @@
 import { type LucideProps, icons } from "lucide-react";
+import dynamicIconImports from "lucide-react/dynamicIconImports";
 
 type IconComponentName = keyof typeof icons;
 
 interface IconProps extends LucideProps {
-    name: string; // because this is coming from the CMS
+    name: keyof typeof dynamicIconImports;
 }
 
 // 👮‍♀️ guard

@@ -1,11 +1,12 @@
-import { ModeToggle } from "@/components/ModeToggle";
 import { getListThemes, getVapeConfig } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
-import { CommandBar } from "@vape/components/CommandBar";
-import { SideBar } from "@vape/components/partials/SideBar";
+import { CommandBar } from "@vape/components/partials/header/CommandBar";
+import { ModeToggle } from "@vape/components/ModeToggle";
+import { SideBar } from "@vape/components/partials/sideBar/SideBar";
 import { authOptions } from "@vape/lib/auth";
 import { TypeLink } from "@vape/types/general";
+import { RessourceParamsWithRoute } from "@vape/types/resources";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -19,7 +20,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
     const links: TypeLink[] = [];
 
-    const rscAllParams = await rscGetAllParams();
+    const rscAllParams: RessourceParamsWithRoute[] = await rscGetAllParams();
 
     links.push({
         href: "/dashboard",

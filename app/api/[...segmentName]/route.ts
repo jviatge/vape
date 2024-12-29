@@ -15,7 +15,6 @@ export async function GET(
     const { segmentName } = await params;
     return getActionApiBySegements(request, segmentName, "GET")
         .then((response) => {
-            console.log("response", response);
             return NextResponse.json(response, { status: 200 });
         })
         .catch((error) => {
