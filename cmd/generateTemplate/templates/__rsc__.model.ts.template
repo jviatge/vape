@@ -40,6 +40,14 @@ export default class __rsc__ {
         });
     };
 
+    public static deleteOne = async (id: string) => {
+        return await db.__rsc__.delete({
+            where: {
+                id: id,
+            },
+        });
+    };
+
     public static deleteMany = async (ids: string[]) => {
         return await db.__rsc__.deleteMany({
             where: {

@@ -1,6 +1,6 @@
 "use server";
 
-import { VapeConfig } from "@vape/types/vapeConfg.type";
+import { VapeConfig } from "@vape/types/configs";
 import fs from "fs";
 
 export type ConfigTheme = {

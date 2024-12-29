@@ -1,5 +1,5 @@
 import { Col, Gap } from "@vape/lib/resolveGrid";
-import { Field } from "./form";
+import { FieldForm } from "./form";
 
 export type CustomBuilder = {
     type: "custom";
@@ -10,7 +10,7 @@ export type CustomBuilder = {
     modelMethod?: string;
     authUser?: Record<string, any>;
     name?: string;
-    returnTypes?: Field["type"];
+    returnTypes?: FieldForm["type"];
     defaultValue?: any;
     noCard?: boolean;
 };

@@ -4,7 +4,7 @@ import { FormLabel } from "@vape/components/ui/form";
 import { Input } from "@vape/components/ui/input";
 import { Textarea } from "@vape/components/ui/textarea";
 import { Span, resolveSpanClass } from "@vape/lib/resolveGrid";
-import { Field } from "@vape/types/modules/form";
+import { FieldForm } from "@vape/types/modules/form";
 import { Check, X } from "lucide-react";
 
 export const RenderViews = ({
@@ -16,7 +16,7 @@ export const RenderViews = ({
 }: {
     span?: Span;
     label?: string;
-    type: Field["type"];
+    type: FieldForm["type"];
     name?: string;
     data: Record<string, any>;
 }) => {

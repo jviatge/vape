@@ -1,4 +1,4 @@
-import { DecorateBuilder, Field, InputBuilder } from "@vape/types/modules/form";
+import { DecorateBuilder, FieldForm, InputBuilder } from "@vape/types/modules/form";
 import { Fragment, ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 import { isDecorateBuilder, isInputBuilder, isInputCustom } from "../condition";
@@ -13,7 +13,7 @@ export const RenderFields = ({
     onlyRead,
     data,
 }: {
-    fields: Field[];
+    fields: FieldForm[];
     data?: Record<string, any>;
     onlyRead?: boolean;
 }) => {
@@ -22,7 +22,7 @@ export const RenderFields = ({
 
     const mapFields: ReactElement[] = [];
 
-    fields.map((field: Field, index) => {
+    fields.map((field: FieldForm, index) => {
         let show = true;
         const messages: string[] = [];
         if (field.show) {

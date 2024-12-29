@@ -1,9 +1,9 @@
-import { Field } from "@vape/types/modules/form";
+import { FieldForm } from "@vape/types/modules/form";
 import { isInputBuilder, isInputCustom } from "../condition";
 
 export const defaultValues = (
     data: Record<string, any> | undefined,
-    fieldsBuilder: Field[],
+    fieldsBuilder: FieldForm[],
     entryValues?: Record<string, any>
 ) => {
     let values = entryValues ?? {};
@@ -39,7 +39,7 @@ export const defaultValues = (
 const getDefaultValueByKey = (
     data: Record<string, any> | undefined,
     name: string,
-    type: Field["type"],
+    type: FieldForm["type"],
     defaultValues: any,
     values: Record<string, any>
 ) => {

@@ -2,7 +2,9 @@ import { getListThemes, getVapeConfig } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
 import { CommandBar } from "@vape/components/partials/header/CommandBar";
-import { ModeToggle } from "@vape/components/ModeToggle";
+import { LocalSelect } from "@vape/components/partials/header/LocalSelect";
+import { ModeToggle } from "@vape/components/partials/header/ModeToggle";
+
 import { SideBar } from "@vape/components/partials/sideBar/SideBar";
 import { authOptions } from "@vape/lib/auth";
 import { TypeLink } from "@vape/types/general";
@@ -91,6 +93,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
                         <div className="flex items-center space-x-3">
                             <ModeToggle />
+                            <LocalSelect />
                         </div>
                     </div>
                 </header>

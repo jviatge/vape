@@ -13,4 +13,8 @@ export type VapeConfig = {
         value: string;
         color?: string;
     }[];
+    translations: {
+        default: string;
+        available?: string[];
+    };
 };

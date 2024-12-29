@@ -17,7 +17,7 @@ export type DecorateContainer = {
     label?: string;
     description?: string;
     icon?: IconProps["name"];
-    fields: Field[];
+    fields: FieldForm[];
     noBorder?: boolean;
     data?: Record<string, any>;
     onlyRead?: boolean;
@@ -37,7 +37,7 @@ export type DecorateSections = {
         name: string;
         description?: string;
         disabled?: boolean;
-        fields: Field[];
+        fields: FieldForm[];
     }[];
 } & baseField;
 
@@ -62,7 +62,7 @@ export type InputCustom = {
     modelMethod: string;
     authUser?: Record<string, any>;
     name?: string;
-    returnTypes?: Field["type"];
+    returnTypes?: FieldForm["type"];
     defaultValue?: any;
     noCard?: boolean;
 } & BaseInput;
@@ -144,7 +144,7 @@ export type InputBuilder =
     | InputSwitch
     | InputManyToOne;
 
-export type Field = DecorateBuilder | InputBuilder | InputCustom;
+export type FieldForm = DecorateBuilder | InputBuilder | InputCustom;
 
 export interface baseField {
     label?: string;
@@ -164,7 +164,7 @@ export declare type FormBuilder = {
     get?: string;
     post?: string;
     put?: string;
-    fields: Field[];
+    fields: FieldForm[];
     className?: string;
     col?: Col;
     gap?: Gap;

@@ -1,4 +1,4 @@
-import { VapeConfig } from "@vape/types/vapeConfg.type";
+import { VapeConfig } from "@vape/types/configs";
 import packageJson from "../package.json";
 import { roles } from "./constants";
 
@@ -15,6 +15,10 @@ const vapeConfig: VapeConfig = {
         uniqueField: "email",
     },
     roles,
+    translations: {
+        default: "en",
+        // available: ["en", "fr"],
+    },
 };
 
 export default vapeConfig;

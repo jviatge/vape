@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Field } from "@vape/types/modules/form";
+import { FieldForm } from "@vape/types/modules/form";
 import { z } from "zod";
 import { isInputBuilder, isInputCustom } from "../condition";
 
@@ -15,14 +15,14 @@ export type RulesField = {
     postalCode?: boolean;
 };
 
-export const validationSchema = (fieldBuilder: Field[]) => {
+export const validationSchema = (fieldBuilder: FieldForm[]) => {
     return zodResolver(z.object(createZodObject(fieldBuilder)));
 };
 
-const createZodObject = (fieldBuilder: Field[], entryZObject?: Record<string, any>) => {
+const createZodObject = (fieldBuilder: FieldForm[], entryZObject?: Record<string, any>) => {
     let zObject = entryZObject ?? {};
 
-    fieldBuilder.map((field: Field) => {
+    fieldBuilder.map((field: FieldForm) => {
         if (field.type === "container" && field.fields) {
             zObject = createZodObject(field.fields, zObject);
         } else if (field.type === "custom" && field.name && field.returnTypes) {
@@ -59,7 +59,7 @@ const createZodObject = (fieldBuilder: Field[], entryZObject?: Record<string, an
     return zObject;
 };
 
-const createZodType = (type: Field["type"]) => {
+const createZodType = (type: FieldForm["type"]) => {
     switch (type) {
         case "checkbox":
         case "switch":
