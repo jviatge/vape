@@ -9,6 +9,7 @@ import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 import { RouteChangesProvider } from "../modules/form/hook/useRouteChangeEvents";
 import { TransitionProvider } from "./Transition.provider";
+import { TranslationProvider } from "./Translation.provider";
 
 interface Props {
     children: ReactNode;
@@ -18,14 +19,16 @@ interface Props {
 const RootProvider = ({ children, configThemes }: Props) => {
     return (
         <QueryClientProvider client={queryClient}>
-            <TransitionProvider>
-                <SessionProvider>
-                    <RouteChangesProvider>
-                        {children}
-                        <Toaster />
-                    </RouteChangesProvider>
-                </SessionProvider>
-            </TransitionProvider>
+            <TranslationProvider>
+                <TransitionProvider>
+                    <SessionProvider>
+                        <RouteChangesProvider>
+                            {children}
+                            <Toaster />
+                        </RouteChangesProvider>
+                    </SessionProvider>
+                </TransitionProvider>
+            </TranslationProvider>
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );

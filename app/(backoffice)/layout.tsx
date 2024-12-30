@@ -4,7 +4,6 @@ import { rscGetAllParams } from "@vape/actions/resources";
 import { CommandBar } from "@vape/components/partials/header/CommandBar";
 import { LocalSelect } from "@vape/components/partials/header/LocalSelect";
 import { ModeToggle } from "@vape/components/partials/header/ModeToggle";
-
 import { SideBar } from "@vape/components/partials/sideBar/SideBar";
 import { authOptions } from "@vape/lib/auth";
 import { TypeLink } from "@vape/types/general";

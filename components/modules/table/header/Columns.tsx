@@ -5,12 +5,14 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@vape/components/ui/button";
+import { useTranslation } from "@vape/hooks/useTranslation";
 import { cn } from "@vape/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useContext } from "react";
 import TableContext from "../context/Table.context";
 
 export const Columns = () => {
+    const { T } = useTranslation();
     const TC = useContext(TableContext);
 
     const disabled = false;
@@ -35,7 +37,8 @@ export const Columns = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant={"secondary"} className={cn("border", !disabled && "ml-auto")}>
-                    Colonnes <ChevronDown className="ml-2 h-4 w-4" />
+                    {T("table.columns")}
+                    <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

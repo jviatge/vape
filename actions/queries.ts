@@ -78,7 +78,7 @@ export const queryPutMulitpleByModule = authAndPermModelAction(
         model: z.string(),
         put: z.string(),
         data: z.record(z.unknown()),
-        ids: z.array(z.number()),
+        ids: z.array(z.string()),
     }),
     async ({ model, put, data, ids }) => {
         const session = await getServerSession(authOptions);
@@ -127,7 +127,7 @@ export const queryDeleteByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         remove: z.string(),
-        id: z.number(),
+        id: z.string(),
     }),
     async ({ model, remove, id }) => {
         const session = await getServerSession(authOptions);
@@ -151,7 +151,7 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         remove: z.string(),
-        ids: z.array(z.number()),
+        ids: z.array(z.string()),
     }),
     async ({ model, remove, ids }) => {
         const session = await getServerSession(authOptions);

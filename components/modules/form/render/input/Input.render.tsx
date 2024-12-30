@@ -22,6 +22,7 @@ import {
 import { Switch } from "@vape/components/ui/switch";
 import { Textarea } from "@vape/components/ui/textarea";
 import { TimePicker } from "@vape/components/ui/time-picker";
+import { useTranslation } from "@vape/hooks/useTranslation";
 import { resolveSpanClass } from "@vape/lib/resolveGrid";
 import { InputBuilder } from "@vape/types/modules/form";
 import { useContext } from "react";
@@ -32,6 +33,7 @@ import { ManyToOneInput } from "./fields/ManyToOne.input";
 export const RenderInputs = (inputBuilder: InputBuilder) => {
     const form = useFormContext();
     const formGeneral = useContext(FormGeneralContext);
+    const { T } = useTranslation();
     const disabled =
         formGeneral.mode === "edit" && inputBuilder.disabled?.edit
             ? true
@@ -51,7 +53,7 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
                 >
                     {inputBuilder.label ? (
                         <FormLabel>
-                            {inputBuilder.label}
+                            {T(inputBuilder.label)}
                             {inputBuilder?.rules?.required ? (
                                 <span className="text-xs"> *</span>
                             ) : null}
