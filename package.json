@@ -1,5 +1,5 @@
 {
-    "name": "vape",
+    "name": "@jviatge/vape",
     "version": "1.1.0",
     "ts-node": {
         "compilerOptions": {
