@@ -12,7 +12,7 @@ export const getInitDoc = async (): Promise<string | undefined> => {
 
 export const getOneDoc = async (sections: string[]): Promise<string | undefined> => {
     try {
-        return fs.readFileSync("./docs/" + sections.join("/") + ".md", "utf-8");
+        return fs.readFileSync("./docs/" + sections.join("/") + ".mdx", "utf-8");
     } catch {
         return undefined;
     }
