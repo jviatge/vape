@@ -1,7 +1,7 @@
 import useLocalStorage from "@vape/hooks/useLocalStorage";
 import { Permissions } from "@vape/lib/permissions";
-import { CompActionProps, TableBuilder } from "@vape/types/modules/table";
-import { Dispatch, ReactNode, SetStateAction, useCallback, useState } from "react";
+import { TableBuilder } from "@vape/types/modules/table";
+import { ReactNode, useCallback, useState } from "react";
 import useParamsTable from "../hook/useParamsTable";
 import { makeFilter } from "./makeFilter";
 import TablesContext, {
@@ -27,7 +27,7 @@ const TablesProvider = ({
     const [mounted, setMounted] = useState(false);
     const { set, get, clearAll } = useParamsTable(modeSelect ? true : false);
     const [modeTrash, setModeTrash] = useState<boolean>(false);
-    const [hideColumns, setUnselectColumnStorage] = useLocalStorage(
+    const [hideColumns, setUnselectColumnStorage] = useLocalStorage<string[]>(
         "unselect-column-" + value.tableBuilder.model,
         value.tableBuilder.fields.filter((field) => field.hidden).map((field) => field.name)
     );
@@ -214,63 +214,8 @@ const TablesProvider = ({
             }}
         >
             {children}
-
-            {/* <ActionDialog
-                shouldImport={actionDialog.open}
-                setShouldImport={setActionDialog}
-                component={actionDialog.component}
-                componentProps={{
-                    props: actionDialog.props,
-                    setActionDialog,
-                    data: {
-                        selectRowData,
-                        selectRowsDatas,
-                        setSelectRowData,
-                        setSelectRowsDatas,
-                    },
-                    isSingle: actionDialog.isSingle,
-                    isMultiple: actionDialog.isMultiple,
-                }}
-            /> */}
         </TablesContext.Provider>
     );
 };
 
-const ActionDialog = ({
-    shouldImport,
-    setShouldImport,
-    component,
-    componentProps,
-}: {
-    shouldImport: boolean;
-    setShouldImport: Dispatch<SetStateAction<ActionDialogType>>;
-    component: string | null;
-    componentProps?: CompActionProps;
-}) => {
-    return null;
-    /* const { isLoading, result } = useLazy(
-        useMemo(
-            () => (component ? [() => import(`../../../../../../actions/${component}`)] : []),
-            [component]
-        ),
-        shouldImport
-    );
-
-    // @ts-ignore
-    const [LazyComponent] = result;
-    return (
-        <Dialog
-            open={shouldImport}
-            onOpenChange={(value: boolean) => {
-                setShouldImport((prev) => ({ ...prev, open: value }));
-            }}
-        >
-            <DialogContent>
-                <DialogHeader>
-                    {!isLoading && LazyComponent ? <LazyComponent {...componentProps} /> : null}
-                </DialogHeader>
-            </DialogContent>
-        </Dialog>
-    ); */
-};
 export default TablesProvider;

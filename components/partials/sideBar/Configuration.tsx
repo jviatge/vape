@@ -25,7 +25,7 @@ export const Configuration = ({
     listThemes: string[];
 }) => {
     const [config, setConfig] = useState<Record<string, any>>({});
-    const [theme, setTheme] = useLocalStorage("theme-color", "theme-default");
+    const [theme, setTheme] = useLocalStorage<string>("theme-color", "theme-default");
 
     const handleSubmit = () => {
         if (config?.theme) {

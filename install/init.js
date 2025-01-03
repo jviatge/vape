@@ -14,6 +14,20 @@ Y88b   d88P 8888b.  88888b.   .d88b.
                     888              
 `;
 
+const renamePackageJSON = (path) => {
+    // rename package.install.json to package.json (recursive)
+    const files = fs.readdirSync(path);
+    files.forEach((file) => {
+        const pathFile = path + "/" + file;
+        if (fs.lstatSync(pathFile).isDirectory()) {
+            renamePackageJSON(pathFile);
+        }
+        if (file === "package.install.json") {
+            fs.renameSync(pathFile, path + "/package.json");
+        }
+    });
+};
+
 async function main() {
     console.log(logo);
     console.log("+ Install Vape +");
@@ -35,6 +49,10 @@ async function main() {
     // cp .env.example to nameProject
     console.log("=> Create .env file (db)");
     await fs.copyFileSync("./install/app/database/.env.example", pathToProject + "/database/.env");
+
+    // rename package.install.json to package.json (recursive)
+    console.log("=> Rename package.install.json to package.json");
+    renamePackageJSON(pathToProject);
 
     // move .vape to nameProject
     console.log("=> Move .vape to project folder");

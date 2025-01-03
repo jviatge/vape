@@ -13,7 +13,7 @@ export function ThemeProvider({
 }: ThemeProviderProps & {
     configThemes: ConfigTheme[];
 }) {
-    const [themeSelected] = localStorage("theme-color");
+    const [themeSelected] = localStorage<string>("theme-color");
     const { isLoaded } = useTheme(themeSelected, props.configThemes);
 
     return isLoaded ? (

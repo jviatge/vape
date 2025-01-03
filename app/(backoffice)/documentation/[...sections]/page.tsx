@@ -11,11 +11,15 @@ import { notFound } from "next/navigation";
 //     return resources.map((resource) => ({ resources: resource }));
 // }
 
-export default async function PageDoc({
-    params: { sections },
-}: {
-    params: { sections: string[] };
-}) {
+type Props = {
+    params: Promise<{
+        sections: string[];
+    }>;
+};
+
+export default async function PageDoc({ params }: Props) {
+    const { sections } = await params;
+
     const doc = await getOneDoc(sections);
 
     if (!doc) return notFound();

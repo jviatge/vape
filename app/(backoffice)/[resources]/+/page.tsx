@@ -6,7 +6,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 type Props = {
-    params: { resources: string };
+    params: Promise<{
+        resources: string;
+    }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -18,7 +20,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
 }
 
-export default async function PageNewRsc({ params: { resources } }: Props) {
+export default async function PageNewRsc({ params }: Props) {
+    const { resources } = await params;
     const rscData = await rscGetOne(resources);
 
     if (!rscData || rscData?.params.disabledCreate) return notFound();

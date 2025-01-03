@@ -43,10 +43,11 @@ export const useTranslation = () => {
             if (key.includes(".")) {
                 const keys = key.split(".");
                 let value = queryGetTranslation.data;
+                let trans = "";
                 keys.forEach((k) => {
-                    value = value[k];
+                    trans = value[k];
                 });
-                return value || key;
+                return trans || key;
             }
             return queryGetTranslation.data[key] || key;
         }

@@ -10,7 +10,7 @@ import {
 import { Translation } from "@vape/actions/translation";
 import { useTranslation } from "@vape/hooks/useTranslation";
 
-import Flags from "country-flag-icons/react/3x2";
+import { FR, GB } from "country-flag-icons/react/3x2";
 
 type FlagProps = {
     countryCode: string;
@@ -18,7 +18,7 @@ type FlagProps = {
 };
 
 const Flag = ({ countryCode, className }: FlagProps) => {
-    const FlagComponent = Flags[countryCode.toUpperCase() as keyof typeof Flags];
+    const FlagComponent = countryCode === "fr" ? FR : countryCode === "gb" ? GB : null;
     return FlagComponent ? <FlagComponent className={className} /> : null;
 };
 

@@ -3,3 +3,4 @@ packages:
     - "database/**"
     - "actions/**"
     - "modules/**"
+    - "jobs/**"
