@@ -72,8 +72,6 @@ pnpm seed
 pnpm dev
 ```
 
-### Production
-
 ---
 
 ## Resources
@@ -114,24 +112,4 @@ Fields :
     name: "first_name",
     type: "string",
 }
-```
-
----
-
-#### Read / Update / Create
-
----
-
-### Models
-
----
-
-@TODO
-
--   Docs...
--   Link github on login
--   Version Vape on config
-
-```
-
 ```

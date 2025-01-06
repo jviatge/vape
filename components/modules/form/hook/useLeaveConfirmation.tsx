@@ -37,7 +37,7 @@ const useLeaveConfirmation = (shouldPreventRouteChange: boolean, disabled?: bool
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Annuler</AlertDialogCancel>
-                        <AlertDialogAction onClick={allowRouteChange}>Continner</AlertDialogAction>
+                        <AlertDialogAction onClick={allowRouteChange}>Continuer</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
