@@ -74,6 +74,15 @@ pnpm dev
 
 ---
 
+## Get started
+
+First connection :
+
+`http://localhost:3000/login`
+
+id: `julien.viatge@gmail.com`
+pw: `password`
+
 ## Resources
 
 ### Commands
