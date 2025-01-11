@@ -11,17 +11,28 @@ Vape is the simplest and fastest way to build production-ready administration pa
 
 ## Install
 
-### Auto
+### Auto bash (linux / macos)
 
 ```BASH
-wget -O - https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install.sh | bash
+wget -O - https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.sh | bash
 ```
 
 or
 
 ```BASH
-curl -s https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install.sh >tmp.sh
-bash tmp.sh
+curl -s https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.sh >tmp.sh && bash tmp.sh
+```
+
+### Auto bat (windows)
+
+```BASH
+wget -O - https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.bat
+```
+
+or
+
+```BASH
+curl -s https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.bat >tmp.bat && ./tmp.bat
 ```
 
 ### Manually
