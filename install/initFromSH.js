@@ -1,6 +1,18 @@
+const color = {
+    red: (str) => "\x1b[31m" + str + "\x1b[0m",
+    green: (str) => "\x1b[32m" + str + "\x1b[0m",
+    yellow: (str) => "\x1b[33m" + str + "\x1b[0m",
+    blue: (str) => "\x1b[34m" + str + "\x1b[0m",
+    magenta: (str) => "\x1b[35m" + str + "\x1b[0m",
+    cyan: (str) => "\x1b[36m" + str + "\x1b[0m",
+    white: (str) => "\x1b[37m" + str + "\x1b[0m",
+    bgCyan: (str) => "\x1b[46m" + str + "\x1b[0m",
+    reset: "\x1b[0m",
+};
+
 const fs = require("fs");
 
-const logo = `
+const logo = color.cyan(`
 888     888                           
 888     888                           
 888     888                           
@@ -12,7 +24,7 @@ Y88b   d88P 8888b.  88888b.   .d88b.
                     888               
                     888               
                     888              
-`;
+`);
 
 const renamePackageJSON = (path) => {
     // rename package.install.json to package.json (recursive)
@@ -37,34 +49,31 @@ async function main() {
 
     // mkdir nameProject
     console.log("=> Create project folder");
-    await fs.mkdirSync(pathToProject);
+    fs.mkdirSync(pathToProject);
 
     // move all in app to nameProject
     console.log("=> Move all in app to project folder");
-    await fs.cpSync(pathAppInstall, pathToProject, { recursive: true });
+    fs.cpSync(pathAppInstall, pathToProject, { recursive: true });
 
     // cp .env.example to nameProject
     console.log("=> Create .env file (app)");
-    await fs.copyFileSync(pathAppInstall + "/.env.example", pathToProject + "/.env");
+    fs.copyFileSync(pathAppInstall + "/.env.example", pathToProject + "/.env");
 
     // cp .env.example to nameProject
     console.log("=> Create .env file (db)");
-    await fs.copyFileSync(
-        pathAppInstall + "/database/.env.example",
-        pathToProject + "/database/.env"
-    );
+    fs.copyFileSync(pathAppInstall + "/database/.env.example", pathToProject + "/database/.env");
 
     // rename package.install.json to package.json (recursive)
-    console.log("=> Rename package.install.json to package.json");
+    console.log("=> Init package.json");
     renamePackageJSON(pathToProject);
 
     // rename vape to .vape
     // console.log("=> Rename .vape folder");
-    // await fs.renameSync("./../vape", "./../.vape");
+    // fs.renameSync("./../vape", "./../.vape");
 
     // move .vape to nameProject
     console.log("=> Move .vape to project folder");
-    await fs.renameSync("./.vape", pathToProject + "/.vape");
+    fs.renameSync("./.vape", pathToProject + "/.vape");
 
     console.log("-- successfull --");
 }

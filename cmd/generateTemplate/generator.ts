@@ -1,3 +1,4 @@
+import { color } from "@vape/lib/color";
 import * as fs from "fs";
 
 type Option = {
@@ -29,6 +30,8 @@ export default class Generator {
                 option.outPath +
                 "/" +
                 this.replaceString(clearNameFile ?? "", option.stringReplacers);
+            const message = `Generated: > ${color.yellow(newPath)}`;
+            console.log(message);
             this.writeToFile(newPath, newContent);
         });
     }
@@ -47,5 +50,11 @@ export default class Generator {
 
     private writeToFile(path: string, content: string) {
         fs.writeFileSync(path, content);
+    }
+
+    public static updateFile(path: string, content: string) {
+        const message = `Update: > ${color.yellow(path)}`;
+        console.log(message);
+        fs.appendFileSync(path, content);
     }
 }
