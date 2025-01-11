@@ -23,18 +23,6 @@ or
 curl -s https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.sh >tmp.sh && bash tmp.sh
 ```
 
-### Auto bat (windows)
-
-```BASH
-wget -O - https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.bat
-```
-
-or
-
-```BASH
-curl -s https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.bat >tmp.bat && ./tmp.bat
-```
-
 ### Manually
 
 1 - clone vape
