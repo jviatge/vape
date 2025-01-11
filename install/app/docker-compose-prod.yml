@@ -1,0 +1,47 @@
+services:
+    database:
+        container_name: database
+        image: mysql
+        #platform: linux/x86_64
+        restart: always
+        environment:
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - "./db:/var/lib/mysql"
+        networks:
+            - internal
+
+    app:
+        container_name: app
+        image: node:21.6.2-slim
+        ports:
+            - "3000:3000"
+        restart: always
+        volumes:
+            - ./logs:/app/logs
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - database
+        networks:
+            - internal
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            ADMINER_DESIGN: hydra
+        networks:
+            - internal
+
+networks:
+    internal:
+        driver: bridge
+        external: false
