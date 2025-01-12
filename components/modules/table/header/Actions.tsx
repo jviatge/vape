@@ -92,7 +92,7 @@ export const Actions = ({ className }: { className?: string }) => {
                                 : TC.selectRowsDatas[0]
                         }
                         openDialog={runActionDelete}
-                        closeDialog={() => setRunActionDelete(false)}
+                        closeDialog={() => {console.log("setRunActionDelete(false)")}}
                     >
                         <></>
                     </DeleteAction>
@@ -103,7 +103,7 @@ export const Actions = ({ className }: { className?: string }) => {
                                 : TC.selectRowsDatas[0]
                         }
                         openDialog={runActionRestore}
-                        closeDialog={() => setRunActionRestore(false)}
+                        closeDialog={() => {console.log("setRunActionRestore(false)}")}}
                     >
                         <></>
                     </RestoreAction>

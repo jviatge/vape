@@ -10,32 +10,20 @@ import {
 import { Translation } from "@vape/actions/translation";
 import { useTranslation } from "@vape/hooks/useTranslation";
 
-import { FR, GB } from "country-flag-icons/react/3x2";
-
-type FlagProps = {
-    countryCode: string;
-    className?: string;
-};
-
-const Flag = ({ countryCode, className }: FlagProps) => {
-    const FlagComponent = countryCode === "fr" ? FR : countryCode === "gb" ? GB : null;
-    return FlagComponent ? <FlagComponent className={className} /> : null;
-};
-
 export function LocalSelect() {
-    const { switchTranslation, currentTranslation, availableTranslations } = useTranslation();
+    const { switchTranslation, local, availableTranslations } = useTranslation();
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
-                    <Flag className="h-[1.2rem] w-[1.2rem]" countryCode={currentTranslation()} />
+                    {local.toLocaleUpperCase()}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-0" align="end">
                 {availableTranslations.data &&
                     availableTranslations.data.map((translation: Translation) =>
-                        currentTranslation() !== translation.flag ? (
+                        local !== translation.flag ? (
                             <DropdownMenuItem
                                 className="flex items-center"
                                 key={translation.locale}
@@ -44,10 +32,6 @@ export function LocalSelect() {
                                 <span className="mr-2">
                                     {translation.locale.toLocaleUpperCase()}
                                 </span>
-                                <Flag
-                                    className="h-[1.2rem] w-[1.2rem]"
-                                    countryCode={translation.flag}
-                                />
                             </DropdownMenuItem>
                         ) : null
                     )}

@@ -8,22 +8,11 @@ import useLocalStorage from "./useLocalStorage";
 export const useTranslation = () => {
     const [local, setLocal] = useLocalStorage<string>("locale", "fr");
 
-    const ResolveFlag = (local: string) => {
-        let flag = local.toUpperCase();
-        if (local === "en") flag = "GB";
-        return flag;
-    };
-
-    const currentTranslation = (): string => {
-        return ResolveFlag(local);
-    };
-
     const queryAvailableTranslations = useQuery<any, Translation[]>({
         queryKey: ["translations-app"],
         queryFn: () => getListTranslations(),
         select: (data: string[]) =>
             data.map((locale) => ({
-                flag: ResolveFlag(locale),
                 locale,
             })),
     });
@@ -43,9 +32,13 @@ export const useTranslation = () => {
             if (key.includes(".")) {
                 const keys = key.split(".");
                 let value = queryGetTranslation.data;
-                let trans = "";
+                let trans:string|Record<any, any>= "";
                 keys.forEach((k) => {
-                    trans = value[k];
+                    if (typeof trans === "object") {
+                        trans = trans[k];
+                    } else {
+                        trans = value[k];
+                    }
                 });
                 return trans || key;
             }
@@ -55,9 +48,9 @@ export const useTranslation = () => {
     };
     return {
         switchTranslation,
-        currentTranslation,
         availableTranslations: queryAvailableTranslations,
         getTranslation: queryGetTranslation,
+        local,
         T,
     };
 };
