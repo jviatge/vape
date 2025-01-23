@@ -58,8 +58,8 @@ export type InputCustom = {
     type: "custom";
     name?: string;
     component: string;
-    model: string;
-    modelMethod: string;
+    model?: string;
+    modelMethod?: string;
     authUser?: Record<string, any>;
     name?: string;
     returnTypes?: FieldForm["type"];
@@ -122,7 +122,7 @@ type InputManyToOne = {
     type: "manyToOne";
     formBuilder: FormBuilder;
     tableBuilder: TableBuilder;
-    form: UseFormReturn<any, any, undefined>;
+    //form: UseFormReturn<any, any, undefined>;
     name: string;
     display?: "select" | "modal";
     disabled?: {

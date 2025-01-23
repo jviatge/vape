@@ -6,10 +6,10 @@ import SelectBox from "@vape/components/ui/select-box";
 import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
 import { Button } from "@vape/tools";
-import { InputBuilder, InputManyToOne } from "@vape/types/modules/form";
+import { InputManyToOne } from "@vape/types/modules/form";
 import { Edit, Plus, Search, X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { FieldValues, useFormContext, UseFormReturn } from "react-hook-form";
 import FormGeneralContext from "../../../context/FormGeneral.context";
 import { RenderFields } from "../../RenderFields";
 
@@ -36,6 +36,7 @@ const DisplayModal = ({
 }: InputManyToOne & {
     value: Record<string, any>;
     valueParent: Record<string, any>;
+    form: UseFormReturn<FieldValues, any, undefined>;
 }) => {
     const { modal, setModal } = useContext(FormGeneralContext);
 
@@ -150,6 +151,7 @@ const DisplaySelect = ({
 }: InputManyToOne & {
     value: Record<string, any>;
     valueParent: Record<string, any>;
+    form: UseFormReturn<FieldValues, any, undefined>;
 }) => {
     const [select, setSelect] = useState<string | undefined>(form.getValues(name)?.id);
     const { data, isLoading } = useQuery<any, Error, any>({
@@ -168,7 +170,7 @@ const DisplaySelect = ({
     const options = data?.map((d: any) => {
         return {
             value: d.id,
-            label: tableBuilder.fields.map((f: InputBuilder) => d[f.name]).join(" "),
+            label: tableBuilder.fields.map((f) => d[f.name]).join(" "),
         };
     });
 

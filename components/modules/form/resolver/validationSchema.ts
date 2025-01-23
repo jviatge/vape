@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldForm } from "@vape/types/modules/form";
 import { z } from "zod";
-import { isInputBuilder, isInputCustom } from "../condition";
+import { isNotDecorateBuilder } from "../condition";
 
 export type RulesField = {
     required?: boolean;
@@ -31,21 +31,20 @@ const createZodObject = (fieldBuilder: FieldForm[], entryZObject?: Record<string
             field.tabs.map((tab) => {
                 zObject = createZodObject(tab.fields, zObject);
             });
-        } else if (isInputBuilder(field) || isInputCustom(field)) {
-            const name: string = field.name as string;
-            zObject[name] = createZodType(field.type);
+        } else if (isNotDecorateBuilder(field)) {
+            zObject[field.name] = createZodType(field.type);
             if (field.rules) {
                 for (const [key, value] of Object.entries(field.rules)) {
                     if (field.type === "manyToOne") {
-                        zObject[name] = zObject[name] = createZodRuleObject(
-                            zObject[name],
+                        zObject[field.name] = zObject[field.name] = createZodRuleObject(
+                            zObject[field.name],
                             key as keyof RulesField,
                             value
                         );
                     } else {
                         for (const [key, value] of Object.entries(field.rules)) {
-                            zObject[name] = createZodRule(
-                                zObject[name],
+                            zObject[field.name] = createZodRule(
+                                zObject[field.name],
                                 key as keyof RulesField,
                                 value
                             );

@@ -1,4 +1,4 @@
-import { DecorateBuilder, FieldForm, InputBuilder } from "@vape/types/modules/form";
+import { DecorateBuilder, FieldForm } from "@vape/types/modules/form";
 import { Fragment, ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 import { isDecorateBuilder, isInputBuilder, isInputCustom } from "../condition";
@@ -54,7 +54,11 @@ export const RenderFields = ({
                 }
             }
             if (isInputBuilder(field)) {
-                mapFields.push(<RenderInputs key={index} {...(field as InputBuilder)} />);
+                if (onlyRead && data) {
+                    mapFields.push(<RenderViews key={index} {...field} data={data} />);
+                } else {
+                    mapFields.push(<RenderInputs key={index} {...field} />);
+                }
             }
 
             if (isDecorateBuilder(field)) {
@@ -68,11 +72,6 @@ export const RenderFields = ({
                 );
             }
         }
-        /* else {
-            if (messages.length > 0) {
-                mapFields.push(<RenderMessage messages={messages} span={field.span} />);
-            }
-        } */
     });
 
     return (

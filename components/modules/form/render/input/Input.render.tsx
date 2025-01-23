@@ -41,7 +41,6 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
             ? true
             : false;
 
-    console.log("inputBuilder", inputBuilder);
     return (
         <FormField
             key={inputBuilder.name}
@@ -190,13 +189,15 @@ export const RenderInputs = (inputBuilder: InputBuilder) => {
                     ) : null}
 
                     {inputBuilder.type === "manyToOne" ? (
-                        <div
-                            className={`flex flex-col relative ${resolveSpanClass(
-                                inputBuilder.span
-                            )}`}
-                        >
-                            <ManyToOneInput {...inputBuilder} />
-                        </div>
+                        <FormControl>
+                            <div
+                                className={`flex flex-col relative ${resolveSpanClass(
+                                    inputBuilder.span
+                                )}`}
+                            >
+                                <ManyToOneInput {...inputBuilder} />
+                            </div>
+                        </FormControl>
                     ) : null}
                     {inputBuilder.description ? (
                         <FormDescription>{inputBuilder.description}</FormDescription>

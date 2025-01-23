@@ -11,3 +11,7 @@ export const isInputCustom = (field: FieldForm): field is InputCustom => {
 export const isDecorateBuilder = (field: FieldForm): field is DecorateBuilder => {
     return field.type === "container" || field.type === "sections";
 };
+
+export const isNotDecorateBuilder = (field: FieldForm): field is InputBuilder => {
+    return field.type !== "container" && field.type !== "sections" && field.type !== "custom";
+};
