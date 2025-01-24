@@ -7,58 +7,58 @@ import { formatDate } from "./formatDate";
 
 const dateNow = () => `[${formatDate(new Date())}]`;
 
-export const logSuccess = (message: string) => {
+export const logSuccess = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.green(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-export const logInfo = (message: string) => {
+export const logInfo = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.cyan(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-export const logError = (message: string) => {
+export const logError = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.red(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-export const logWarning = (message: string) => {
+export const logWarning = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.yellow(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-export const logQuery = (message: string) => {
+export const logQuery = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.magenta(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-export const logServerAction = (message: string) => {
+export const logServerAction = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.cyan(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-export const logRsc = (message: string) => {
+export const logRsc = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.green(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-export const logApi = (message: string) => {
+export const logApi = async (message: string) => {
     const logMessage = `${color.blue(dateNow())} ${color.bgCyan(message)}`;
     console.log(logMessage);
     saveLogFileDaily(message);
 };
 
-const saveLogFileDaily = (message: string) => {
+const saveLogFileDaily = async (message: string) => {
     const logsPath = path.join(process.cwd(), "../logs");
 
-    const formatDateOk = (date: Date) => {
+    const formatDateOk = async (date: Date) => {
         const day = date.getDate().toString().padStart(2, "0");
         const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Les mois commencent à 0, donc on ajoute 1
         const year = date.getFullYear();

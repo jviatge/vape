@@ -54,8 +54,8 @@ import {
     queryGetByModule,
 } from "./actions/queries";
 import Icon from "./components/Icon";
-import { useFormGeneral } from "./components/core/modules/form/hook/useFormGeneral";
-import { resolveDate } from "./components/core/modules/table/header/filter/fields/DatesRangeFilter";
+import { useFormGeneral } from "./components/modules/form/hook/useFormGeneral";
+import { resolveDate } from "./components/modules/table/header/filter/fields/DatesRangeFilter";
 import { Button } from "./components/ui/button";
 import { Loading } from "./components/ui/loading";
 import { queryClient } from "./lib/queryClient";

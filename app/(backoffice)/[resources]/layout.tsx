@@ -4,11 +4,12 @@ import { notFound } from "next/navigation";
 
 export default async function RscLayout({
     children,
-    params: { resources },
+    params,
 }: {
     children: React.ReactNode;
-    params: { resources: string };
+    params: Promise<{ resources: string }>;
 }) {
+    const { resources } = await params;
     const rscData = await rscGetOne(resources);
 
     if (!rscData) return notFound();

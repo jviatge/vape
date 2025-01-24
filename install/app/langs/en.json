@@ -1,0 +1,22 @@
+{
+    "button": {
+        "create": "Create",
+        "cancel": "Cancel",
+        "saveAndCreateOther": "Save and create other",
+        "close": "Close",
+        "apply": "Apply"
+    },
+    "settings": {
+        "settings": "Settings",
+        "language": "Language",
+        "theme": "Theme",
+        "dark": "Dark",
+        "light": "Light",
+        "system": "System"
+    },
+    "table": {
+        "actions": "Actions",
+        "search": "Search",
+        "columns": "Columns"
+    }
+}

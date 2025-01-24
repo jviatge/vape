@@ -1,5 +1,5 @@
-import { Query } from "@vape/components/core/modules/table/context/Table.context";
-import { FilterModel } from "@vape/types/model.type";
+import { FilterModel } from "@/types/models/filters";
+import { Query } from "@vape/components/modules/table/context/Table.context";
 import { isValid } from "date-fns";
 
 type Pagination = {

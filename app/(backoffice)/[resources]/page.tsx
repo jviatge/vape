@@ -1,17 +1,20 @@
 import { rscGetAllParams, rscGetOne } from "@/actions/resources";
 import { getVapeConfig } from "@vape/actions/config";
-import { ResolveModules } from "@vape/components/core/server/ResolveModules";
+import { ResolveModules } from "@vape/components/ResolveModules";
 import { checkAccessRoute } from "@vape/lib/permissions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 type Props = {
-    params: { resources: string };
+    params: Promise<{
+        resources: string;
+    }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { resources } = await params;
     const config = await getVapeConfig();
-    const rscData = await rscGetOne(params.resources);
+    const rscData = await rscGetOne(resources);
     return {
         title: `${rscData?.params.label} | ${config.title}`,
     };
@@ -26,7 +29,8 @@ export async function generateStaticParams() {
     return resources.map((resource) => ({ resources: resource }));
 }
 
-export default async function PageRsc({ params: { resources } }: Props) {
+export default async function PageRsc({ params }: Props) {
+    const { resources } = await params;
     const rscData = await rscGetOne(resources);
 
     if (!rscData) return notFound();

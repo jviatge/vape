@@ -94,4 +94,7 @@
     .modal-relation .lucide-x {
         display: none;
     }
+    #nprogress .bar {
+        @apply bg-primary !important;
+    }
 }

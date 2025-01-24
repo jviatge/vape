@@ -1,9 +1,9 @@
 "use server";
 
+import { FilterModel } from "@/types/models/filters";
 import { authOptions } from "@vape/lib/auth";
 import { logQuery } from "@vape/lib/logs";
 import { authAndPermModelAction } from "@vape/lib/safe-action";
-import { FilterModel } from "@vape/types/model.type";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { getModel } from "./resources";
@@ -65,8 +65,6 @@ export const queryPutByModule = authAndPermModelAction(
 
         if (put && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
-            /* revalidatePath("/" + model + "/" + id); */
             return await classModel[put](id, data, user);
         }
         return res;
@@ -78,24 +76,24 @@ export const queryPutMulitpleByModule = authAndPermModelAction(
         model: z.string(),
         put: z.string(),
         data: z.record(z.unknown()),
-        ids: z.array(z.number()),
+        ids: z.array(z.string()),
     }),
     async ({ model, put, data, ids }) => {
         const session = await getServerSession(authOptions);
         const user = session?.user;
 
         logQuery(
-            `[queryGetByModuleAndId] | user: ${user?.name} | model:${model} | ids:${JSON.stringify(
-                ids
-            )} | put:${put}`
+            `[queryPutMulitpleByModule] | user: ${
+                user?.name
+            } | model:${model} | ids:${JSON.stringify(ids)} | put:${put}`
         );
         let res: Record<string, any> = {};
 
         if (put && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[put](ids, data, user);
         }
+
         return res;
     }
 );
@@ -115,7 +113,6 @@ export const queryPostByModule = authAndPermModelAction(
 
         if (post && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[post](data, user);
         }
 
@@ -127,7 +124,7 @@ export const queryDeleteByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         remove: z.string(),
-        id: z.number(),
+        id: z.string(),
     }),
     async ({ model, remove, id }) => {
         const session = await getServerSession(authOptions);
@@ -140,7 +137,6 @@ export const queryDeleteByModule = authAndPermModelAction(
 
         if (remove && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[remove](id, user);
         }
         return res;
@@ -151,7 +147,7 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
     z.object({
         model: z.string(),
         remove: z.string(),
-        ids: z.array(z.number()),
+        ids: z.array(z.string()),
     }),
     async ({ model, remove, ids }) => {
         const session = await getServerSession(authOptions);
@@ -166,7 +162,6 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
 
         if (remove && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[remove](ids, user);
         }
         return res;

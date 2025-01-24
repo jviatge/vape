@@ -32,7 +32,9 @@
         "../../modules/**/*.tsx",
         "../../database/**/*.ts",
         "../../api/**/*.ts",
-        "components/core/modules/form/render/decorate/Decorate.render.tsx"
+        "components/core/modules/form/render/decorate/Decorate.render.tsx",
+        "cmd/generateTemplate/makeResource.ts",
+        "cmd/generateTemplate/generator.mts"
     ],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "install"]
 }

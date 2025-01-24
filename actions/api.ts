@@ -25,7 +25,7 @@ export const getActionApiBySegements = async (
         }
 
         const actionApi = await import("~/api/" + pathAction).then((module) => module.default);
-        return actionApi(request, data);
+        return await actionApi(request, data);
     } catch {
         return undefined;
     }

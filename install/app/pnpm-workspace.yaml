@@ -1,0 +1,6 @@
+packages:
+    - ".vape/**"
+    - "database/**"
+    - "actions/**"
+    - "modules/**"
+    - "jobs/**"

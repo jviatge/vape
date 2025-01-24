@@ -1,0 +1,29 @@
+{
+    "name": "vape-project",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "pnpm run --parallel dev",
+        "build": "pnpm run --parallel build",
+        "start": "pnpm run --parallel start",
+        "generate": "cd ./database && pnpm prisma generate",
+        "seed": "cd ./database && pnpm prisma db seed",
+        "push": "cd ./database && pnpm prisma db push",
+        "migrate": "cd ./database && pnpm prisma migrate dev",
+        "migrate:prod": "cd ./database && pnpm prisma migrate deploy",
+        "test": "pnpm run --parallel cypress:open",
+        "make:resource": "cd ./.vape && pnpm make:resource"
+    },
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "crypto-js": "^4.2.0",
+        "js-creditagricole-particuliers": "1.0.3",
+        "tsx": "^4.19.2"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.2",
+        "@types/node": "^20.17.11",
+        "typescript": "^5.7.2"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "button": {
+        "create": "Créer",
+        "cancel": "Annuler",
+        "saveAndCreateOther": "Enregistrer et créer un autre",
+        "close": "Fermer",
+        "apply": "Appliquer"
+    },
+    "settings": {
+        "settings": "Paramètres",
+        "language": "Langue",
+        "theme": "Thème",
+        "dark": "Sombre",
+        "light": "Clair",
+        "system": "Système"
+    },
+    "table": {
+        "actions": "Actions",
+        "search": "Rechercher",
+        "columns": "Colonnes"
+    }
+}

@@ -1,6 +1,6 @@
 import { getVapeConfig } from "@vape/actions/config";
 import { modulesGetOne } from "@vape/actions/resources";
-import { ResolveModules } from "@vape/components/core/server/ResolveModules";
+import { ResolveModules } from "@vape/components/ResolveModules";
 import { authOptions } from "@vape/lib/auth";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
@@ -13,19 +13,11 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-export default async function PageDashboard({
-    params: { resources },
-}: {
-    params: { resources: string };
-}) {
+export default async function PageDashboard() {
     const moduleData = await modulesGetOne();
-
     if (!moduleData) return notFound();
-
     const session = await getServerSession(authOptions);
-
     if (!session?.user) return notFound();
-
     return (
         <ResolveModules
             rscData={{

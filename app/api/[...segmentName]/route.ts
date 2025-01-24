@@ -2,8 +2,18 @@ import { getActionApiBySegements } from "@vape/actions/api";
 import { notFound } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: { segmentName: string[] } }) {
-    return getActionApiBySegements(request, params.segmentName, "GET")
+export async function GET(
+    request: NextRequest,
+    {
+        params,
+    }: {
+        params: Promise<{
+            segmentName: string[];
+        }>;
+    }
+) {
+    const { segmentName } = await params;
+    return getActionApiBySegements(request, segmentName, "GET")
         .then((response) => {
             return NextResponse.json(response, { status: 200 });
         })
@@ -15,10 +25,17 @@ export async function GET(request: NextRequest, { params }: { params: { segmentN
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { segmentName: string[] } }
+    {
+        params,
+    }: {
+        params: Promise<{
+            segmentName: string[];
+        }>;
+    }
 ) {
+    const { segmentName } = await params;
     const res = await request.json();
-    return getActionApiBySegements(request, params.segmentName, "POST", res)
+    return getActionApiBySegements(request, segmentName, "POST", res)
         .then((response) => {
             return NextResponse.json(response, { status: 200 });
         })

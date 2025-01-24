@@ -1,0 +1,170 @@
+# Input Fields
+
+The form module provides various input field types that can be used to build forms. All input fields inherit from the `BaseInput` type which includes common properties.
+
+## Common Properties (BaseInput)
+
+| Property     | Type                                                                            | Description                       |
+| ------------ | ------------------------------------------------------------------------------- | --------------------------------- |
+| label        | string                                                                          | Display label for the field       |
+| defaultValue | any                                                                             | Initial value of the field        |
+| description  | string                                                                          | Helper text shown below the field |
+| rules        | Record<string, any>                                                             | Validation rules                  |
+| disabled     | { edit?: boolean; create?: boolean; }                                           | Disable field in edit/create mode |
+| span         | Span                                                                            | Grid span for the field           |
+| show         | Array<{watch: string, notEqual?: string[], equal?: string[], message?: string}> | Conditional display rules         |
+
+## Available Input Types
+
+### Text Input
+
+Basic text input field.
+
+{
+type: "text",
+name: "fieldName"
+}
+
+### Password Input
+
+Secure password input field with masked characters.
+
+{
+type: "password",
+name: "password"
+}
+
+### Number Input
+
+Input field that accepts only numerical values.
+
+{
+type: "number",
+name: "quantity"
+}
+
+### Textarea Input
+
+Multi-line text input field.
+
+{
+type: "textarea",
+name: "description"
+}
+
+### Date Input
+
+Date picker input field.
+
+{
+type: "date",
+name: "startDate",
+minDate: "2024-01-01" // Optional minimum date
+}
+
+### Checkbox Input
+
+Single checkbox input field.
+
+{
+type: "checkbox",
+name: "isActive"
+}
+
+### Time Input
+
+Time picker input field.
+
+{
+type: "time",
+name: "meetingTime"
+}
+
+### Switch Input
+
+Toggle switch input field.
+
+{
+type: "switch",
+name: "enabled"
+}
+
+### Select Input
+
+Dropdown selection field with predefined options.
+
+{
+type: "select",
+name: "category",
+nullable: false,
+options: [
+{ label: "Option 1", value: "1" },
+{ label: "Option 2", value: "2" }
+]
+}
+
+### ManyToOne Input
+
+Relationship field for selecting related entities.
+
+{
+type: "manyToOne",
+name: "department",
+formBuilder: departmentFormBuilder,
+tableBuilder: departmentTableBuilder,
+form: useForm(),
+display: "modal", // or "select"
+disabled: {
+create: false,
+edit: false,
+select: false
+}
+}
+
+### Custom Input
+
+Custom component input for specialized use cases.
+
+{
+type: "custom",
+component: "MyCustomComponent",
+model: "CustomModel",
+modelMethod: "customMethod",
+name: "customField",
+returnTypes: "text", // Type of value returned
+noCard: false
+}
+
+## Example Usage
+
+Here's an example of how to use different input types in a form:
+
+const formBuilder: FormBuilder = {
+type: "form",
+model: "User",
+fields: [
+{
+type: "text",
+name: "username",
+label: "Username",
+rules: { required: true }
+},
+{
+type: "password",
+name: "password",
+label: "Password",
+description: "Must be at least 8 characters"
+},
+{
+type: "select",
+name: "role",
+label: "User Role",
+options: [
+{ label: "Admin", value: "admin" },
+{ label: "User", value: "user" }
+]
+}
+]
+}
+
+Each input type can be customized using the common properties from `BaseInput` and their specific properties as needed.

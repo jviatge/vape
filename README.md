@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+    <img src="/public/app/logo.svg" width="500"/><br/>
+</p>
 
-## Getting Started
+Vape is the simplest and fastest way to build production-ready administration panels using nextjs
 
-First, run the development server:
+## Requirement
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+-   Node >= v21.7.3
+-   Pnpm >= 9.12.2
+
+## Install
+
+### Auto bash (linux / macos)
+
+```BASH
+wget -O - https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.sh | bash
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```BASH
+curl -s https://raw.githubusercontent.com/jviatge/vape/refs/heads/V-1.1.0/install/install.sh >tmp.sh && bash tmp.sh
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Manually
 
-## Learn More
+1 - clone vape
 
-To learn more about Next.js, take a look at the following resources:
+```BASH
+git clone https://github.com/jviatge/vape.git .vape && cd .vape
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2 - Run init
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```BASH
+pnpm init-project
+```
 
-## Deploy on Vercel
+3 - Install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```BASH
+pnpm install
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4 - Generate database
+
+```BASH
+pnpm generate
+```
+
+5 - Migrate database
+
+```BASH
+pnpm migrate
+```
+
+6 - Seed database
+
+```BASH
+pnpm seed
+```
+
+---
+
+## Usage
+
+### Development
+
+```BASH
+pnpm dev
+```
+
+---
+
+## Get started
+
+First connection :
+
+`http://localhost:3000/login`
+
+id: `julien.viatge@gmail.com`
+pw: `password`
+
+## Resources
+
+### Commands
+
+You can make a new resource (resource + model) with this command :
+
+```BASH
+pnpm make:resource <resource>
+```
+
+### Modules
+
+#### Table
+
+Init example :
+
+```JAVASCRIPT
+{
+    type: "table",
+    model: "categories",
+    remove: "deleteOne",
+    searchInputField: [],
+    get: "findMany",
+    actions: [],
+    fields: tableFieldsCategories,
+} satisfies TableModule,
+```
+
+Fields :
+
+-   String example
+
+```JAVASCRIPT
+{
+    label: "Prénom",
+    name: "first_name",
+    type: "string",
+}
+```

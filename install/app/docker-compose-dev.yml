@@ -1,0 +1,33 @@
+services:
+    database:
+        container_name: database
+        image: mysql
+        #platform: linux/x86_64
+        ports:
+            - "3306:3306"
+        restart: always
+        environment:
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - "./db:/var/lib/mysql"
+        networks:
+            - internal
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            ADMINER_DESIGN: hydra
+        networks:
+            - internal
+
+networks:
+    internal:
+        driver: bridge
+        external: false
