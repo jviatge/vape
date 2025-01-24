@@ -21,6 +21,7 @@ import FormModule from "../../form/Form.module";
 import { DeleteAction } from "../actions/Delete";
 import { RestoreAction } from "../actions/Restore";
 import TableContext from "../context/Table.context";
+import { resolveIDs } from "../utils/ids";
 
 export const Actions = ({ className }: { className?: string }) => {
     const TC = useContext(TableContext);
@@ -64,18 +65,7 @@ export const Actions = ({ className }: { className?: string }) => {
         return () => {};
     }, [Selected]);
 
-    /*  useEffect(() => {
-        setAcion(undefined);
-        return () => {};
-    }, [TC.modeTrash]); */
-
     const getIds = () => {
-        const resolveIDs = (data: Record<string, any> | Record<string, any>[]) => {
-            if (Array.isArray(data)) {
-                return data.map((item) => item.id);
-            }
-            return data?.id ? [data.id] : [];
-        };
         return resolveIDs(
             TC.selectRowsDatas.length > 1 ? TC.selectRowsDatas : TC.selectRowsDatas[0]
         );
@@ -92,7 +82,9 @@ export const Actions = ({ className }: { className?: string }) => {
                                 : TC.selectRowsDatas[0]
                         }
                         openDialog={runActionDelete}
-                        closeDialog={() => {console.log("setRunActionDelete(false)")}}
+                        closeDialog={() => {
+                            console.log("setRunActionDelete(false)");
+                        }}
                     >
                         <></>
                     </DeleteAction>
@@ -103,7 +95,9 @@ export const Actions = ({ className }: { className?: string }) => {
                                 : TC.selectRowsDatas[0]
                         }
                         openDialog={runActionRestore}
-                        closeDialog={() => {console.log("setRunActionRestore(false)}")}}
+                        closeDialog={() => {
+                            console.log("setRunActionRestore(false)}");
+                        }}
                     >
                         <></>
                     </RestoreAction>
@@ -124,6 +118,7 @@ export const Actions = ({ className }: { className?: string }) => {
                             formBuilder={action.form}
                             data={{}}
                             cancelCallback={() => setOpen(false)}
+                            onSuccesSubmit={() => setOpen(false)}
                         />
                     ) : null}
                 </DialogContent>

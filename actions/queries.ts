@@ -65,8 +65,6 @@ export const queryPutByModule = authAndPermModelAction(
 
         if (put && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
-            /* revalidatePath("/" + model + "/" + id); */
             return await classModel[put](id, data, user);
         }
         return res;
@@ -85,17 +83,17 @@ export const queryPutMulitpleByModule = authAndPermModelAction(
         const user = session?.user;
 
         logQuery(
-            `[queryGetByModuleAndId] | user: ${user?.name} | model:${model} | ids:${JSON.stringify(
-                ids
-            )} | put:${put}`
+            `[queryPutMulitpleByModule] | user: ${
+                user?.name
+            } | model:${model} | ids:${JSON.stringify(ids)} | put:${put}`
         );
         let res: Record<string, any> = {};
 
         if (put && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[put](ids, data, user);
         }
+
         return res;
     }
 );
@@ -115,7 +113,6 @@ export const queryPostByModule = authAndPermModelAction(
 
         if (post && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[post](data, user);
         }
 
@@ -140,7 +137,6 @@ export const queryDeleteByModule = authAndPermModelAction(
 
         if (remove && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[remove](id, user);
         }
         return res;
@@ -166,7 +162,6 @@ export const queryDeleteMulitpleByModule = authAndPermModelAction(
 
         if (remove && model) {
             const classModel = await getModel(model);
-            /* revalidatePath("/" + model); */
             return await classModel[remove](ids, user);
         }
         return res;

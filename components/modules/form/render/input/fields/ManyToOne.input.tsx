@@ -7,6 +7,7 @@ import { resolveColumnsClass } from "@vape/lib/resolveGrid";
 import { cn } from "@vape/lib/utils";
 import { Button } from "@vape/tools";
 import { InputManyToOne } from "@vape/types/modules/form";
+import { FieldTable } from "@vape/types/modules/table";
 import { Edit, Plus, Search, X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { FieldValues, useFormContext, UseFormReturn } from "react-hook-form";
@@ -170,7 +171,7 @@ const DisplaySelect = ({
     const options = data?.map((d: any) => {
         return {
             value: d.id,
-            label: tableBuilder.fields.map((f) => d[f.name]).join(" "),
+            label: tableBuilder.fields.map((f: FieldTable) => d[f.name]).join(" "),
         };
     });
 

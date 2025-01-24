@@ -1,3 +1,5 @@
+"use client";
+
 import { FormBuilder } from "@vape/types/modules/form";
 import { TableBuilder } from "@vape/types/modules/table";
 import { Dispatch, SetStateAction, createContext } from "react";

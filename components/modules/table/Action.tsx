@@ -59,10 +59,11 @@ export const Action = ({
                             </DialogHeader>
                             {action.form && dataRow ? (
                                 <FormModule
-                                    ids={[dataRow.id]}
+                                    ids={[String(dataRow.id)]}
                                     formBuilder={action.form}
                                     data={dataRow}
                                     cancelCallback={() => setOpen(false)}
+                                    onSuccesSubmit={() => setOpen(false)}
                                 />
                             ) : null}
                         </DialogContent>

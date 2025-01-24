@@ -1,4 +1,5 @@
 import { Col, Gap, Span } from "@vape/lib/resolveGrid";
+import { FieldForm } from "@vape/types/modules/form";
 
 export type baseField = {
     span?: Span;

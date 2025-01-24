@@ -16,6 +16,7 @@ import { queryClient } from "@vape/tools";
 import { AlertTriangleIcon } from "lucide-react";
 import { ReactNode, useContext, useMemo, useState } from "react";
 import TableContext from "../context/Table.context";
+import { resolveIDs } from "../utils/ids";
 
 export const DeleteAction = ({
     openDialog,
@@ -41,14 +42,7 @@ export const DeleteAction = ({
 
     const model = TC.tableBuilder.model;
 
-    const resolveIDs = (data: Record<string, any> | Record<string, any>[]) => {
-        if (Array.isArray(data)) {
-            return data.map((item) => item.id);
-        }
-        return data?.id ? [data.id] : [];
-    };
-
-    const ids: number[] = resolveIDs(data);
+    const ids: string[] = resolveIDs(data);
 
     const mutationDeleteMulitple = useMutation<any, Error, any, any>({
         mutationFn: (ids) =>
