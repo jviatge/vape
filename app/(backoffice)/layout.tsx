@@ -76,7 +76,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
     const listThemes = await getListThemes();
 
-    const isDevMode = process.env.NODE_ENV === "development";
+    const isDevMode = process.env.MODE_APP === "development";
 
     return (
         <div className="h-screen flex relative w-screen overflow-hidden">
