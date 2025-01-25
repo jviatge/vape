@@ -16,7 +16,8 @@ export const SideBar = ({
     firstName,
     lastName,
     role,
-    version,
+    versionApp,
+    versionVape,
     listThemes,
 }: {
     links: TypeLink[];
@@ -24,7 +25,8 @@ export const SideBar = ({
     lastName: string;
     role: string;
     open?: boolean;
-    version: string;
+    versionApp: string;
+    versionVape: string;
     listThemes: string[];
 }) => {
     const [open, setOpen] = useState(false);
@@ -39,7 +41,8 @@ export const SideBar = ({
                     mobile={false}
                     firstName={firstName}
                     lastName={lastName}
-                    version={version}
+                    versionApp={versionApp}
+                    versionVape={versionVape}
                     listThemes={listThemes}
                     role={role}
                 />
@@ -53,7 +56,8 @@ export const SideBar = ({
                     mobile={true}
                     firstName={firstName}
                     lastName={lastName}
-                    version={version}
+                    versionApp={versionApp}
+                    versionVape={versionVape}
                     listThemes={listThemes}
                     role={role}
                 />
@@ -69,7 +73,8 @@ const Nav = ({
     mobile,
     firstName,
     lastName,
-    version,
+    versionApp,
+    versionVape,
     role,
     listThemes,
 }: {
@@ -79,7 +84,8 @@ const Nav = ({
     mobile: boolean;
     firstName: string;
     lastName: string;
-    version: string;
+    versionApp: string;
+    versionVape: string;
     role: string;
     listThemes: string[];
 }) => {
@@ -108,7 +114,8 @@ const Nav = ({
                         {!mobile ? (
                             <CardUser
                                 listThemes={listThemes}
-                                version={version}
+                                versionApp={versionApp}
+                                versionVape={versionVape}
                                 open={open}
                                 firstName={firstName}
                                 lastName={lastName}
@@ -130,7 +137,8 @@ const Nav = ({
                                             firstName={firstName}
                                             lastName={lastName}
                                             role={role}
-                                            version={version}
+                                            versionApp={versionApp}
+                                            versionVape={versionVape}
                                         />
                                     ) : null}
                                     <div

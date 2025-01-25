@@ -1,5 +1,4 @@
 export type VapeConfig = {
-    version: string;
     title: string;
     logo?: string;
     bgLogin?: string;

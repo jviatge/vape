@@ -1,9 +1,7 @@
 import { VapeConfig } from "@vape/types/configs";
-import packageJson from "../package.json";
 import { roles } from "./constants";
 
 const vapeConfig: VapeConfig = {
-    version: packageJson.version,
     title: "Manage app",
     /* From directory assets */
     logo: "logo.svg",

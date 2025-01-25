@@ -6,11 +6,11 @@ import { LocalSelect } from "@vape/components/partials/header/LocalSelect";
 import { ModeToggle } from "@vape/components/partials/header/ModeToggle";
 import { SideBar } from "@vape/components/partials/sideBar/SideBar";
 import { authOptions } from "@vape/lib/auth";
+import versions from "@vape/lib/versions";
 import { TypeLink } from "@vape/types/general";
 import { RessourceParamsWithRoute } from "@vape/types/resources";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import PackageJson from "../../../package.json";
 
 export default async function RootLayoutBo({ children }: { children: React.ReactNode }) {
     const session = await getServerSession(authOptions);
@@ -86,7 +86,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 firstName={user?.first_name}
                 lastName={user?.last_name}
                 role={labelRole}
-                version={config.version}
+                versionApp={versions.app}
+                versionVape={versions.vape}
             />
             <div className="w-full relative h-full">
                 <header className="w-full h-14 border-b border-0 bg-background md:pr-0 pr-[58px]">
@@ -94,7 +95,7 @@ export default async function RootLayoutBo({ children }: { children: React.React
                         <CommandBar links={links} />
                         {isDevMode ? (
                             <span className="text-orange-700 text-xs font-semibold italic">
-                                Developement V{PackageJson.version}
+                                DEV App: V{versions.app} - Vape: V{versions.vape}
                             </span>
                         ) : null}
                         <div className="flex items-center space-x-3">

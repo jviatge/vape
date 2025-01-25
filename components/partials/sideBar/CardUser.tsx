@@ -18,14 +18,16 @@ export const CardUser = ({
     lastName,
     role,
     open,
-    version,
+    versionApp,
+    versionVape,
     listThemes,
 }: {
     role: string;
     open?: boolean;
     firstName: string;
     lastName: string;
-    version: string;
+    versionApp: string;
+    versionVape: string;
     listThemes: string[];
 }) => {
     const [openConfig, setopenConfig] = useState(false);
@@ -95,7 +97,8 @@ export const CardUser = ({
             <Configuration
                 open={openConfig}
                 setOpen={setopenConfig}
-                version={version}
+                versionApp={versionApp}
+                versionVape={versionVape}
                 listThemes={listThemes}
             />
         </>

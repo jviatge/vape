@@ -16,12 +16,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export const Configuration = ({
     open,
     setOpen,
-    version,
+    versionApp,
+    versionVape,
     listThemes,
 }: {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
-    version: string;
+    versionApp: string;
+    versionVape: string;
     listThemes: string[];
 }) => {
     const [config, setConfig] = useState<Record<string, any>>({});
@@ -40,7 +42,11 @@ export const Configuration = ({
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Configuration</DialogTitle>
-                    <DialogDescription>Version app : {version}</DialogDescription>
+                    <DialogDescription>
+                        <span>Version App : {versionApp}</span>
+                        <br />
+                        <span>Version Vape : {versionVape}</span>
+                    </DialogDescription>
                 </DialogHeader>
                 <div className={"grid grid-cols-4 gap-4"}>
                     <div className={"flex flex-col relative col-span-4"}>
