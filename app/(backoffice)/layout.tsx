@@ -10,6 +10,7 @@ import { TypeLink } from "@vape/types/general";
 import { RessourceParamsWithRoute } from "@vape/types/resources";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import PackageJson from "../../../package.json";
 
 export default async function RootLayoutBo({ children }: { children: React.ReactNode }) {
     const session = await getServerSession(authOptions);
@@ -75,6 +76,8 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
     const listThemes = await getListThemes();
 
+    const isDevMode = process.env.NODE_ENV === "development";
+
     return (
         <div className="h-screen flex relative w-screen overflow-hidden">
             <SideBar
@@ -89,7 +92,11 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 <header className="w-full h-14 border-b border-0 bg-background md:pr-0 pr-[58px]">
                     <div className="flex justify-between items-center h-full px-3">
                         <CommandBar links={links} />
-
+                        {isDevMode ? (
+                            <span className="text-orange-700 text-xs font-semibold italic">
+                                Developement V{PackageJson.version}
+                            </span>
+                        ) : null}
                         <div className="flex items-center space-x-3">
                             <ModeToggle />
                             <LocalSelect />
