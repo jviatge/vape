@@ -38,7 +38,9 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
         const responseSignIn = await signIn("credentials", {
             id: data.id,
             password: data.password,
-            redirect: false,
+            //redirect: false,
+            redirect: true,
+            callbackUrl: "/dashboard",
         });
 
         if (!responseSignIn?.ok) {
@@ -48,14 +50,16 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
                 title: "Error",
                 description: "Bad credentials",
             });
-        } else {
-            toast({
-                title: "Succès",
-                description: "Vous êtes connecté avec succès.",
-            });
-            router.refresh();
-            router.push("/dashboard");
         }
+        // else {
+        //     setTimeout(() => {
+        //         router.push("/dashboard");
+        //         toast({
+        //             title: "Succès",
+        //             description: "Vous êtes connecté avec succès.",
+        //         });
+        //     }, 1000);
+        // }
     };
 
     return (
