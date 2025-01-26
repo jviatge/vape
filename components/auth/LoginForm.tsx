@@ -9,7 +9,6 @@ import { VapeConfig } from "@vape/types/configs";
 import { ArrowRight, KeyRound, User } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,7 +21,6 @@ const formSchema = z.object({
 
 export default function LoginForm({ config }: { config: VapeConfig }) {
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -38,9 +36,7 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
         const responseSignIn = await signIn("credentials", {
             id: data.id,
             password: data.password,
-            //redirect: false,
-            redirect: true,
-            callbackUrl: "/dashboard",
+            redirect: false,
         });
 
         if (!responseSignIn?.ok) {
@@ -50,16 +46,15 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
                 title: "Error",
                 description: "Bad credentials",
             });
+        } else {
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+                toast({
+                    title: "Succès",
+                    description: "Vous êtes connecté avec succès.",
+                });
+            }, 1000);
         }
-        // else {
-        //     setTimeout(() => {
-        //         router.push("/dashboard");
-        //         toast({
-        //             title: "Succès",
-        //             description: "Vous êtes connecté avec succès.",
-        //         });
-        //     }, 1000);
-        // }
     };
 
     return (
