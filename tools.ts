@@ -35,7 +35,13 @@ import { Calendar } from "@vape/components/ui/calendar";
 import { cn } from "@vape/lib/utils";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Calendar as CalendarIcon, RefreshCcw, TrendingUp } from "lucide-react";
+import {
+    Calendar as CalendarIcon,
+    ChevronDown,
+    RefreshCcw,
+    Search,
+    TrendingUp,
+} from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
     Bar,
@@ -57,6 +63,8 @@ import Icon from "./components/Icon";
 import { useFormGeneral } from "./components/modules/form/hook/useFormGeneral";
 import { resolveDate } from "./components/modules/table/header/filter/fields/DatesRangeFilter";
 import { Button } from "./components/ui/button";
+import { FormLabel } from "./components/ui/form";
+import { Input } from "./components/ui/input";
 import { Loading } from "./components/ui/loading";
 import { queryClient } from "./lib/queryClient";
 const queryCache = new QueryCache({
@@ -92,11 +100,14 @@ export {
     ChartLegendContent,
     ChartTooltip,
     ChartTooltipContent,
+    ChevronDown,
     cn,
     Controller,
     format,
+    FormLabel,
     fr,
     Icon,
+    Input,
     Label,
     LabelList,
     Loading,
@@ -113,6 +124,7 @@ export {
     queryGetByModule,
     QueryObserver,
     resolveDate,
+    Search,
     Select,
     SelectContent,
     SelectGroup,
