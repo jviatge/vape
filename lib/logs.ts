@@ -58,7 +58,7 @@ export const logApi = async (message: string) => {
 const saveLogFileDaily = async (message: string) => {
     const logsPath = path.join(process.cwd(), "../logs");
 
-    const formatDateOk = async (date: Date) => {
+    const formatDateOk = (date: Date) => {
         const day = date.getDate().toString().padStart(2, "0");
         const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Les mois commencent à 0, donc on ajoute 1
         const year = date.getFullYear();
