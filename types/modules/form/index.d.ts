@@ -121,8 +121,9 @@ type InputSelect = {
 
 type InputManyToOne = {
     type: "manyToOne";
-    formBuilder: FormBuilder;
-    tableBuilder: TableBuilder;
+    multiple?: boolean;
+    formBuilder?: FormBuilder;
+    tableBuilder?: TableBuilder;
     //form: UseFormReturn<any, any, undefined>;
     name: string;
     display?: "select" | "modal";
