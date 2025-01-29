@@ -131,7 +131,7 @@ const DisplayModal = ({
                     <X className="pointer-events-none mx-3" size={18} />
                 </button>
             </div>
-            {formBuilder.fields && value ? (
+            {formBuilder?.fields && value ? (
                 <div
                     className={cn(
                         resolveColumnsClass(formBuilder.col ?? 4, formBuilder.gap ?? 5),
