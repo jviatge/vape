@@ -43,8 +43,6 @@ const FormModule: React.FC<
         data?: Record<string, any>;
     }
 > = (props) => {
-    console.log("FormModuleProps", props);
-
     return props.formBuilder && props.id ? (
         <GetData {...props} />
     ) : (
