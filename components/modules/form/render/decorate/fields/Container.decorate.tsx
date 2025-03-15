@@ -28,7 +28,7 @@ const ContainerDecorate = (props: DecorateContainer) => {
         );
 
     return (
-        <Card className="w-full p-2 bg-transparent space-y-3 grid">
+        <Card className="w-full p-2 space-y-3 grid">
             {props.label ? (
                 <CardHeader>
                     <CardTitle>

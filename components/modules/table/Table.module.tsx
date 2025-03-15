@@ -86,7 +86,12 @@ const ContentModuleTable = ({ onChangeSelect }: { onChangeSelect?: (data: any) =
                 }}
             />
 
-            <Card className={cn("overflow-hidden relative", TC.modeTrash && "border-destructive")}>
+            <Card
+                className={cn(
+                    "overflow-hidden relative bg-muted/50",
+                    TC.modeTrash && "border-destructive"
+                )}
+            >
                 <LoadingTable
                     query={{
                         getAll: dataGetAll,

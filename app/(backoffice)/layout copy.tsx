@@ -1,4 +1,4 @@
-import { getListThemes } from "@vape/actions/config";
+import { getListThemes, getVapeConfig } from "@vape/actions/config";
 import { resolveLabelRole } from "@vape/actions/permissions";
 import { rscGetAllParams } from "@vape/actions/resources";
 import { CommandBar } from "@vape/components/partials/header/CommandBar";
@@ -49,6 +49,16 @@ export default async function RootLayoutBo({ children }: { children: React.React
                 });
             }
         }
+        /*  else {
+            links.push({
+                href: "/" + rsc.route,
+                label: rsc.label,
+                icon: rsc.icon,
+                separator: separator,
+                disabledCreate: rsc.disabledCreate ?? false,
+                disabledEdit: rsc.disabledEdit ?? false,
+            });
+        } */
     });
 
     links.push({
@@ -62,38 +72,42 @@ export default async function RootLayoutBo({ children }: { children: React.React
 
     const labelRole = await resolveLabelRole(user?.role);
 
+    const config = await getVapeConfig();
+
     const listThemes = await getListThemes();
 
     const isDevMode = process.env.MODE_APP === "development";
 
     return (
-        <div className="h-screen flex relative w-screen overflow-hidden">
-            <SideBar
-                listThemes={listThemes}
-                links={links}
-                firstName={user?.first_name}
-                lastName={user?.last_name}
-                role={labelRole}
-                versionApp={versions.app}
-                versionVape={versions.vape}
-            />
-            <div className="w-full relative h-full">
-                <header className="w-full h-14 border-b border-0 bg-sideBar md:pr-0 pr-[58px]">
-                    <div className="flex justify-between items-center h-full px-3">
-                        <CommandBar links={links} />
-                        {isDevMode ? (
-                            <span className="text-orange-700 text-xs font-semibold italic">
-                                DEV App: V{versions.app} - Vape: V{versions.vape}
-                            </span>
-                        ) : null}
-                        <div className="flex items-center space-x-3">
-                            <ModeToggle />
-                            <LocalSelect />
+        <div className="relative">
+            <div className="flex w-screen overflow-hidden fixed">
+                <SideBar
+                    listThemes={listThemes}
+                    links={links}
+                    firstName={user?.first_name}
+                    lastName={user?.last_name}
+                    role={labelRole}
+                    versionApp={versions.app}
+                    versionVape={versions.vape}
+                />
+                <div className="w-full relative h-full bg-background">
+                    <header className="w-full h-14 border-b border-0 bg-sideBar md:pr-0 pr-[58px] z-50">
+                        <div className="flex justify-between items-center h-full px-3">
+                            <CommandBar links={links} />
+                            {isDevMode ? (
+                                <span className="text-orange-700 text-xs font-semibold italic">
+                                    DEV App: V{versions.app} - Vape: V{versions.vape}
+                                </span>
+                            ) : null}
+                            <div className="flex items-center space-x-3">
+                                <ModeToggle />
+                                <LocalSelect />
+                            </div>
                         </div>
-                    </div>
-                </header>
-                {children}
+                    </header>
+                </div>
             </div>
+            {children}
         </div>
     );
 }

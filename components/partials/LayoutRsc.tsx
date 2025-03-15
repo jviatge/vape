@@ -62,17 +62,13 @@ export const LayoutRsc = ({
 
                                 {/* CREATE */}
                                 {getLastPath(pathname) === "+" ? (
-                                    <>
-                                        <CancelButtonRsc type={"close"} />
-                                    </>
+                                    <CancelButtonRsc type={"close"} />
                                 ) : null}
 
                                 {/* UPDATE */}
                                 {getLastPath(pathname) !== "+" &&
                                 getLastPath(pathname) !== idRsc ? (
-                                    <>
-                                        <CancelButtonRsc type={"close"} />
-                                    </>
+                                    <CancelButtonRsc type={"close"} />
                                 ) : null}
                             </>
                         )}

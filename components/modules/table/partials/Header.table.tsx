@@ -134,6 +134,7 @@ export const HeaderTable = ({
                         </TableHead>
                     )
                 )}
+                <TableHead></TableHead>
             </TableRow>
         </TableHeader>
     );

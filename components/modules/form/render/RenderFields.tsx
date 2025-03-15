@@ -1,3 +1,4 @@
+import Icon from "@vape/components/Icon";
 import { DecorateBuilder, FieldForm } from "@vape/types/modules/form";
 import { Fragment, ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
@@ -31,10 +32,7 @@ export const RenderFields = ({
                 const value = watch(condition.watch);
                 if (condition.notEgual && !condition.notEgual.includes(value)) {
                     show = true;
-                } else {
-                    condition.message && messages.push(condition.message);
-                }
-                if (condition.egual && condition.egual.includes(value)) {
+                } else if (condition.egual && condition.egual.includes(value)) {
                     show = true;
                 } else {
                     condition.message && messages.push(condition.message);
@@ -71,6 +69,19 @@ export const RenderFields = ({
                     />
                 );
             }
+        } else if (messages.length > 0) {
+            mapFields.push(
+                <>
+                    {messages?.map((message, index) => (
+                        <div key={index} className="col-span-full">
+                            <div className="w-full flex gap-2 items-center text-yellow-500 text-sm">
+                                <Icon name="info" />
+                                <span>{message}</span>
+                            </div>
+                        </div>
+                    ))}
+                </>
+            );
         }
     });
 

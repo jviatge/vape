@@ -33,7 +33,7 @@ const SectionsDecorate = ({ tabs, col, gap, data, onlyRead }: DecorateSections) 
             {tabs.map((tab, index) => {
                 return (
                     <TabsContent key={index} value={tab.name}>
-                        <Card className="w-full p-3 bg-transparent space-y-4 grid">
+                        <Card className="w-full p-3 space-y-4 grid">
                             <CardHeader>
                                 <CardTitle>{tab.label}</CardTitle>
                                 {tab.description ? (

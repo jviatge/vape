@@ -74,7 +74,7 @@ export const BodyTable = ({
                                 }
                             }}
                             key={column.name + index}
-                            className="p-1.5 text-sm"
+                            className="py-1.5 px-0 text-sm"
                         >
                             <RenderFields column={column} row={row} />
                         </TableCell>
@@ -125,7 +125,7 @@ export const BodyTable = ({
         ));
 
     return (
-        <TableBody className="bg-background">
+        <TableBody>
             {!getAll.isLoading && getAll.data && getAll.data ? (
                 getAll.data.paginateData && getAll.data.paginateData.length > 0 ? (
                     <RowsData data={getAll.data.paginateData} />

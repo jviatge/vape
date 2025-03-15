@@ -33,7 +33,7 @@ export const SideBar = ({
 
     return (
         <>
-            <aside className="sticky z-20 top-0 w-fit h-[calc(100vh)] md:block hidden">
+            <aside className="sticky z-20 top-0 w-fit h-[calc(100vh)] md:block hidden bg-sideBar">
                 <Nav
                     links={links}
                     open={open}
@@ -47,7 +47,7 @@ export const SideBar = ({
                     role={role}
                 />
             </aside>
-            <div className="h-14 border-b w-[58px] border-0 bg-background md:hidden flex justify-center items-center relative border-r p-2">
+            <div className="h-14 border-b w-[58px] border-0 md:hidden flex justify-center items-center relative border-r p-2 bg-sideBar">
                 <BurgerIcon onClick={() => setOpen(!open)} isOpen={open} />
                 <Nav
                     links={links}
@@ -100,7 +100,7 @@ const Nav = ({
             <BackgroundVeil onClick={() => setOpen(false)} open={open} mobile={mobile} />
             <nav
                 className={cn(
-                    "flex shadow-xl z-40 bg-background",
+                    "flex shadow-xl z-40 bg-sideBar",
                     mobile && "fixed h-full top-0 left-0"
                 )}
             >
@@ -207,7 +207,7 @@ const NavItem = ({
     pathname: string;
 }) => {
     const buttonClass =
-        "hover:bg-accent hover:text-accent-foreground relative select-none text-sm outline-none focus:bg-accent focus:text-accent-foreground flex items-center gap-2 px-2 rounded cursor-pointer transition py-2";
+        "relative select-none text-sm outline-none flex items-center gap-2 px-2 rounded cursor-pointer transition py-2";
 
     return (
         <Link
@@ -216,7 +216,9 @@ const NavItem = ({
                 buttonClass,
                 "flex items-center gap-2 px-2 rounded text-muted-foreground cursor-pointer transition py-3",
                 open ? "py-2" : "justify-center",
-                "/" + pathname.split("/")[1] === href && "bg-accent text-accent-foreground"
+                "/" + pathname.split("/")[1] === href
+                    ? "bg-primary text-primary-foreground hoverbg-primary hover:text-primary-foreground"
+                    : "hover:bg-accent hover:text-accent-foreground"
             )}
         >
             <Icon name={icon} size={26} strokeWidth={1.4} className="h-5 w-5" />

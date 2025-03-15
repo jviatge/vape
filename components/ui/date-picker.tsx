@@ -29,7 +29,7 @@ export const DatePicker = ({
                         disabled={disabled}
                         variant={"outline"}
                         className={cn(
-                            "bg-card pl-3 text-left font-normal",
+                            "bg-input pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                         )}
                     >
