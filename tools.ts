@@ -14,6 +14,14 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
     Select,
@@ -25,6 +33,16 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import {
     QueryCache,
     QueryObserver,
     useMutation,
@@ -35,13 +53,7 @@ import { Calendar } from "@vape/components/ui/calendar";
 import { cn } from "@vape/lib/utils";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import {
-    Calendar as CalendarIcon,
-    ChevronDown,
-    RefreshCcw,
-    Search,
-    TrendingUp,
-} from "lucide-react";
+import { Calendar as CalendarIcon, ChevronDown, Search, TrendingUp } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
     Bar,
@@ -77,10 +89,6 @@ const queryCache = new QueryCache({
     },
 });
 
-const LR = {
-    RefreshCcw,
-};
-
 export {
     Bar,
     BarChart,
@@ -103,6 +111,12 @@ export {
     ChevronDown,
     cn,
     Controller,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
     format,
     FormLabel,
     fr,
@@ -111,7 +125,6 @@ export {
     Label,
     LabelList,
     Loading,
-    LR,
     Pie,
     PieChart,
     Popover,
@@ -132,6 +145,14 @@ export {
     SelectLabel,
     SelectTrigger,
     SelectValue,
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
     TrendingUp,
     useFormContext,
     useFormGeneral,

@@ -134,7 +134,10 @@ export const HeaderTable = ({
                         </TableHead>
                     )
                 )}
-                <TableHead></TableHead>
+                {(TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0) ||
+                (TC.permissions && TC.permissions.delete) ? (
+                    <TableHead className="text-center">Action</TableHead>
+                ) : null}
             </TableRow>
         </TableHeader>
     );
