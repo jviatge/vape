@@ -58,7 +58,7 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
     };
 
     return (
-        <div className="shadow-2xl bg-secondary">
+        <div className="shadow-2xl bg-background">
             <TransitionProvider type="left-right" className="grid-cols-2 md:grid">
                 <div className="flex flex-col items-center justify-center h-screen shadow-2xl">
                     {config.logo ? (
@@ -82,7 +82,7 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
                                         <FormItem className="flex flex-col my-3">
                                             <FormControl>
                                                 <div className="flex items-center">
-                                                    <div className="h-10 flex items-center bg-background rounded-l-md border-l border-y">
+                                                    <div className="h-10 flex items-center bg-secondary rounded-l-md border-l border-y">
                                                         <User
                                                             className="pointer-events-none mx-3"
                                                             size={18}
@@ -110,7 +110,7 @@ export default function LoginForm({ config }: { config: VapeConfig }) {
                                         <FormItem className="flex flex-col my-3">
                                             <FormControl>
                                                 <div className="flex items-center">
-                                                    <div className="h-10 flex items-center bg-background rounded-l-md border-l border-y">
+                                                    <div className="h-10 flex items-center bg-secondary rounded-l-md border-l border-y">
                                                         <KeyRound
                                                             className="pointer-events-none mx-3"
                                                             size={18}

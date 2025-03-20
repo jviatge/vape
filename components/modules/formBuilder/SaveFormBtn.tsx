@@ -8,7 +8,7 @@ function SaveFormBtn({ id }: { id: number }) {
     const { elements } = useDesigner();
     const [loading, startTransition] = useTransition();
 
-    const updateFormContent = async () => {
+    const updateFormContent = () => {
         /* try {
             const jsonElements = JSON.stringify(elements);
             await UpdateFormContent(id, jsonElements);

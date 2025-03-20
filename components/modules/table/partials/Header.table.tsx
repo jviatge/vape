@@ -113,8 +113,11 @@ export const HeaderTable = ({
                             <button
                                 disabled={TC.loading}
                                 className={cn(
-                                    "flex items-center rounded-md font-semibold transition-colors duration-200 ease-in-out",
-                                    !TC.loading && "hover:text-card-foreground hover:bg-card"
+                                    "flex items-center rounded-md font-semibold transition-colors duration-200 ease-in-out py-1 px-1.5 -translate-x-1.5",
+                                    getValue(column.name) !== "desc" &&
+                                        getValue(column.name) !== "asc"
+                                        ? "hover:text-card-foreground hover:bg-card"
+                                        : "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
                                 )}
                                 type="button"
                                 onClick={() => handleSort(column.name)}
@@ -125,10 +128,10 @@ export const HeaderTable = ({
                                         <ArrowUpDown className="ml-2 h-4 w-4" />
                                     )}
                                 {getValue(column.name) === "asc" && (
-                                    <ArrowDown className="ml-2 h-4 w-4 text-primary" />
+                                    <ArrowDown className="ml-2 h-4 w-4" />
                                 )}
                                 {getValue(column.name) === "desc" && (
-                                    <ArrowUp className="ml-2 h-4 w-4 text-primary" />
+                                    <ArrowUp className="ml-2 h-4 w-4" />
                                 )}
                             </button>
                         </TableHead>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { InfosHover } from "@/components/ui/infos-hover";
 import { Trash } from "lucide-react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import TableContext from "../context/Table.context";
 
 export const TrashMode = () => {
@@ -44,7 +44,9 @@ export const TrashMode = () => {
                 type="button"
                 onClick={handleTrash}
             >
-                <Trash className="pointer-events-none" size={18} />
+                <>
+                    <Trash className="pointer-events-none" size={18} />
+                </>
             </Button>
         </InfosHover>
     ) : null;

@@ -21,7 +21,7 @@ function PublishFormBtn({ id }: { id: number }) {
     const [loading, startTransition] = useTransition();
     const router = useRouter();
 
-    async function publishForm() {
+    function publishForm() {
         try {
             /* await PublishForm(id); */
             toast({

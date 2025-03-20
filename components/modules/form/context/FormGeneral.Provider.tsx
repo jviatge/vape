@@ -39,9 +39,11 @@ export const FormGeneralProvider = ({
                 setModal,
             }}
         >
-            {children}
-            <ModalForm modal={modal} setModal={setModal} />
-            <ModalSelect modal={modal} setModal={setModal} />
+            <>
+                {children}
+                <ModalForm modal={modal} setModal={setModal} />
+                <ModalSelect modal={modal} setModal={setModal} />
+            </>
         </FormGeneralContext.Provider>
     );
 };
