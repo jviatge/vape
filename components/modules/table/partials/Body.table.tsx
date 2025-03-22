@@ -41,7 +41,7 @@ export const BodyTable = ({
             <TableRow
                 key={index}
                 className={cn(
-                    "cursor-pointer pointer-events-auto",
+                    "cursor-pointer pointer-events-auto table-row",
                     TC.selectRowsDatas.some((item: any) => item.id === row.id) &&
                         "bg-accent hover:bg-accent"
                 )}
@@ -52,7 +52,7 @@ export const BodyTable = ({
                         handleSelectRow(row);
                     }}
                     className={cn(
-                        "flex justify-center items-center w-10 bg-card border-r px-0 py-3",
+                        "flex justify-center items-center w-10 bg-card border-r px-0 py-3 sticky left-0 z-10",
                         TC.selectRowsDatas.some((item: any) => item.id === row.id) &&
                             "bg-accent hover:bg-accent"
                     )}
@@ -82,8 +82,15 @@ export const BodyTable = ({
                 )}
                 {(TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0) ||
                 (TC.permissions && TC.permissions.delete) ? (
-                    <TableCell className="p-0 pointer-events-none border-l" align="right">
-                        <div className="flex w-full items-center justify-center">
+                    <TableCell
+                        style={{ boxShadow: "inset 7px -1px 0px -6px hsl(var(--border))" }}
+                        className={cn(
+                            "p-0 sticky md:right-0 z-10 shadow-xl shadow-border table-cell-actions",
+                            TC.selectRowsDatas.some((item: any) => item.id === row.id) &&
+                                "bg-accent hover:bg-accent"
+                        )}
+                    >
+                        <div className="flex w-full items-center justify-center h-full">
                             {TC.tableBuilder.actions &&
                             TC.tableBuilder.actions.length > 0 &&
                             !TC.modeTrash

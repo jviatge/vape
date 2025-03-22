@@ -29,4 +29,20 @@
     #nprogress .bar {
         @apply bg-primary !important;
     }
+
+    .table-row:hover .table-cell-actions {
+        @apply bg-muted/50;
+    }
+
+    .table-cell-actions {
+        @apply transition-colors bg-card;
+    }
+
+    .table-header:hover .table-header-actions {
+        @apply bg-muted/50;
+    }
+
+    .table-header-actions {
+        @apply transition-colors bg-card;
+    }
 }

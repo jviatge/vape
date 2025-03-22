@@ -19,15 +19,15 @@ export type FieldTable = {
     filter?: Filter;
     hidden?: boolean;
     component?: string;
-    orderDefault?: boolean;
+    orderDefault?: string;
 };
 
 export type ActionProps = {
-    name: string;
+    name?: string;
     label: string;
     title?: string;
     description?: string;
-    form: FormBuilder;
+    form?: FormBuilder;
     icon: keyof typeof dynamicIconImports;
     multiple: boolean;
     component?: string;

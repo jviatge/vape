@@ -89,12 +89,12 @@ export const HeaderTable = ({
     };
 
     return (
-        <TableHeader className="bg-card">
+        <TableHeader className="bg-card table-header">
             <TableRow>
                 <TableHead
                     onClick={handleSelectAll}
                     className={cn(
-                        "w-10 bg-card border-r flex justify-center items-center px-0 py-4",
+                        "w-10 bg-card border-r flex justify-center items-center px-0 py-4 sticky left-0 z-10",
                         TC.modeSelect !== "single" && "cursor-pointer"
                     )}
                 >
@@ -122,7 +122,7 @@ export const HeaderTable = ({
                                 type="button"
                                 onClick={() => handleSort(column.name)}
                             >
-                                <span>{column.label ?? column.name}</span>
+                                <span className="text-nowrap">{column.label ?? column.name}</span>
                                 {getValue(column.name) !== "desc" &&
                                     getValue(column.name) !== "asc" && (
                                         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -139,7 +139,12 @@ export const HeaderTable = ({
                 )}
                 {(TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0) ||
                 (TC.permissions && TC.permissions.delete) ? (
-                    <TableHead className="text-center">Action</TableHead>
+                    <TableHead
+                        style={{ boxShadow: "inset 7px -1px 0px -6px hsl(var(--border))" }}
+                        className="text-center md:sticky right-0 z-10 table-header-actions"
+                    >
+                        Action
+                    </TableHead>
                 ) : null}
             </TableRow>
         </TableHeader>

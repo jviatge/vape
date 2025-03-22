@@ -25,7 +25,7 @@ import { resolveIDs } from "../utils/ids";
 
 export const Actions = ({ className }: { className?: string }) => {
     const TC = useContext(TableContext);
-    const [Selected, setSelected] = useState<null | string>(null);
+    const [Selected, setSelected] = useState<undefined | string>(undefined);
     const [runActionDelete, setRunActionDelete] = useState<boolean>(false);
     const [runActionRestore, setRunActionRestore] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
@@ -185,7 +185,7 @@ export const Actions = ({ className }: { className?: string }) => {
                     >
                         {/* @ts-ignore */}
                         {TC.tableBuilder.actions.map((action, index) =>
-                            action.multiple ? (
+                            action.multiple && action?.name ? (
                                 <DropdownMenuItem
                                     onClick={() => setSelected(action.name)}
                                     key={index}

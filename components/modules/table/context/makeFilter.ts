@@ -1,3 +1,5 @@
+import { FieldTable } from "@vape/types/modules/table";
+
 export class makeFilter {
     public static clearKey = (prev: any, key: string) => {
         console.log("delete ------>", key, {
@@ -29,31 +31,44 @@ export class makeFilter {
         prev: any,
         field: string | undefined,
         value: string | boolean | undefined,
-        action: "add" | "delete"
+        action: "add" | "delete",
+        FieldsTable: FieldTable[]
     ) => {
         if (!field) return prev;
 
         if (action === "add") {
             if (field.includes(".")) {
                 const fields = field.split(".");
-                return {
+                // order object sort
+                // get order field Table
+                let incOrder = 0;
+                const orderFields = FieldsTable.map((field) => ({
+                    name: field.name,
+                    order: incOrder++,
+                }));
+
+                const returnValue = {
                     ...prev,
                     sort: {
-                        ...prev.sort,
                         ...fields.reduceRight((acc: any, keyR) => {
                             return { [keyR]: acc };
                         }, value),
                     },
                 };
+
+                console.log("returnValue.sort", returnValue.sort);
+                return returnValue;
             }
-            return {
+            const returnValue = {
                 ...prev,
                 sort: {
-                    ...prev.sort,
                     [field]: value,
                 },
             };
+            console.log("returnValue.sort", returnValue.sort);
+            return returnValue;
         } else {
+            console.log("here");
             const sort = { ...prev.sort };
             if (field.includes(".")) {
                 const fields = field.split(".");
@@ -61,10 +76,13 @@ export class makeFilter {
             } else {
                 delete sort[field];
             }
-            return {
+
+            const returnValue = {
                 ...prev,
                 sort,
             };
+            console.log("returnValue.sort", returnValue.sort);
+            return returnValue;
         }
     };
 

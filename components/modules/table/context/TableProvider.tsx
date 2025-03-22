@@ -23,6 +23,7 @@ const TablesProvider = ({
         defaultQuery: Query;
     };
 }) => {
+    const tableBuilder = value.tableBuilder;
     const [tabValue, setTabValue] = useState<string | undefined>();
     const [mounted, setMounted] = useState(false);
     const { set, get, clearAll } = useParamsTable(modeSelect ? true : false);
@@ -124,7 +125,9 @@ const TablesProvider = ({
                 case "search":
                     return setQuery((prev) => makeFilter.search(prev, value));
                 case "sort":
-                    return setQuery((prev) => makeFilter.sort(prev, field, value, action));
+                    return setQuery((prev) =>
+                        makeFilter.sort(prev, field, value, action, tableBuilder.fields)
+                    );
                 case "select":
                 case "contains":
                 case "equals":
@@ -207,7 +210,7 @@ const TablesProvider = ({
                 setNotification,
                 loading,
                 setLoading,
-                tableBuilder: value.tableBuilder,
+                tableBuilder,
                 permissions: value.permissions,
                 mounted,
                 setMounted,
