@@ -74,7 +74,11 @@ export const BodyTable = ({
                                 }
                             }}
                             key={column.name + index}
-                            className="py-1.5 px-0 text-sm"
+                            className={cn(
+                                "py-1.5 text-sm",
+                                index === 0 ? "pl-1.5" : " px-0",
+                                TC.tableBuilder.fields.length - 1 === index && "pr-1.5"
+                            )}
                         >
                             <RenderFields column={column} row={row} />
                         </TableCell>
