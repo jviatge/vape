@@ -44,12 +44,15 @@ const TablesProvider = ({
     const [selectRowData, setSelectRowData] = useState<Record<string, any> | null>(null);
 
     const getDefaultQuery = (defaultQuery: Query, tableBuilder: TableBuilder) => {
-        const get =
-            tableBuilder.get && Array.isArray(tableBuilder.get)
-                ? tableBuilder.get.filter((v) => v?.default)[0]?.get
-                    ? tableBuilder.get.filter((v) => v?.default)[0].get
-                    : tableBuilder.get[0].get
-                : tableBuilder.get;
+        const currentGetter = new URLSearchParams(window.location.search).get("[get]");
+
+        const get = currentGetter
+            ? currentGetter
+            : tableBuilder.get && Array.isArray(tableBuilder.get)
+            ? tableBuilder.get.filter((v) => v?.default)[0]?.get
+                ? tableBuilder.get.filter((v) => v?.default)[0].get
+                : tableBuilder.get[0].get
+            : tableBuilder.get;
 
         const resovleContains = (obj: Record<string, any>) => {
             Object.keys(obj).forEach((value) => {

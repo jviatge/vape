@@ -147,7 +147,10 @@ export const HeaderTable = ({
                 {(TC.tableBuilder.actions && TC.tableBuilder.actions.length > 0) ||
                 (TC.permissions && TC.permissions.delete) ? (
                     <TableHead
-                        style={{ boxShadow: "inset 7px -1px 0px -6px hsl(var(--border))" }}
+                        style={{
+                            boxShadow: "inset 7px -1px 0px -6px hsl(var(--border))",
+                            width: "100px",
+                        }}
                         className="text-center md:sticky right-0 z-10 table-header-actions"
                     >
                         Action

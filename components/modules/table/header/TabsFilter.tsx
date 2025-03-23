@@ -6,7 +6,11 @@ export const TabsFilter = ({ className }: { className?: string }) => {
     const TC = useContext(TableContext);
 
     const getValueDefault = () => {
-        return TC.tableBuilder.get && Array.isArray(TC.tableBuilder.get)
+        const currentGetter = new URLSearchParams(window.location.search).get("[get]");
+
+        return currentGetter
+            ? currentGetter
+            : TC.tableBuilder.get && Array.isArray(TC.tableBuilder.get)
             ? TC.tableBuilder.get.filter((v) => v?.default)[0]?.get
                 ? TC.tableBuilder.get.filter((v) => v?.default)[0].get
                 : TC.tableBuilder.get[0].get
