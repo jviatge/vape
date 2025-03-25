@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@vape/components/ui/badge";
+import { cn } from "@vape/tools";
 import { Option } from "@vape/types/modules/table";
 import React from "react";
 import Empty from "./Empty";
@@ -23,7 +24,10 @@ const BadgeView: React.FC<BadgeViewProps> = ({ value, options, minLabel }) => {
     return opt?.label ? (
         <div className="flex items-center">
             <Badge
-                className="text-xs dark:text-white text-black text-nowrap overflow-hidden"
+                className={cn(
+                    "text-xs text-nowrap overflow-hidden",
+                    opt?.color && "dark:text-white text-black"
+                )}
                 variant={"default"}
                 style={{
                     ...(opt?.color && {
