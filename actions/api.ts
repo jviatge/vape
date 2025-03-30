@@ -7,7 +7,8 @@ export const getActionApiBySegements = async (
     request: NextRequest,
     segements: string[],
     type: "GET" | "POST",
-    data?: any | null
+    data?: any | null,
+    session?: any
 ): Promise<any> => {
     logApi(`[getActionApiBySegements] | ${type} => ${JSON.stringify(segements)}`);
     try {
@@ -25,7 +26,7 @@ export const getActionApiBySegements = async (
         }
 
         const actionApi = await import("~/api/" + pathAction).then((module) => module.default);
-        return await actionApi(request, data);
+        return await actionApi(request, data, session);
     } catch {
         return undefined;
     }
