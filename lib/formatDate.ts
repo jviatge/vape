@@ -1,4 +1,7 @@
-export function formatDate(d: Date, noHour?: boolean) {
+export function formatDate(d: Date | string, noHour?: boolean) {
+    if (typeof d === "string") {
+        d = new Date(d);
+    }
     const padL = (nr: number, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
     return (
         [padL(d.getDate()), padL(d.getMonth() + 1), d.getFullYear()].join("/") +
