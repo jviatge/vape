@@ -1,4 +1,8 @@
-export function formatDate(d: Date | string, noHour?: boolean) {
+export function formatDate(d: Date | string | null, noHour?: boolean) {
+    if (!d) {
+        return "";
+    }
+
     if (typeof d === "string") {
         d = new Date(d);
     }
