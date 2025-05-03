@@ -24,4 +24,4 @@ export function formatDateStringToDB(d?: string) {
     }
 }
 
-export const gmtResolve = (date: Date) => date.setHours(date.getHours() + 2);
+export const gmtResolve = (date: Date) => date.setHours(date.getHours());
