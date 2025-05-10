@@ -24,4 +24,9 @@ export function formatDateStringToDB(d?: string) {
     }
 }
 
-export const gmtResolve = (date: Date) => date;
+// add one day
+export const gmtResolve = (date: Date) => {
+    const d = new Date(date);
+    d.setDate(d.getDate() + 1);
+    return d;
+};
