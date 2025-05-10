@@ -1,6 +1,5 @@
 import { FormControl } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { gmtResolve } from "@vape/lib/formatDate";
 import { cn } from "@vape/lib/utils";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -49,7 +48,7 @@ export const DatePicker = ({
                     mode="single"
                     selected={new Date(field.value)}
                     onSelect={(e) => {
-                        e && field.onChange(gmtResolve(e));
+                        e && field.onChange(e);
                         setIsCalendarOpen(false);
                     }}
                     {...(minDate && {
