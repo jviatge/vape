@@ -14,19 +14,3 @@ export function formatDate(d: Date | string | null, noHour?: boolean) {
             : "")
     );
 }
-
-export function formatDateStringToDB(d?: string) {
-    if (d) {
-        const nd = new Date(d);
-        return new Date(Date.UTC(nd.getFullYear(), nd.getMonth(), nd.getDate()));
-    } else {
-        return null;
-    }
-}
-
-// add one day
-export const gmtResolve = (date: Date) => {
-    const d = new Date(date);
-    d.setDate(d.getDate() + 1);
-    return d;
-};

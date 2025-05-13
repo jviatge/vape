@@ -8,8 +8,6 @@ import { useState } from "react";
 import { Button } from "./button";
 import { Calendar } from "./calendar";
 
-const locale = fr;
-
 export const DatePicker = ({
     field,
     minDate,
@@ -20,6 +18,11 @@ export const DatePicker = ({
     disabled: boolean;
 }) => {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+    const handleDateSelect = (date: Date): Date => {
+        return new Date(format(date, "yyyy-MM-dd"));
+    };
+
     return (
         <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
             <PopoverTrigger asChild>
@@ -48,7 +51,7 @@ export const DatePicker = ({
                     mode="single"
                     selected={new Date(field.value)}
                     onSelect={(e) => {
-                        e && field.onChange(e);
+                        e && field.onChange(handleDateSelect(e));
                         setIsCalendarOpen(false);
                     }}
                     {...(minDate && {
